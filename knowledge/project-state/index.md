@@ -4,4 +4,5 @@ Purpose: approved durable project status, milestones, and verified implementatio
 
 ## Approved documents
 
+- [Repository Knowledge System](knowledge-system.md)
 - [Phase 04 Unity API Client State](phase04-unity-api-client.md)
