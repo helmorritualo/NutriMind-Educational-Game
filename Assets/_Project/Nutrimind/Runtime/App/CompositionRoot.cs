@@ -143,8 +143,9 @@ namespace NutriMind.Runtime.App
                 }
 #endif
 
-                // Canonical root already matches — return it unchanged.
-                if (s_instance != null && s_instance.Session.Mode == mode)
+                // Canonical root already matches and is healthy — return it unchanged.
+                // A disposed root must be replaced so callers receive a functional composition.
+                if (s_instance != null && s_instance.Session.Mode == mode && !s_instance._disposed)
                     return s_instance;
 
                 // Dispose the old root before replacing so that

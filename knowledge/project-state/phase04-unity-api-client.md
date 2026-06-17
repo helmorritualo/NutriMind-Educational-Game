@@ -1,6 +1,6 @@
 # Phase 04 Unity API Client State
 
-Status: Phase 04 implementation validated on 2026-06-14; awaiting owner approval before moving to the next Unity phase.
+Status: Phase 04 implementation re-verified on 2026-06-17 after interrupted-session reconstruction; API contract changes pass with one unrelated EditMode failure remaining in dispatcher-pump hideFlags behavior.
 
 ## Implemented
 
@@ -21,8 +21,12 @@ Status: Phase 04 implementation validated on 2026-06-14; awaiting owner approval
 
 ## Validation
 
-- Unity compilation: 0 errors.
-- EditMode tests: job `236819d56669`, 505/505 passed.
+- Unity Editor: `6000.5.0f1`.
+- Package manifest: `com.unity.nuget.newtonsoft-json` requested as `3.2.2`.
+- Unity compilation: 0 errors on 2026-06-17.
+- Missing references: 0 scene references and 0 asset references reported by Unity MCP on 2026-06-17.
+- EditMode App test run `fc0f392ab756`: 514 total, 513 passed, 1 failed. The failure is `CompositionRootModeConfigTests.CreateForMode_Http_CreatesDispatcherPump` on the dispatcher-pump `HideAndDontSave` assertion and is tracked as unrelated to the API contract changes.
+- Added regression coverage for disposed `CompositionRoot` replacement and parameterized safe server error-code redaction/preserved-message behavior.
 
 ## Server contract gaps to confirm
 

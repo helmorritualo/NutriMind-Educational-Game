@@ -57,17 +57,36 @@ namespace NutriMind.Runtime.App
             "correct_answer"
         };
 
+        /// <summary>
+        /// Known safe error codes for which we keep the server-provided message
+        /// (after redaction).  Includes the documented server envelope codes
+        /// plus client-side codes.  Unknown codes get a generic student-safe message.
+        /// </summary>
         private static readonly HashSet<string> KnownSafeErrorCodes = new(StringComparer.OrdinalIgnoreCase)
         {
+            // Documented server envelope codes (see docs/SERVER_REQUIREMENTS.md)
+            "UNAUTHENTICATED",
+            "TOKEN_EXPIRED",
+            "STUDENT_INACTIVE",
+            "VALIDATION_ERROR",
+            "RATE_LIMITED",
+            "SYNC_RATE_LIMITED",
+            "SERVER_UNAVAILABLE",
+            "SERVER_TIMEOUT",
+            "MAINTENANCE_MODE",
             "STATION_LOCKED",
             "STATION_ALREADY_COMPLETED",
-            "UNAUTHENTICATED",
-            "VALIDATION_ERROR",
+            "CONTENT_NOT_PUBLISHED",
+            "SESSION_NOT_FOUND",
             "SESSION_FORBIDDEN",
+            "WORLD_SCENE_UNAVAILABLE",
+            "STALE_CONTENT",
+            "CLIENT_VERSION_UNSUPPORTED",
+            "CONFIG_VERSION_UNSUPPORTED",
+            "REALTIME_UNAVAILABLE",
+            "AI_NOT_CONFIGURED",
             "NOT_FOUND",
-            "SERVER_TIMEOUT",
-            "RATE_LIMITED",
-            "SERVER_UNAVAILABLE",
+            // Client-side codes
             "NETWORK_ERROR",
             "CONFIGURATION_ERROR",
             "PROVIDER_DISPOSED",

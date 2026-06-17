@@ -598,6 +598,55 @@ namespace NutriMind.Tests.EditMode.App
         }
 
         // ---------------------------------------------------------------
+        // Disposed-root reuse regression
+        // ---------------------------------------------------------------
+
+        [Test]
+        public void CreateForMode_DisposedRoot_ReplacedByNewInstance()
+        {
+            Type t = FindType("NutriMind.Runtime.App.CompositionRoot");
+            Assert.That(t, Is.Not.Null);
+
+            Type modeType = FindEnum("DataProviderMode");
+            Assert.That(modeType, Is.Not.Null);
+
+            MethodInfo factory = FindFactoryMethod(t, modeType);
+            Assert.That(factory, Is.Not.Null);
+
+            MethodInfo dispose = t.GetMethod("Dispose",
+                BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+            Assert.That(dispose, Is.Not.Null,
+                "Precondition: Dispose method must exist");
+
+            object localMode = Enum.Parse(modeType, "LocalDemoJson");
+
+            // 1) Create an initial root.
+            object root1 = factory.Invoke(null, new object[] { localMode });
+            Assert.That(root1, Is.Not.Null);
+
+            // 2) Dispose the root.
+            dispose.Invoke(root1, null);
+
+            // 3) Create again with the same mode.
+            //    Regression: a disposed root must be replaced, not returned as-is.
+            object root2 = factory.Invoke(null, new object[] { localMode });
+            Assert.That(root2, Is.Not.Null);
+            Assert.That(root2, Is.Not.SameAs(root1),
+                "After Dispose(), CreateForMode with the same mode must return a " +
+                "new CompositionRoot, not the disposed singleton");
+
+            // 4) New root's services must be healthy (non-null).
+            foreach (PropertyInfo p in t.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (!p.CanRead || p.PropertyType == t || p.PropertyType.IsValueType) continue;
+                if (p.Name == "SyncPolling") continue; // null in LocalDemoJson mode.
+                object svc = p.GetValue(root2);
+                Assert.That(svc, Is.Not.Null,
+                    "New root's property '{0}' must be non-null after re-creation", p.Name);
+            }
+        }
+
+        // ---------------------------------------------------------------
         // Helpers
         // ---------------------------------------------------------------
 

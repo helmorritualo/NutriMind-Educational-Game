@@ -29,10 +29,12 @@ Unity now has a shared server-facing client layer for the student API under `Ass
 
 ## Validation evidence
 
-- Unity Editor: `6000.4.10f1`.
-- Package resolution: `com.unity.nuget.newtonsoft-json` version `3.2.1` resolved from Unity Registry.
-- Unity compilation check: `unity_get_compilation_errors` returned `count: 0`.
-- EditMode test job `236819d56669`: 505 total, 505 passed, 0 failed, 0 skipped, duration 10.11s.
+- Unity Editor currently reports `6000.5.0f1`.
+- Package manifest requests `com.unity.nuget.newtonsoft-json` version `3.2.2`; `packages-lock.json` also has a transitive `com.unity.ai.assistant` dependency entry on `3.2.1`, so package-resolution drift should be watched when Unity re-resolves packages.
+- Unity compilation check on 2026-06-17: `unity_get_compilation_errors` returned `count: 0`.
+- Missing-reference checks on 2026-06-17: scene scope `0`, asset scope `0`.
+- EditMode App test job `fc0f392ab756`: 514 total, 513 passed, 1 failed, 0 skipped, duration 8.96s. The remaining failure is `CompositionRootModeConfigTests.CreateForMode_Http_CreatesDispatcherPump` on dispatcher-pump `HideAndDontSave` behavior and is unrelated to the reviewed API contract changes.
+- Focused regression coverage now includes disposed-root replacement in `CompositionRoot.CreateForMode` and parameterized documented safe server error-code message preservation/redaction in `HttpProviderTests`.
 
 ## Known limitations
 

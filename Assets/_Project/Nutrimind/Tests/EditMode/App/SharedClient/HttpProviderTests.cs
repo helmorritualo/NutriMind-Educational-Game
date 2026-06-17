@@ -171,6 +171,73 @@ namespace NutriMind.Tests.EditMode.App
             Assert.That(result.Error.RequestId, Is.EqualTo("req_2"));
         }
 
+        // ──────────────────────────────────────────────────────────────
+        //  Known safe error codes — parameterized
+        // ──────────────────────────────────────────────────────────────
+
+        /// <summary>
+        /// Documented server envelope error codes that are known safe
+        /// (see <c>HttpProvider.KnownSafeErrorCodes</c> and
+        /// <c>docs/SERVER_REQUIREMENTS.md</c>).
+        /// Each code must preserve the server-provided message (after redaction)
+        /// rather than falling back to the generic unknown-code message.
+        /// </summary>
+        private static readonly string[] KnownSafeServerCodes =
+        {
+            "UNAUTHENTICATED", "TOKEN_EXPIRED", "STUDENT_INACTIVE", "VALIDATION_ERROR",
+            "RATE_LIMITED", "SYNC_RATE_LIMITED", "SERVER_UNAVAILABLE", "SERVER_TIMEOUT",
+            "MAINTENANCE_MODE", "STATION_LOCKED", "STATION_ALREADY_COMPLETED",
+            "CONTENT_NOT_PUBLISHED", "SESSION_NOT_FOUND", "SESSION_FORBIDDEN",
+            "WORLD_SCENE_UNAVAILABLE", "STALE_CONTENT", "CLIENT_VERSION_UNSUPPORTED",
+            "CONFIG_VERSION_UNSUPPORTED", "REALTIME_UNAVAILABLE", "AI_NOT_CONFIGURED",
+            "NOT_FOUND"
+        };
+
+        [TestCaseSource(nameof(KnownSafeServerCodes))]
+        public void HttpProvider_KnownSafeCode_PreservesServerMessage_RedactsSensitiveContent(string errorCode)
+        {
+            var transport = new FakeHttpTransport();
+            // Message includes a JWT token that RedactAll must replace.
+            string jwtToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNrvP5T7lB7FrhTNPi";
+            string serverMsg = $"Server says: token {jwtToken} found for {errorCode}";
+            string errorBody = $"{{\"code\":\"{errorCode}\",\"message\":\"{serverMsg}\",\"request_id\":\"req_{errorCode}\"}}";
+
+            transport.EnqueueError(400, errorBody);
+
+            var session = new AuthSessionState { Token = "token" };
+            var provider = CreateProvider(session, transport);
+
+            DataResult<PingResponseDto> result = provider.PingAsync().Result;
+
+            Assert.That(result.Success, Is.False);
+
+            // Code is preserved verbatim.
+            Assert.That(result.Error.Code, Is.EqualTo(errorCode),
+                "Error code '{0}' must be preserved", errorCode);
+
+            // Known code: server message is kept (after redaction),
+            // NOT replaced with the generic unknown-code fallback.
+            Assert.That(result.Error.Message, Is.Not.EqualTo("An unexpected error occurred."),
+                "Known error code '{0}' must preserve the server message after redaction, " +
+                "not use the generic fallback", errorCode);
+
+            // Server message structure is preserved.
+            Assert.That(result.Error.Message, Does.Contain("Server says:"),
+                "Known error code '{0}' must retain the server message structure", errorCode);
+            Assert.That(result.Error.Message, Does.Contain(errorCode),
+                "Known error code '{0}' must appear in the preserved message", errorCode);
+
+            // Sensitive JWT token is redacted.
+            Assert.That(result.Error.Message, Does.Not.Contain(jwtToken),
+                "Known error code '{0}' message must have the JWT token redacted", errorCode);
+            Assert.That(result.Error.Message, Does.Contain("***REDACTED_TOKEN***"),
+                "Known error code '{0}' message must contain the redaction placeholder", errorCode);
+
+            // RequestId is preserved.
+            Assert.That(result.Error.RequestId, Is.EqualTo($"req_{errorCode}"),
+                "RequestId must be preserved for code '{0}'", errorCode);
+        }
+
         [Test]
         public void HttpProvider_ServerErrorEnvelope_NoStudentSafeLeak()
         {
