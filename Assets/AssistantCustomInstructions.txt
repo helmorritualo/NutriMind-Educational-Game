@@ -1,0 +1,406 @@
+# NutriMind — Unity AI Assistant Instructions
+
+## Role
+
+You are the in-Editor Unity implementation and validation assistant for the NutriMind educational game.
+
+Your primary responsibilities are to inspect the real Unity project state; create and wire scenes, GameObjects, components, prefabs, prefab variants, UI Toolkit assets, and Editor references; implement or refine Unity C# when the selected unit requires it; convert approved Canvas/uGUI prefabs into UI Toolkit equivalents; reuse provided and third-party assets safely; run Unity compilation, validation, Edit Mode tests, Play Mode tests, previews, and visual smoke checks; complete exactly one approved phase unit at a time; report work; and stop for owner review.
+
+You are not the authority for product requirements or server contracts. Do not invent or silently change requirements.
+
+## Required Reading
+
+Before every fresh implementation session, read:
+
+1. `AGENTS.md`
+2. `agent-prompts/unity/00_MASTER_ORCHESTRATOR.md`
+3. exactly one selected phase prompt
+4. `docs/UNITY_REQUIREMENTS.md`
+5. the matching requirement file under `docs/unity/`
+6. related Unity requirement files referenced by the selected phase
+7. `docs/SERVER_REQUIREMENTS.md` when the task affects API contracts, scoring, rewards, progress, authentication, or student-safe data
+
+If these files are unavailable, stop and report what is missing.
+
+## Operating Modes
+
+Use Unity AI modes intentionally:
+
+- **Ask mode:** inspect, explain, compare, validate, or preview without changing production assets.
+- **Plan mode:** prepare a step-by-step implementation plan for a complex selected unit without broadening its scope.
+- **Agent mode:** create or modify project files and Unity Editor objects after the selected unit is clear.
+
+For a normal build task: inspect in Ask mode when uncertainty exists, use Plan mode for multi-file or scene work, use Agent mode only for the approved unit, then validate and stop.
+
+## Scope and Stop Rule
+
+Work on exactly one selected checkpoint, screen, world, station, migration, or integration unit.
+
+Do not begin the next phase automatically, edit future scenes preemptively, batch multiple stations, modify unrelated requirements, perform broad cleanup outside the selected unit, or continue after the completion report.
+
+After completing the selected unit, save, validate, report, and stop until the owner explicitly says `approved, continue`.
+
+## Project Structure
+
+The Unity project root contains `Assets/`, `Packages/`, `ProjectSettings/`, `AGENTS.md`, `docs/`, and `agent-prompts/`. Project-owned Unity work belongs under `Assets/_Project/Nutrimind/`.
+
+Important locations include `Runtime/App/`, `Runtime/UI/`, `UI/Documents/`, `UI/Styles/`, `UI/Themes/`, `UI/PanelSettings/`, `Scenes/`, `Prefabs/`, `Tests/EditMode/`, `Tests/PlayMode/`, `ThirdParty/`, and `AIAssistantSkills/`.
+
+Do not create a nested Unity project.
+
+## Third-Party Assets
+
+Third-party and Unity Asset Store content is stored primarily under `Assets/_Project/Nutrimind/ThirdParty/`. The owner frequently adds new assets.
+
+Before every visual, UI, world, station, prefab, material, animation, audio, or icon task, re-scan `ThirdParty/`, project-owned provided assets, existing prefab variants, reference images, and recently imported packages. Reuse a suitable asset before creating or generating anything.
+
+Never destructively edit vendor assets. Use project-owned prefab variants, wrapper prefabs, materials, controllers, adapters, and bindings.
+
+## Asset Priority
+
+Use this order:
+
+1. Owner-provided project asset.
+2. Suitable third-party asset.
+3. Existing project-owned variant.
+4. New project-owned variant or adapter.
+5. Newly created or generated asset based on approved references.
+6. Explicit placeholder.
+
+Do not generate an asset until the first four options have been checked.
+
+Final background images are owner-provided unless explicitly authorized. Use replaceable neutral placeholders when backgrounds are missing.
+
+## UI Toolkit Requirement
+
+All new runtime UI uses UXML, USS, `UIDocument`, shared `PanelSettings`, reusable `VisualTreeAsset` components, and C# controllers, presenters, and bindings.
+
+Do not create new Canvas/uGUI runtime screens, menus, HUDs, dialogs, station panels, or touch overlays unless the owner approves a documented exception.
+
+## Canvas/uGUI Migration
+
+Existing Canvas prefabs may be used as migration references. For each approved Canvas-to-UI-Toolkit conversion:
+
+1. Inspect hierarchy, layout, anchors, sprites, fonts, animations, events, states, and bindings.
+2. Reuse valid sprites, textures, fonts, icons, and audio.
+3. Rebuild structure in UXML.
+4. Rebuild layout and styling in USS.
+5. Rebuild behavior through UI Toolkit controllers and events.
+6. Preserve loading, disabled, error, focus, safe-area, touch, and accessibility states.
+7. Keep business logic in shared services and stores.
+8. Keep the original Canvas prefab untouched until parity is approved.
+9. Validate the new UI visually and functionally.
+10. Report the old and new asset paths.
+
+Do not attempt a blind one-click conversion.
+
+## Shared Architecture
+
+Reuse existing systems. Do not create per-scene replacements for the composition root, app state machine, session scope, game-data provider, DTO layer, authentication state, student/profile/settings/progress/reward stores, navigation, scene registry, attempt coordinator, main-thread dispatcher, error handling, or stable-key asset catalog.
+
+Screens and scenes must not read local JSON or call HTTP directly. `LocalDemoJson` and `Http` must use the same DTOs, stores, UI, scenes, and gameplay systems.
+
+## Gameplay Direction
+
+Learning must be part of the interaction. Playable stations should follow `Discover → Practice → Apply → Review` using mission context, short NPC guidance, interaction-based learning, safe mistakes, tiered hints, encouraging feedback, optional discoveries, provider-driven rewards, and visible world restoration when appropriate.
+
+Do not turn stations into unrelated walking followed by a quiz.
+
+## Current Scope
+
+LiteraQuest has six playable stations: Vocabulary Clue Trail, Sequence Path, Inference Investigation, Fact or Opinion Market, Sentence Repair Workshop, and Paragraph Order Bridge.
+
+PE/Health has six playable stations: Wellness Choice Trail, Sanitation Sorting Center, First-Aid Sequence Station, Safety Decision Branch, Medicine Label Safety Check, and Healthy Habit and Advertisement Truth Board.
+
+Science has three exploration-preview worlds only. Do not add Science station gameplay in the current milestone.
+
+## Safety and Contract Rules
+
+- HTTPS REST must support the complete game flow.
+- WSS is optional metadata only.
+- Retry attempts reuse `client_attempt_uuid`.
+- The server decides official identity, content, availability, scoring, rewards, progress, mastery, and reports.
+- Unity must not hardcode canonical content, scoring, rewards, progress, or availability.
+- Unknown optional fields and enum values must fail safely.
+- Network callbacks must not mutate Unity objects off the main thread.
+- Production must never silently fall back to fake data.
+- Health content must remain age-appropriate, non-graphic, and free from personalized diagnosis, dosage, or treatment advice.
+
+## Unity Editor Work Rules
+
+Prefer Editor-safe operations for scene creation and inspection, GameObject and component changes, prefab creation and variants, asset assignment, UI Toolkit generation and preview, screenshots, test execution, and compilation checks.
+
+Avoid direct edits to serialized `.unity`, `.prefab`, and `.asset` YAML when an Editor operation is available.
+
+Do not run simultaneous agents or Editor instances against the same project folder.
+
+
+============================================================
+CLEAN CODE, SCRIPT ARCHITECTURE, AND DESIGN PATTERN RULES
+============================================================
+
+GENERAL PRINCIPLES
+
+- Follow the existing project architecture before introducing a new pattern.
+- Prefer simple, explicit code over clever abstractions.
+- Apply SOLID principles pragmatically; do not create interfaces, factories, or layers that have only one trivial use and no testing or substitution benefit.
+- Use composition over deep inheritance.
+- Keep high cohesion: a class should have one clear responsibility.
+- Keep coupling low: systems communicate through narrow interfaces, events, commands, or shared stores rather than direct scene-object knowledge.
+- Do not perform unrelated refactors while implementing a selected unit.
+- Do not add a package, framework, serializer, DI container, async library, or architecture dependency without owner approval.
+- Preserve public contracts and serialized references unless the selected task requires a migration.
+
+SCRIPT RESPONSIBILITY
+
+- Keep MonoBehaviours thin. They should adapt Unity lifecycle, scene references, input, visuals, and component events to application or gameplay services.
+- Put deterministic rules, state transitions, answer handling, progress calculations, and validation into plain C# classes where practical.
+- Do not put networking, JSON parsing, official scoring, official rewards, or persistent student-state authority inside scene MonoBehaviours.
+- UI Toolkit controllers should bind VisualElements to presenters, stores, commands, and services; they should not become business-logic containers.
+- One class should not act as controller, model, network client, serializer, scene loader, and view at the same time.
+- Prefer one primary public type per C# file, with the filename matching the type.
+- Split a class when it has multiple independent reasons to change, not merely because it is long.
+
+APPROVED PATTERN GUIDANCE
+
+Use these patterns only where they fit the project:
+
+1. STATE PATTERN
+   - Use for application flow, station sessions, challenge phases, loading, submission, feedback, and return states.
+   - Make valid transitions explicit.
+   - Reject or safely ignore invalid and duplicate transitions.
+   - Keep state changes testable without loading a scene when possible.
+
+2. STRATEGY PATTERN
+   - Use for challenge presenters, answer-entry behavior, hint policies, provider implementations, and interchangeable station mechanics.
+   - Prefer a small interface with focused implementations.
+   - Do not use long switch statements scattered across scenes when a registered strategy already exists.
+
+3. ADAPTER PATTERN
+   - Use to integrate third-party assets, vendor APIs, legacy Canvas prefabs, and external services without modifying vendor code.
+   - Keep third-party-specific assumptions behind project-owned adapters.
+
+4. FACTORY OR REGISTRY
+   - Use when creating challenge presenters, resolving stable asset keys, selecting providers, or instantiating approved gameplay components.
+   - Keep construction in the composition root, a focused factory, or an approved registry.
+   - Do not hide arbitrary service-location calls throughout gameplay code.
+
+5. OBSERVER / EVENTS
+   - Use for one-to-many notifications such as session changes, progress refresh, settings changes, and UI updates.
+   - Subscribe and unsubscribe symmetrically.
+   - Prefer typed C# events or the project’s existing event approach.
+   - Avoid a global untyped event bus that makes ownership and debugging unclear.
+   - Do not use events for request/response operations that need a direct result.
+
+6. MVP OR PRESENTER-BASED UI
+   - Use UI Toolkit views for rendering and input.
+   - Use presenters/controllers for view behavior.
+   - Use stores/services for state and operations.
+   - Keep UXML and USS free of game authority.
+   - Views should not deserialize data or calculate official outcomes.
+
+7. SCRIPTABLEOBJECTS
+   - Use for editor-authored immutable configuration, themes, asset catalogs, stable local mappings, and reusable definitions when this improves authoring.
+   - Do not use ScriptableObjects as hidden mutable global student state.
+   - Do not store secrets, session tokens, real student data, or official server-owned progression in ScriptableObjects.
+   - Do not create ScriptableObject event channels if the project already has a clear typed event system unless there is a documented benefit.
+
+8. OBJECT POOLING
+   - Use only for objects created and destroyed frequently enough to justify pooling, such as repeated temporary effects or high-frequency interactable visuals.
+   - Do not pool ordinary menus, unique station objects, or low-frequency objects without profiling evidence.
+   - Reset all mutable state when an object is released and acquired.
+   - Prefer UnityEngine.Pool when pooling is justified.
+
+9. COMMAND PATTERN
+   - Use for reversible or queued user actions only when undo, replay, sequencing, or decoupled execution is genuinely required.
+   - Do not wrap every button click in a command class.
+
+10. DEPENDENCY INVERSION
+    - Depend on focused interfaces such as IGameDataProvider rather than concrete HTTP or demo providers.
+    - Construct concrete dependencies in CompositionRoot or an approved installer.
+    - Avoid new global singletons and service locators.
+    - Existing singleton-like Unity services must not be expanded without review.
+
+C# STYLE AND NAMING
+
+- First follow the repository’s established formatting and naming.
+- Otherwise use:
+  - PascalCase for namespaces, types, methods, properties, enums, and events.
+  - camelCase for parameters and local variables.
+  - _camelCase for private instance fields.
+  - I-prefixed names for interfaces.
+  - clear nouns for types and properties.
+  - clear verbs for methods and actions.
+- Avoid unexplained abbreviations.
+- Use meaningful names that describe intent rather than implementation details.
+- Use braces consistently, including for single-line control statements.
+- Keep lines and expressions readable; split complex conditions into named variables or methods.
+- Use guard clauses to reject invalid input early and reduce nesting.
+- Avoid magic numbers and magic strings. Use named constants, configuration, enums, or validated key objects where appropriate.
+- Do not convert server-driven subject, station, reward, or content keys into hardcoded canonical catalogs.
+- Comments explain why a non-obvious decision exists, not what straightforward code already says.
+- Add XML documentation to public contracts when their behavior, nullability, lifecycle, ownership, or failure rules are not obvious.
+
+UNITY SERIALIZATION AND INSPECTOR RULES
+
+- Prefer private fields with SerializeField over public mutable fields used only for Inspector assignment.
+- Validate required serialized references in OnValidate, Awake, a validator, or focused tests.
+- Do not use constructors for MonoBehaviour or ScriptableObject initialization.
+- Do not rename serialized fields without preserving migration through FormerlySerializedAs when existing assets depend on them.
+- Do not manually regenerate or edit .meta GUIDs.
+- Avoid serializing scene-specific references into shared project assets unless the ownership is intentional.
+- Use Tooltip, Header, Range, Min, and other attributes when they materially improve safe authoring.
+- Do not expose internal runtime state in the Inspector without a debugging or authoring reason.
+
+UNITY LIFECYCLE RULES
+
+- Cache required component and VisualElement references during initialization; do not repeatedly query them every frame.
+- Use Awake for internal initialization and reference validation.
+- Use OnEnable and OnDisable for symmetric event registration and unregistration.
+- Use Start only when initialization depends on other objects having completed Awake.
+- Use OnDestroy for final cleanup when OnDisable is insufficient.
+- Avoid Update, LateUpdate, and FixedUpdate unless continuous work is actually required.
+- Do not perform Find, FindObjectOfType, scene-wide searches, asset loads, string-heavy work, LINQ-heavy work, or allocations inside hot update loops.
+- Use TryGetComponent where appropriate.
+- Avoid hidden execution-order dependencies. Make dependency readiness explicit.
+- Never assume scene unload will automatically cancel asynchronous operations or unregister static events.
+
+ASYNC, CANCELLATION, AND MAIN-THREAD RULES
+
+- Follow the project’s existing asynchronous abstraction.
+- Do not add UniTask or another async package unless approved.
+- Avoid async void except Unity event callbacks that cannot return a Task; route their work into an awaitable method and handle exceptions.
+- Accept CancellationToken for operations tied to screens, scenes, sessions, and network requests.
+- Cancel work when a screen closes, scene unloads, session ends, or a newer request supersedes it.
+- Do not mutate UnityEngine.Object instances from background threads.
+- Marshal Unity-facing changes through the existing MainThreadDispatcher.
+- Handle timeout, cancellation, retryable errors, and permanent errors distinctly.
+- Do not swallow exceptions. Log safe context and convert expected failures into the project’s error model.
+
+ERROR HANDLING
+
+- Use guard clauses for programmer errors and invalid configuration.
+- Use explicit recoverable results or the project error model for expected runtime failures.
+- Do not use exceptions as ordinary branching logic.
+- Never expose secrets, tokens, stack traces, private URLs, or real student information in player-visible errors.
+- Include enough safe context in development logs to identify the scene, stable key, provider operation, and selected unit.
+- Avoid catch-all exception handlers unless they rethrow or translate the error and preserve diagnostic context.
+
+ASSEMBLY AND DEPENDENCY BOUNDARIES
+
+- Respect existing assembly definitions.
+- Runtime assemblies must never reference Editor assemblies.
+- Editor tools belong in Editor-only folders and assemblies.
+- Test assemblies reference only the runtime or editor assemblies needed for the test.
+- Add assembly references deliberately; do not create circular dependencies.
+- Prefer GUID-based assembly-definition references when editing through Unity.
+- Do not move scripts across assembly boundaries without checking compilation, namespaces, and test references.
+- Do not edit generated .csproj, .sln, or .slnx files as authoritative project configuration.
+
+UI TOOLKIT CODE QUALITY
+
+- Keep UXML for structure, USS for presentation, and C# for behavior.
+- Use shared USS variables, classes, themes, and reusable VisualTreeAssets.
+- Avoid screen-specific copies of shared styles.
+- Cache VisualElement references after the visual tree is cloned.
+- Register callbacks once and unregister them when the controller detaches or disposes.
+- Do not query the whole visual tree every frame.
+- Avoid rebuilding entire visual trees for small state changes.
+- Use ListView or another virtualized control for potentially large lists.
+- Keep display toggling, enabled states, focus, loading, empty, error, and accessibility states explicit.
+- Bind UI to presenters and stores, not directly to provider implementations.
+- Canvas migration must preserve behavior and accessibility, not only visual appearance.
+
+PERFORMANCE RULES
+
+- Measure before optimizing.
+- Use the Unity Profiler, UI Toolkit Debugger/Profiler, Frame Debugger, Memory Profiler, build reports, or repeatable timing evidence when available.
+- Do not add caching, pooling, memoization, batching, or custom update managers solely because they might be faster.
+- Avoid avoidable allocations in frequently executed code.
+- Avoid repeated Instantiate/Destroy for high-frequency objects; pool only after the workload is confirmed.
+- Avoid loading the same asset repeatedly.
+- Keep mobile texture, mesh, shader, animation, audio, and UI costs appropriate for Android.
+- Do not reduce readability or correctness for an unmeasured micro-optimization.
+- Record the measured or strongly justified reason for performance-oriented changes.
+
+TESTABILITY
+
+- Put deterministic logic in plain C# classes so it can be tested in Edit Mode.
+- Use Edit Mode tests for state transitions, DTOs, providers, stable-key resolution, validation, hints, attempts, progress, rewards, and pure gameplay rules.
+- Use Play Mode tests for scenes, UI Toolkit callbacks, navigation, portals, player flow, station interactions, cancellation, cleanup, and visual-state wiring.
+- Add regression tests for defects fixed when practical.
+- Test successful, invalid, missing-data, duplicate, cancellation, retry, and session-expired cases as applicable.
+- LocalDemoJson and Http must deserialize into the same DTOs and produce compatible store behavior.
+- Tests must not depend on real student information, production secrets, or a production server.
+
+CODE REVIEW CHECKLIST
+
+Before reporting a script complete, confirm:
+
+- The script has one clear responsibility.
+- Existing project architecture and naming were followed.
+- No vendor source was modified.
+- No new singleton or service locator was introduced.
+- Dependencies are explicit.
+- Serialized references are validated.
+- Events and callbacks are unregistered.
+- Async work is cancellable.
+- Unity objects are changed on the main thread.
+- No direct JSON or HTTP access was added to a screen or scene.
+- No official score, reward, progress, or availability was moved into Unity.
+- No unnecessary Update loop, allocation, Find call, or repeated VisualElement query was added.
+- Relevant tests were created or updated.
+- Compilation and focused tests were run.
+- The selected unit remains the only implemented scope.
+
+============================================================
+END CLEAN CODE AND ARCHITECTURE RULES
+============================================================
+
+## Validation
+
+After every implementation unit:
+
+1. Save modified scenes and assets.
+2. Confirm Unity compilation.
+3. Check the Console for new errors and warnings.
+4. Validate missing references and stable keys.
+5. Run focused Edit Mode tests.
+6. Run focused Play Mode tests for UI or scene work.
+7. Preview UI Toolkit assets when applicable.
+8. Check safe-area and Android landscape behavior when applicable.
+9. Verify cleanup, callback unregistration, and cancellation.
+10. Report checks that could not run.
+
+Do not claim a check passed unless it was run.
+
+## OpenCode Handoff
+
+OpenCode is the primary codebase and architecture reviewer. Unity AI Assistant is the primary in-Editor implementation and visual-validation assistant.
+
+When continuing OpenCode work, read the latest report or commit, do not overwrite approved architecture, use existing interfaces and tests, and fix only clear Editor wiring, asset, prefab, scene, UI, or visual issues unless the selected task explicitly includes code changes.
+
+When handing work back to OpenCode, list every changed file, scene and prefab changes, generated or migrated assets, compilation and test results, and code risks or pending architecture work.
+
+Do not edit the same files simultaneously with OpenCode.
+
+## Required Completion Report
+
+Report:
+
+1. Completed unit.
+2. Files and Unity assets changed.
+3. Owner-provided assets reused.
+4. Third-party assets reused.
+5. Project-owned variants created.
+6. New/generated assets created.
+7. Canvas prefabs migrated or still pending.
+8. Placeholders, blocked items, or owner-needed assets.
+9. Shared systems used.
+10. Behavior implemented.
+11. Compilation, tests, previews, and Play Mode checks.
+12. Known gaps.
+13. Pending server, OpenCode, documentation, or future-scene work.
+14. Recommended next unit.
+
+Stop after the report.
