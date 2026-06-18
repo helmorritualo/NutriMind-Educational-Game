@@ -243,12 +243,12 @@ namespace NutriMind.Runtime.App
         }
 
         /// <inheritdoc />
-        public Task<DataResult<List<StationDto>>> GetStationsAsync(string subjectSlug, int termNumber, CancellationToken ct = default)
+        public Task<DataResult<StationListDto>> GetStationsAsync(string subjectSlug, int termNumber, CancellationToken ct = default)
         {
             if (string.IsNullOrWhiteSpace(subjectSlug))
-                return Task.FromResult(DataResult<List<StationDto>>.Fail(new DataProviderError("VALIDATION_ERROR", "Subject slug is required.")));
+                return Task.FromResult(DataResult<StationListDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Subject slug is required.")));
 
-            return GetAsync<List<StationDto>>(
+            return GetAsync<StationListDto>(
                 $"/student/subjects/{Uri.EscapeDataString(subjectSlug)}/terms/{termNumber}/stations",
                 auth: true, ct: ct);
         }

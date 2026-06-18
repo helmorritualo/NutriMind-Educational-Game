@@ -111,8 +111,15 @@ namespace NutriMind.Runtime.App
         /// <summary>
         /// Station state list for a subject/term. Requires auth.
         /// <c>GET /api/v1/student/subjects/{subject_slug}/terms/{term_number}/stations</c>
+        /// <para>
+        /// Returns a <see cref="StationListDto"/> object (not a bare array) so
+        /// Science exploration-preview terms can return an empty
+        /// <see cref="StationListDto.Stations"/> array with a
+        /// <see cref="StationListDto.PreviewMode"/> marker. An empty list is a
+        /// valid preview state, not an error.
+        /// </para>
         /// </summary>
-        Task<DataResult<List<StationDto>>> GetStationsAsync(string subjectSlug, int termNumber, CancellationToken ct = default);
+        Task<DataResult<StationListDto>> GetStationsAsync(string subjectSlug, int termNumber, CancellationToken ct = default);
 
         // ──────────────────────────────────────────────────────────────
         //  Station Content & Session

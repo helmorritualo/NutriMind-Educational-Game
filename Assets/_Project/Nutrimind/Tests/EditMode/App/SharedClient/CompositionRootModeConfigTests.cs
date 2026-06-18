@@ -484,9 +484,10 @@ namespace NutriMind.Tests.EditMode.App
             if (hideFlagsProp != null)
             {
                 var hideFlagsObj = hideFlagsProp.GetValue(pumpGo);
-                // HideFlags.HideAndDontSave = 64.
+                // HideFlags.HideAndDontSave is a composite flag (value 61), NOT 64.
                 int hideFlagsVal = Convert.ToInt32(hideFlagsObj);
-                Assert.That((hideFlagsVal & 64) == 64, Is.True,
+                int expected = (int)UnityEngine.HideFlags.HideAndDontSave;
+                Assert.That((hideFlagsVal & expected) == expected, Is.True,
                     "Pump GameObject must have HideAndDontSave flag");
             }
         }

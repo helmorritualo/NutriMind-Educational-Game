@@ -386,12 +386,12 @@ namespace NutriMind.Tests.EditMode.App
         public void HttpProvider_GetStations_UsesTermNumberPath()
         {
             var transport = new FakeHttpTransport();
-            transport.EnqueueSuccess(200, "[]");
+            transport.EnqueueSuccess(200, "{\"stations\":[]}");
 
             var session = new AuthSessionState { Token = "token" };
             var provider = CreateProvider(session, transport);
 
-            DataResult<List<StationDto>> result = provider.GetStationsAsync("litera_quest", 2).Result;
+            DataResult<StationListDto> result = provider.GetStationsAsync("litera_quest", 2).Result;
 
             Assert.That(result.Success, Is.True);
             Assert.That(transport.Requests[0].Url, Does.Contain("/student/subjects/litera_quest/terms/2/stations"));
@@ -560,13 +560,13 @@ namespace NutriMind.Tests.EditMode.App
                 "{\"station_id\":\"station_1\",\"title\":\"Rich\"," +
                 "\"story_context\":\"Once upon...\"," +
                 "\"mission_title\":\"Fix the Bridge\"," +
-                "\"npc_guides\":[{\"guide_key\":\"npc_1\",\"name\":\"Guide\"}]," +
-                "\"learning_cycle\":[\"discover\",\"practice\"]," +
-                "\"hint_policy\":{\"max_tiers\":2,\"tiers\":[{\"tier\":1,\"text\":\"Hint\"}]}," +
-                "\"discoveries\":[{\"discovery_key\":\"d1\",\"title\":\"Fun fact\"}]," +
+                "\"npc_guides\":[{\"npc_key\":\"npc_1\",\"display_name\":\"Guide\",\"intro_dialogue\":\"Hello!\"}]," +
+                "\"learning_cycle\":{\"discover\":\"Look around\",\"practice\":\"Try it\",\"apply\":\"Use it\",\"review\":\"Reflect\"}," +
+                "\"hint_policy\":{\"max_hint_tier\":2,\"preserve_world_progress\":true,\"penalize_ordinary_mistake\":false,\"tiers\":[{\"tier\":1,\"text\":\"Hint\"}]}," +
+                "\"discoveries\":[{\"discovery_key\":\"d1\",\"title\":\"Fun fact\",\"optional\":true}]," +
                 "\"reflection_prompt\":\"Reflect...\"," +
-                "\"reward_preview\":[{\"reward_key\":\"coin\"}]," +
-                "\"world_restoration_state\":{\"state_key\":\"restored\"}," +
+                "\"reward_preview\":[{\"code\":\"coin\",\"quantity\":5}]," +
+                "\"world_restoration_state\":{\"state_key\":\"restored\",\"apply_after_accepted_completion\":true}," +
                 "\"success_feedback\":{\"message\":\"Great job!\"}}");
 
             var session = new AuthSessionState { Token = "token" };
@@ -578,11 +578,18 @@ namespace NutriMind.Tests.EditMode.App
             Assert.That(result.Data.StoryContext, Is.EqualTo("Once upon..."));
             Assert.That(result.Data.MissionTitle, Is.EqualTo("Fix the Bridge"));
             Assert.That(result.Data.NpcGuides, Has.Count.EqualTo(1));
-            Assert.That(result.Data.LearningCycle, Is.EqualTo(new[] { "discover", "practice" }));
-            Assert.That(result.Data.HintPolicy.MaxTiers, Is.EqualTo(2));
+            Assert.That(result.Data.NpcGuides[0].NpcKey, Is.EqualTo("npc_1"));
+            Assert.That(result.Data.NpcGuides[0].DisplayName, Is.EqualTo("Guide"));
+            Assert.That(result.Data.LearningCycle, Is.Not.Null);
+            Assert.That(result.Data.LearningCycle.Discover, Is.EqualTo("Look around"));
+            Assert.That(result.Data.LearningCycle.Review, Is.EqualTo("Reflect"));
+            Assert.That(result.Data.HintPolicy.MaxHintTier, Is.EqualTo(2));
+            Assert.That(result.Data.HintPolicy.PreserveWorldProgress, Is.True);
             Assert.That(result.Data.Discoveries, Has.Count.EqualTo(1));
+            Assert.That(result.Data.Discoveries[0].Optional, Is.True);
             Assert.That(result.Data.ReflectionPrompt, Is.EqualTo("Reflect..."));
             Assert.That(result.Data.RewardPreview, Has.Count.EqualTo(1));
+            Assert.That(result.Data.RewardPreview[0].Code, Is.EqualTo("coin"));
             Assert.That(result.Data.WorldRestorationState.StateKey, Is.EqualTo("restored"));
             Assert.That(result.Data.SuccessFeedback.Message, Is.EqualTo("Great job!"));
         }

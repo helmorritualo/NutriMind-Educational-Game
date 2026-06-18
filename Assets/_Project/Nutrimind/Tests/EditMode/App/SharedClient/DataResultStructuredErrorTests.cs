@@ -146,13 +146,14 @@ namespace NutriMind.Tests.EditMode.App
         // ---------------------------------------------------------------
 
         [Test]
-        public void LocalDemoJsonProvider_FailureResult_HasNonNullStructuredError()
+        public void LocalDemoJsonProvider_UnauthenticatedCall_HasNonNullStructuredError()
         {
             var provider = new LocalDemoJsonProvider();
-            DataResult<object> result = provider.LogoutAsync(CancellationToken.None).Result;
+            // An auth-gated call before login must fail with a structured, safe error.
+            DataResult<StudentProfileDto> result = provider.GetProfileAsync(CancellationToken.None).Result;
 
-            Assert.That(result, Is.Not.Null, "LogoutAsync must return a non-null result");
-            Assert.That(result.Success, Is.False, "Placeholder provider must return failure");
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Success, Is.False, "Auth-gated call before login must fail");
             Assert.That(result.Error, Is.Not.Null,
                 "LocalDemoJsonProvider failure must have non-null Error");
             Assert.That(result.Error.Code, Is.Not.Null.And.Not.Empty);
@@ -160,14 +161,19 @@ namespace NutriMind.Tests.EditMode.App
         }
 
         [Test]
-        public void LocalDemoJsonProvider_FailureErrorCode_IsNotImplemented()
+        public void LocalDemoJsonProvider_NeverReportsNotImplemented()
         {
             var provider = new LocalDemoJsonProvider();
-            DataResult<ApiConfigDto> result = provider.GetConfigAsync(CancellationToken.None).Result;
+            // Public endpoint succeeds...
+            DataResult<ApiConfigDto> config = provider.GetConfigAsync(CancellationToken.None).Result;
+            // ...auth-gated endpoint fails with a real safe code, never the stub 'not_implemented'.
+            DataResult<SettingsDto> settings = provider.GetSettingsAsync(CancellationToken.None).Result;
 
-            Assert.That(result.Error, Is.Not.Null);
-            Assert.That(result.Error.Code, Is.EqualTo("not_implemented"),
-                "LocalDemoJsonProvider failures must report stable code 'not_implemented'");
+            Assert.That(settings.Success, Is.False);
+            Assert.That(settings.Error.Code, Is.Not.EqualTo("not_implemented"),
+                "Implemented LocalDemoJsonProvider must never report the stub 'not_implemented' code");
+            if (config.Success)
+                Assert.That(config.Data, Is.Not.Null);
         }
 
         // ---------------------------------------------------------------
