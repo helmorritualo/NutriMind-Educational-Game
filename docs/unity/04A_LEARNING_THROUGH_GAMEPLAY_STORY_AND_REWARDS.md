@@ -45,6 +45,8 @@ Every playable station follows this cycle:
 3. **Apply** — the student uses the concept to solve the station mission and create a visible result in the environment.
 4. **Review** — the provider returns feedback; Unity shows what worked, a misconception-aware explanation or hint, the progress/reward result, and a short reflection when appropriate.
 
+In the data contract this cycle is delivered as the canonical `learning_cycle` **object** — `{ discover, practice, apply, review }`, one short student-safe guidance string per phase — not as an array of strings. See the canonical schema in `docs/SERVER_REQUIREMENTS.md` (Canonical Unity Data Contract Schemas) and `docs/unity/04_SERVER_CONNECTION_AND_UNITY_API.md`. Phase guidance fields are optional and additive.
+
 A station must not skip directly from a decorative walk to a detached question panel unless accessibility or content type makes world interaction impossible. Even then, the UI task must be framed as the mission action rather than a generic quiz list.
 
 ## NPC Mentor and Mission-Giver Rules
@@ -82,6 +84,8 @@ Attempt 3 -> provide stronger scaffolding or a worked partial example, if approv
 ```
 
 The server or local demo provider controls official attempt limits, scoring, hint usage, feedback, and reward effects. Health hints must use approved educational content and must not invent medical guidance.
+
+The hint policy is delivered as the canonical `hint_policy` object — `{ max_hint_tier, preserve_world_progress, penalize_ordinary_mistake, tiers: [ { tier, text } ] }`. NPC guidance is delivered as `npc_guides[]` — `{ npc_key, display_name, role, avatar_key, intro_dialogue, completion_dialogue }`. Per-attempt feedback uses the canonical attempt feedback fields (`is_correct`, `message`, `explanation`, `misconception_message`, `encouraging_message`, `retry_action`, `retry_allowed`, `remaining_attempts`, `current_hint_tier`, `next_hint_tier`, `hint_text`); station success feedback uses `success_feedback { message, encouraging_phrases[] }`. See the canonical schema in `docs/SERVER_REQUIREMENTS.md`.
 
 ## Exploration and Optional Discoveries
 
@@ -123,6 +127,8 @@ For the current demo, the minimum visible reward set is:
 - visible world restoration and portal completion state
 
 Cosmetic skins, pets, titles, and additional areas may remain future scope unless assets and server support already exist. Official reward grants, wallet changes, and unlocks remain provider/server-authoritative. Unity may preview possible rewards but may animate them as earned only after the accepted result.
+
+In the data contract: motivational previews use `reward_preview[]` — `{ code, reward_key, reward_type, display_name, icon_key, quantity, grant_scope }` (a subject crystal uses `grant_scope = "term_after_both_stations"`). Earned grants in attempt/completion results use `reward_grant` — `{ reward_code, reward_type, display_name, quantity }`. A term crystal/badge is awarded on `term_completion { subject_slug, term_number, completed, crystal, badge }` when both required stations are complete. Authored restoration uses `world_restoration_state { state_key, apply_after_accepted_completion, state_data }` and the provider-confirmed result is `world_restoration_result { state_key, restored }`, applied only after an accepted completion. See the canonical schema in `docs/SERVER_REQUIREMENTS.md`.
 
 ## Station Design Contract
 

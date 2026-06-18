@@ -6,11 +6,13 @@ This document defines a complete development/demo student session while the serv
 
 The local dataset must imitate the real student API contract so changing from JSON to HTTP does not require rewriting UI, scenes, station mechanics, stores, or navigation.
 
-Reference fixture:
+Canonical fixture (loadable at runtime via `Resources` in editor/development builds; deserializes into `DemoFixtureDto`):
 
 ```txt
-docs/unity/examples/full-demo-student-data.json
+Assets/_Project/Nutrimind/Resources/DemoData/full-demo-student-data.json
 ```
+
+The older `docs/unity/examples/full-demo-student-data.json` used divergent field names (e.g. `access_token`/`student_id`/`display_name`) and is **superseded**. The canonical fixture above follows the snake_case DTO contract exactly (`token`, `student.id`, `student.name`, `student.lrn_masked`) as defined in `docs/SERVER_REQUIREMENTS.md` (Canonical Unity Data Contract Schemas).
 
 ## Provider Boundary
 
@@ -55,30 +57,49 @@ Science worlds are exploration-only. The fixture must not create Science station
 
 ## Demo Story and Learning-Gameplay Coverage
 
-The full demo fixture should include fabricated, student-safe examples for story context, mission summaries, NPC guides, the four-step learning cycle, tiered hints, optional discoveries, reflection, reward previews, and world-restoration states for all 12 playable stations. These fields use the same DTO structure expected from HTTP and remain optional for compatibility.
+The full demo fixture should include fabricated, student-safe examples for `story_context`, `mission_summary`, `npc_guides[]`, the four-step `learning_cycle`, `hint_policy` tiers, optional `discoveries[]`, `reflection_prompt`, `reward_preview[]`, and `world_restoration_state` for all 12 playable stations. These fields use the same DTO structure expected from HTTP and remain optional for compatibility. The `learning_cycle` is a canonical **object** — `{ discover, practice, apply, review }`, one guidance string per phase — not an array of strings. All field names follow the canonical snake_case schema in `docs/SERVER_REQUIREMENTS.md`.
 
 Demo state may simulate discoveries, hint use, coins/stars, Language/Wellness Crystals, badges, and world restoration. It must preserve idempotency and reset to the immutable source fixture. Science fixture data must not simulate station missions, station rewards, or station completion.
 
 ## Required Fixture Shape
+
+The outer object is the `DemoFixtureDto` container — it is **not** an API response. Its fields:
 
 ```txt
 fixture_format_version
 fixture_id
 mode
 notice
-demo_auth
-responses
-terms_by_subject
-stations_by_scope
-station_content_by_id
-station_start_by_id
-attempt_result_by_challenge_id
-completion_result_by_station_id
-demo_only_evaluation
-error_fixtures
+demo_auth                        { lrn, pin, allow_demo_login_button, development_build_only }
+responses                        (DemoResponsesDto — see below)
+terms_by_subject                 subject_slug -> TermDto[]
+stations_by_scope                "subject:grade:term" -> StationListDto
+station_content_by_id            station_id -> StationContentDto
+station_start_by_id              station_id -> StationStartResponseDto
+attempt_result_by_challenge_id   challenge_id -> { response_template: AttemptResponseDto, safe_mistake: AttemptFeedbackDto }
+completion_result_by_station_id  station_id -> StationCompleteResponseDto
+demo_only_evaluation             fixture-only fabricated expected answers (never exposed via student DTOs)
+error_fixtures                   name -> error envelope (same shape as HTTP errors)
+demo_scope                       (optional)
+gameplay_design                  (optional)
 ```
 
-The outer fixture is a development container. Nested response objects should mirror actual endpoint DTOs.
+`responses` (DemoResponsesDto) holds the fixed, non-scoped endpoint payloads, each the exact DTO returned by its HTTP endpoint:
+
+```txt
+responses.ping             PingResponseDto
+responses.config           ApiConfigDto
+responses.login            LoginResponseDto
+responses.bootstrap        BootstrapDto
+responses.profile          StudentProfileDto
+responses.settings         SettingsDto
+responses.subjects         SubjectDto[]
+responses.progress_summary ProgressSummaryDto
+responses.rewards          RewardWalletDto
+responses.sync_status      SyncStatusDto
+```
+
+The outer fixture is a development container. Every nested payload deserializes into the **same** DTO the `HttpProvider` uses, guaranteeing provider parity. `stations_by_scope` values are `StationListDto` objects, so Science exploration-preview terms supply an empty `stations` array with `preview_mode = "exploration_only"`. Fabricated expected answers live only in `demo_only_evaluation`; they are fake development values, never exposed through student DTOs, and must never contain production answer keys.
 
 ## Fake Student Rules
 
@@ -121,7 +142,7 @@ Each playable station requires:
 - simulated attempt result
 - simulated completion result
 
-Science `stations_by_scope` entries must exist for each term but contain empty `stations` arrays. This proves the UI handles intentional no-station scope safely.
+Science `stations_by_scope` entries must exist for each term as `StationListDto` objects with an empty `stations` array and `preview_mode = "exploration_only"`. This proves the UI handles intentional no-station scope safely as a valid preview state, not an error.
 
 ## Demo Fixture Asset-Key Compatibility
 
@@ -160,10 +181,10 @@ The source fixture remains immutable. Runtime uses a resettable session copy for
 
 ## Storage and Configuration
 
-Recommended project path:
+Canonical project path (loadable via `Resources` at runtime in editor/development builds):
 
 ```txt
-Assets/_Project/Nutrimind/DemoData/full-demo-student-data.json
+Assets/_Project/Nutrimind/Resources/DemoData/full-demo-student-data.json
 ```
 
 Configuration is explicit:
@@ -179,11 +200,11 @@ Never infer local demo mode only because HTTP failed.
 
 ## Production Protection
 
-- production selects `Http`
-- release builds reject `LocalDemoJson`
+- production selects `Http` (default mode is `Http` in release builds, `LocalDemoJson` in editor/development builds)
+- release builds reject `LocalDemoJson`: `CompositionRoot.CreateForMode(LocalDemoJson)` throws `InvalidOperationException`
 - CI/build validation detects demo mode in production settings
 - demo fixtures are excluded from release packaging where practical
-- no automatic fallback from real HTTP failure to fake data
+- no automatic fallback from real HTTP failure to fake/local data
 
 ## Switch to HTTP
 

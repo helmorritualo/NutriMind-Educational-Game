@@ -472,7 +472,7 @@ Every non-success Unity API response uses the same safe shape:
 }
 ```
 
-Common error codes:
+Canonical error codes (the complete set the Unity HTTP provider treats as known/safe; any unknown code is rendered with a safe generic message). Server-issued envelope codes:
 
 ```txt
 UNAUTHENTICATED
@@ -485,6 +485,7 @@ SERVER_UNAVAILABLE
 SERVER_TIMEOUT
 MAINTENANCE_MODE
 STATION_LOCKED
+STATION_ALREADY_COMPLETED
 CONTENT_NOT_PUBLISHED
 SESSION_NOT_FOUND
 SESSION_FORBIDDEN
@@ -494,9 +495,280 @@ CLIENT_VERSION_UNSUPPORTED
 CONFIG_VERSION_UNSUPPORTED
 REALTIME_UNAVAILABLE
 AI_NOT_CONFIGURED
+NOT_FOUND
 ```
 
+The Unity client additionally recognizes these client-side codes for transport/local failures so its safe-error handling stays uniform (the server never emits them):
+
+```txt
+NETWORK_ERROR
+CONFIGURATION_ERROR
+PROVIDER_DISPOSED
+INVALID_RESPONSE
+UNKNOWN_ERROR
+```
+
+The optional `action` field suggests the client behavior. The canonical action set is:
+
+```txt
+login_again
+retry
+wait_then_retry
+refresh_sync_status
+return_to_menu
+show_offline_prompt
+contact_teacher
+```
+
+Any unrecognized `action` value maps to a safe `Unknown` action on the client and never crashes it.
+
 The `request_id` is present on all errors and can be shown by Unity in support details. Student-facing messages remain friendly and do not expose stack traces, SQL errors, provider errors, secrets, token values, answer keys, or hidden scoring rules.
+
+## Canonical Unity Data Contract Schemas
+
+These are the canonical, snake_case JSON field names for the student-safe payloads shared by the server (`/api/v1`) and the Unity client. They mirror the Unity DTO layer field-for-field and are the single source of truth used by both `docs/unity/04_SERVER_CONNECTION_AND_UNITY_API.md` and `docs/unity/11_DEMO_DATA_AND_LOCAL_PROVIDER.md`. All listed fields are optional/additive unless noted; unknown fields and unknown enum values must be ignored safely. None of these fields may carry answer keys, hidden scoring, secrets, tokens, PINs, or private notes.
+
+### World Metadata (term and station scope)
+
+```txt
+world_theme_key
+world_title
+unity_scene_key
+unity_scene_name
+scene_address_key
+environment_tags[]
+mechanic_family
+```
+
+### Station Content and Mission
+
+Returned by `GET /api/v1/student/stations/{station_id}/content`. Core identity/content fields plus optional learning-gameplay and narrative fields:
+
+```jsonc
+{
+  "station_id": "...",
+  "station_key": "...",
+  "subject_slug": "...",
+  "grade_level": 5,
+  "term_number": 1,
+  "title": "...",
+  "description": "...",
+  "learning_skill": "...",
+  "student_learning_goal": "...",
+  "instructions": "...",
+  "completion_rule": { "type": "complete_required_challenges", "required_count": 1 },
+  "world_tasks": [ /* WorldTask */ ],
+  "challenges": [ /* Challenge */ ],
+  "content_revision": "...",
+  "world_metadata": { /* World Metadata */ },
+  "story_context": "...",
+  "mission_title": "...",
+  "mission_summary": "...",
+  "npc_guides": [ /* NpcGuide */ ],
+  "learning_cycle": { /* LearningCycle object */ },
+  "hint_policy": { /* HintPolicy */ },
+  "discoveries": [ /* Discovery */ ],
+  "reflection_prompt": "...",
+  "reward_preview": [ /* RewardPreview */ ],
+  "world_restoration_state": { /* WorldRestorationState */ },
+  "success_feedback": { /* SuccessFeedback */ }
+}
+```
+
+World task:
+
+```txt
+task_id
+task_key
+task_type
+portal_key
+interactable_key
+prefab_key
+world_position_hint
+challenge_id
+required
+```
+
+NPC guide:
+
+```txt
+npc_key
+display_name
+role
+avatar_key
+intro_dialogue
+completion_dialogue
+```
+
+Learning cycle is a canonical **object** (one short, student-safe guidance string per phase), not an array of strings:
+
+```json
+{
+  "learning_cycle": {
+    "discover": "...",
+    "practice": "...",
+    "apply": "...",
+    "review": "..."
+  }
+}
+```
+
+Hint policy:
+
+```json
+{
+  "hint_policy": {
+    "max_hint_tier": 3,
+    "preserve_world_progress": true,
+    "penalize_ordinary_mistake": false,
+    "tiers": [ { "tier": 1, "text": "..." }, { "tier": 2, "text": "..." } ]
+  }
+}
+```
+
+Discovery (always optional; never required for completion):
+
+```txt
+discovery_key
+type
+title
+description
+optional
+reward_preview   (single RewardPreview)
+```
+
+Reflection prompt is a single string field: `reflection_prompt`.
+
+Reward preview (presentation/motivation only — not an earned reward):
+
+```txt
+code
+reward_key
+reward_type
+display_name
+icon_key
+quantity
+grant_scope        (e.g. "term_after_both_stations" for a subject crystal)
+```
+
+Success feedback:
+
+```json
+{
+  "success_feedback": {
+    "message": "...",
+    "encouraging_phrases": ["...", "..."]
+  }
+}
+```
+
+World restoration state (authored within station content; applied only after an accepted completion):
+
+```txt
+state_key
+apply_after_accepted_completion
+state_data
+```
+
+### Attempt Result
+
+Authoritative response from `POST /api/v1/student/challenges/{challenge_id}/attempts`:
+
+```jsonc
+{
+  "attempt_id": "...",
+  "client_attempt_uuid": "...",
+  "challenge_id": "...",
+  "status": "...",
+  "accepted": true,
+  "correct": true,
+  "is_replay": false,
+  "review_status": "...",
+  "feedback": {
+    "is_correct": true,
+    "message": "...",
+    "explanation": "...",
+    "misconception_message": "...",
+    "encouraging_message": "...",
+    "retry_action": "...",
+    "retry_allowed": true,
+    "remaining_attempts": 2,
+    "current_hint_tier": 0,
+    "next_hint_tier": 1,
+    "hint_text": "..."
+  },
+  "score_awarded": 10,
+  "progress": {
+    "completed_challenges": 1,
+    "required_challenges": 1,
+    "station_progress_percent": 100
+  },
+  "rewards_granted": [ /* RewardGrant */ ],
+  "progress_updated": true,
+  "progress_revision": "...",
+  "reward_wallet_revision": "..."
+}
+```
+
+Reward grant:
+
+```txt
+reward_code
+reward_type
+display_name
+quantity
+```
+
+### Station Completion Result
+
+Authoritative response from `POST /api/v1/student/stations/{station_id}/complete`:
+
+```jsonc
+{
+  "station_id": "...",
+  "status": "...",
+  "completed": true,
+  "is_replay": false,
+  "score_total": 20,
+  "portal_state": "completed",
+  "unlocks": [ { "station_id": "...", "station_key": "...", "state": "unlocked" } ],
+  "term_completion": {
+    "subject_slug": "literaquest",
+    "term_number": 1,
+    "completed": true,
+    "crystal": { /* RewardGrant */ },
+    "badge":   { /* RewardGrant */ }
+  },
+  "rewards_granted": [ /* RewardGrant */ ],
+  "world_restoration_result": { "state_key": "...", "restored": true },
+  "progress_summary": { /* ProgressSummary */ },
+  "progress_revision": "...",
+  "reward_wallet_revision": "..."
+}
+```
+
+When both required stations in a term are complete, `term_completion.completed` is true and the provider may grant a subject-themed `crystal` and/or `badge` (each a reward grant). `world_restoration_result` is the provider-confirmed restoration; Unity owns only the animation, not the state authority.
+
+### Idempotent Replay Semantics
+
+Attempts carry `client_attempt_uuid` and completions are keyed by station. A duplicate `client_attempt_uuid` (or a re-completion of an already-completed station) resolves idempotently: the server returns the **same** result with `is_replay = true` and never double-scores, double-grants rewards, or re-awards a term crystal/badge. Ordinary learning mistakes do not remove earned rewards or permanently block content.
+
+### Station List Scope
+
+`GET /api/v1/student/subjects/{subject_slug}/terms/{term_number}/stations` returns an object (not a bare array):
+
+```json
+{
+  "subject_slug": "sciencequest",
+  "grade_level": 5,
+  "term_number": 1,
+  "stations": [],
+  "preview_mode": "exploration_only",
+  "message": "This world is an exploration preview."
+}
+```
+
+Science exploration-preview terms return an empty `stations` array with `preview_mode = "exploration_only"`. An empty list is a valid no-station preview state, not an error.
 
 ## Realtime Connection Strategy
 

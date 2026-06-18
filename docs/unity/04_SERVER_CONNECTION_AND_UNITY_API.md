@@ -17,18 +17,84 @@ Unity does not call dashboard server functions directly.
 
 ## Provider Modes
 
-Unity consumes this contract through one provider abstraction:
+Unity consumes this contract through one provider abstraction, `IGameDataProvider`. The active provider is selected by `DataProviderMode`:
 
 ```txt
-LocalDemoJson -> development-only fixture bundle while the server is unavailable
-Http          -> real HTTPS API for integration and production
+DataProviderMode.LocalDemoJson -> development-only fixture bundle while the server is unavailable
+DataProviderMode.Http          -> real HTTPS API for integration and production
 ```
+
+Default mode selection (in `CompositionRoot`):
+
+```txt
+editor / development build  -> LocalDemoJson
+production / release build   -> Http
+```
+
+`IGameDataProvider` is the single contract every consumer depends on; consumers never branch on `DataProviderMode`. It declares exactly **19** methods, each returning `Task<DataResult<T>>`:
+
+```txt
+PingAsync                 -> GET    /student/ping
+GetConfigAsync            -> GET    /student/config
+LoginAsync                -> POST   /student/auth/login
+LogoutAsync               -> POST   /student/auth/logout
+GetBootstrapAsync         -> GET    /student/bootstrap
+GetProfileAsync           -> GET    /student/profile
+GetSettingsAsync          -> GET    /student/settings
+PatchSettingsAsync        -> PATCH  /student/settings
+GetSubjectsAsync          -> GET    /student/subjects
+GetTermsAsync             -> GET    /student/subjects/{subject_slug}/terms
+GetStationsAsync          -> GET    /student/subjects/{subject_slug}/terms/{term_number}/stations
+GetStationContentAsync    -> GET    /student/stations/{station_id}/content
+StartStationAsync         -> POST   /student/stations/{station_id}/start
+SubmitAttemptAsync        -> POST   /student/challenges/{challenge_id}/attempts
+CompleteStationAsync      -> POST   /student/stations/{station_id}/complete
+GetProgressSummaryAsync   -> GET    /student/progress/summary
+GetRewardsAsync           -> GET    /student/rewards
+UseRewardAsync            -> POST   /student/rewards/{reward_code}/use
+GetSyncStatusAsync        -> GET    /student/sync/status
+```
+
+`GetStationsAsync` returns a `StationListDto` object (not a bare array) so Science exploration-preview terms can return an empty `stations` array with `preview_mode = "exploration_only"`. See **Station List Scope** below.
 
 The local provider does not define an alternate game contract. Each nested local payload must deserialize into the same DTO used by the corresponding HTTP endpoint. The outer demo bundle is only a fixture container and is not itself an API response.
 
 Switching providers must require configuration/composition changes only. It must not require scene, station, form, or gameplay rewrites.
 
-Production builds must reject `LocalDemoJson`, and release packaging must exclude the full demo fixture where practical.
+Production builds must reject `LocalDemoJson`: in a release build `CompositionRoot.CreateForMode(LocalDemoJson)` throws `InvalidOperationException`, and there is **no** silent fallback from `Http` to local demo data on failure. Release packaging must exclude the full demo fixture where practical.
+
+## Station List Scope
+
+`GET /api/v1/student/subjects/{subject_slug}/terms/{term_number}/stations` returns a `StationListDto`:
+
+```json
+{
+  "subject_slug": "sciencequest",
+  "grade_level": 5,
+  "term_number": 1,
+  "stations": [],
+  "preview_mode": "exploration_only",
+  "message": "This world is an exploration preview."
+}
+```
+
+LiteraQuest and PE/Health terms return populated `stations` arrays. Science exploration-preview terms return an empty `stations` array with `preview_mode = "exploration_only"`. An empty list is a valid no-station preview state, not an error.
+
+## World Metadata
+
+Term and station responses include `world_metadata` for Unity scene loading. Canonical fields (agree with `docs/SERVER_REQUIREMENTS.md`):
+
+```txt
+world_theme_key
+world_title
+unity_scene_key
+unity_scene_name
+scene_address_key
+environment_tags[]
+mechanic_family
+```
+
+The server returns scene identity; Unity owns the local scene asset. A missing local scene key is handled as a world-unavailable state, never by loading a wrong fallback world.
 
 ## Startup Endpoints
 
@@ -83,7 +149,15 @@ If the server implements session refresh, mastery, or leaderboard endpoints, the
 
 ## Full Demo Bundle Mapping
 
-The reference fixture is `examples/full-demo-student-data.json`. It contains one fabricated Grade 5 student session and these logical payload groups:
+The canonical, up-to-date fixture is the project file:
+
+```txt
+Assets/_Project/Nutrimind/Resources/DemoData/full-demo-student-data.json
+```
+
+It is loadable at runtime via `Resources` in editor/development builds and deserializes into `DemoFixtureDto`. The older `examples/full-demo-student-data.json` used divergent field names (e.g. `access_token`/`student_id`/`display_name`) and is **superseded**: the canonical fixture follows the DTO contract exactly (`token`, `student.id`, `student.name`, `student.lrn_masked`). All fixture field names follow the canonical snake_case DTO names defined in `docs/SERVER_REQUIREMENTS.md` (Canonical Unity Data Contract Schemas).
+
+The fixture contains one fabricated Grade 5 student session and these logical payload groups:
 
 | Fixture key | HTTP contract represented |
 |---|---|
@@ -111,20 +185,77 @@ A local demo evaluator may use fabricated expected answers stored in a clearly s
 
 ## Optional Learning-Gameplay Content Fields
 
-Station-content and world responses may add optional, student-safe fields such as:
+Station-content responses may add optional, student-safe fields. These use the canonical snake_case names defined in `docs/SERVER_REQUIREMENTS.md` (Canonical Unity Data Contract Schemas) and agree with it field-for-field.
+
+Station mission/content fields:
 
 ```txt
 story_context
 mission_title
 mission_summary
-npc_guides[]
-learning_cycle
-hint_policy
-discoveries[]
-reflection_prompt
-reward_preview[]
-world_restoration_state
-success_feedback
+learning_skill
+student_learning_goal
+instructions
+completion_rule { type, required_count }
+world_tasks[]   { task_id, task_key, task_type, portal_key, interactable_key, prefab_key, world_position_hint, challenge_id, required }
+```
+
+NPC guides:
+
+```txt
+npc_guides[] { npc_key, display_name, role, avatar_key, intro_dialogue, completion_dialogue }
+```
+
+Learning cycle is a canonical **object** with one short guidance string per phase — **not** an array of strings:
+
+```json
+{
+  "learning_cycle": {
+    "discover": "...",
+    "practice": "...",
+    "apply": "...",
+    "review": "..."
+  }
+}
+```
+
+Hint policy:
+
+```json
+{
+  "hint_policy": {
+    "max_hint_tier": 3,
+    "preserve_world_progress": true,
+    "penalize_ordinary_mistake": false,
+    "tiers": [ { "tier": 1, "text": "..." } ]
+  }
+}
+```
+
+Discoveries (each always optional, never required for completion):
+
+```txt
+discoveries[] { discovery_key, type, title, description, optional, reward_preview }
+```
+
+Reflection prompt (single string): `reflection_prompt`.
+
+Reward previews (presentation/motivation only — not earned rewards):
+
+```txt
+reward_preview[] { code, reward_key, reward_type, display_name, icon_key, quantity, grant_scope }
+```
+
+Success feedback:
+
+```txt
+success_feedback { message, encouraging_phrases[] }
+```
+
+World restoration state (applied only after an accepted completion):
+
+```txt
+world_restoration_state { state_key, apply_after_accepted_completion, state_data }
 ```
 
 These fields are additive. Unity must tolerate their absence and unknown optional values. They must never expose answer keys, hidden scoring rules, teacher notes, AI prompts, private health guidance, or unapproved content.
@@ -178,6 +309,78 @@ scenario_choice -> selected stable path/choice key
 
 Unity must not infer correctness locally from hidden or guessed answer data.
 
+## Attempt Result
+
+Authoritative response from `POST /api/v1/student/challenges/{challenge_id}/attempts`:
+
+```jsonc
+{
+  "attempt_id": "...",
+  "client_attempt_uuid": "...",
+  "challenge_id": "...",
+  "status": "...",
+  "accepted": true,
+  "correct": true,
+  "is_replay": false,
+  "review_status": "...",
+  "feedback": {
+    "is_correct": true,
+    "message": "...",
+    "explanation": "...",
+    "misconception_message": "...",
+    "encouraging_message": "...",
+    "retry_action": "...",
+    "retry_allowed": true,
+    "remaining_attempts": 2,
+    "current_hint_tier": 0,
+    "next_hint_tier": 1,
+    "hint_text": "..."
+  },
+  "score_awarded": 10,
+  "progress": { "completed_challenges": 1, "required_challenges": 1, "station_progress_percent": 100 },
+  "rewards_granted": [ { "reward_code": "...", "reward_type": "...", "display_name": "...", "quantity": 1 } ],
+  "progress_updated": true,
+  "progress_revision": "...",
+  "reward_wallet_revision": "..."
+}
+```
+
+Correctness (`correct`) and acceptance (`accepted`) are authoritative — Unity never infers them locally.
+
+## Station Completion Result
+
+Authoritative response from `POST /api/v1/student/stations/{station_id}/complete`:
+
+```jsonc
+{
+  "station_id": "...",
+  "status": "...",
+  "completed": true,
+  "is_replay": false,
+  "score_total": 20,
+  "portal_state": "completed",
+  "unlocks": [ { "station_id": "...", "station_key": "...", "state": "unlocked" } ],
+  "term_completion": {
+    "subject_slug": "literaquest",
+    "term_number": 1,
+    "completed": true,
+    "crystal": { "reward_code": "...", "reward_type": "...", "display_name": "...", "quantity": 1 },
+    "badge":   { "reward_code": "...", "reward_type": "...", "display_name": "...", "quantity": 1 }
+  },
+  "rewards_granted": [ { "reward_code": "...", "reward_type": "...", "display_name": "...", "quantity": 1 } ],
+  "world_restoration_result": { "state_key": "...", "restored": true },
+  "progress_summary": { /* ProgressSummary */ },
+  "progress_revision": "...",
+  "reward_wallet_revision": "..."
+}
+```
+
+Completing both required term stations sets `term_completion.completed = true` and may grant a subject-themed `crystal` and/or `badge`. `world_restoration_result` is provider-confirmed; Unity owns only the restoration animation.
+
+## Idempotent Replay
+
+Attempt retries reuse the same `client_attempt_uuid`; completions are keyed by station. A duplicate `client_attempt_uuid` (or re-completion of an already-completed station) returns the **same** result with `is_replay = true` and never double-scores, double-grants rewards, or re-awards a term crystal/badge. Unity must treat `is_replay = true` as an already-applied result and must not re-animate reward grants as newly earned.
+
 ## Error Envelope
 
 ```json
@@ -193,7 +396,43 @@ Unity must not infer correctness locally from hidden or guessed answer data.
 }
 ```
 
-Supported action behavior includes:
+Canonical error codes (full known/safe set; agrees with `docs/SERVER_REQUIREMENTS.md`). Server-issued envelope codes:
+
+```txt
+UNAUTHENTICATED
+TOKEN_EXPIRED
+STUDENT_INACTIVE
+VALIDATION_ERROR
+RATE_LIMITED
+SYNC_RATE_LIMITED
+SERVER_UNAVAILABLE
+SERVER_TIMEOUT
+MAINTENANCE_MODE
+STATION_LOCKED
+STATION_ALREADY_COMPLETED
+CONTENT_NOT_PUBLISHED
+SESSION_NOT_FOUND
+SESSION_FORBIDDEN
+WORLD_SCENE_UNAVAILABLE
+STALE_CONTENT
+CLIENT_VERSION_UNSUPPORTED
+CONFIG_VERSION_UNSUPPORTED
+REALTIME_UNAVAILABLE
+AI_NOT_CONFIGURED
+NOT_FOUND
+```
+
+Client-side-only codes (transport/local failures; never emitted by the server):
+
+```txt
+NETWORK_ERROR
+CONFIGURATION_ERROR
+PROVIDER_DISPOSED
+INVALID_RESPONSE
+UNKNOWN_ERROR
+```
+
+Supported `action` behavior:
 
 ```txt
 login_again
@@ -205,7 +444,7 @@ show_offline_prompt
 contact_teacher
 ```
 
-Unknown error codes use a safe generic message and retain request ID support details.
+Any unrecognized `action` value maps to a safe `Unknown` action. Unknown error codes use a safe generic message and retain request ID support details.
 
 ## Polling
 

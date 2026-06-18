@@ -23,9 +23,11 @@ Read the Unity documents in this order:
 11. [`unity/10_TESTING_INTEGRATION_AND_RELEASE.md`](unity/10_TESTING_INTEGRATION_AND_RELEASE.md)
 12. [`unity/11_DEMO_DATA_AND_LOCAL_PROVIDER.md`](unity/11_DEMO_DATA_AND_LOCAL_PROVIDER.md)
 
-Reference local-demo fixture:
+Canonical local-demo fixture (loadable via `Resources` in editor/development builds; deserializes into `DemoFixtureDto`):
 
-- [`unity/examples/full-demo-student-data.json`](unity/examples/full-demo-student-data.json)
+- `Assets/_Project/Nutrimind/Resources/DemoData/full-demo-student-data.json`
+
+The older [`unity/examples/full-demo-student-data.json`](unity/examples/full-demo-student-data.json) used divergent field names and is **superseded**; the canonical fixture follows the snake_case DTO contract. The canonical Unity data contract schemas are defined once in `docs/SERVER_REQUIREMENTS.md` (Canonical Unity Data Contract Schemas) and mirrored field-for-field in `unity/04_SERVER_CONNECTION_AND_UNITY_API.md` and `unity/11_DEMO_DATA_AND_LOCAL_PROVIDER.md`.
 
 When requirements conflict:
 
