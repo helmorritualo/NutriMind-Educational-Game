@@ -1,0 +1,8 @@
+﻿<Solution>
+  <Project Path="NutriMind.Tests.EditMode.App.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="NutriMind.Runtime.App.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="NutriMind.Tests.EditMode.UI.csproj" />
+  <Project Path="NutriMind.Runtime.UI.csproj" />
+</Solution>
