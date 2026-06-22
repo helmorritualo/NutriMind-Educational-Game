@@ -381,21 +381,18 @@ namespace NutriMind.Runtime.App.Dto
         public string? MechanicFamily { get; set; }
     }
 
+    // ──────────────────────────────────────────────────────────────
+    //  Quiz & Assessment System (Laravel quiz_first_laravel_1 REST)
+    // ──────────────────────────────────────────────────────────────
+
     /// <summary>
-    /// Response item from station-list endpoints.
+    /// Response item from quiz-list endpoints.
     /// </summary>
-    public class StationDto
+    public class QuizDto
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string? Id { get; set; }
 
-        /// <summary>Stable station key (e.g. <c>vocabulary_clue_trail</c>).</summary>
-        [JsonProperty("station_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationKey { get; set; }
-
-        [JsonProperty("station_number", NullValueHandling = NullValueHandling.Ignore)]
-        public int? StationNumber { get; set; }
-
         [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
         public string? Title { get; set; }
 
@@ -405,50 +402,33 @@ namespace NutriMind.Runtime.App.Dto
         [JsonProperty("subject_slug", NullValueHandling = NullValueHandling.Ignore)]
         public string? SubjectSlug { get; set; }
 
-        [JsonProperty("grade_level", NullValueHandling = NullValueHandling.Ignore)]
-        public int? GradeLevel { get; set; }
-
         [JsonProperty("term_number", NullValueHandling = NullValueHandling.Ignore)]
         public int? TermNumber { get; set; }
 
-        /// <summary>
-        /// Station availability/progress state. Maps to <see cref="StationState"/>
-        /// via the safe enum converter; unknown values fall back safely.
-        /// </summary>
+        [JsonProperty("grade_level", NullValueHandling = NullValueHandling.Ignore)]
+        public int? GradeLevel { get; set; }
+
         [JsonProperty("state", NullValueHandling = NullValueHandling.Ignore)]
         public string? State { get; set; }
 
-        [JsonProperty("required", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Required { get; set; }
+        [JsonProperty("total_items", NullValueHandling = NullValueHandling.Ignore)]
+        public int? TotalItems { get; set; }
+
+        [JsonProperty("duration_minutes", NullValueHandling = NullValueHandling.Ignore)]
+        public int? DurationMinutes { get; set; }
+
+        [JsonProperty("is_available", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? IsAvailable { get; set; }
 
         [JsonProperty("progress_percent", NullValueHandling = NullValueHandling.Ignore)]
         public decimal? ProgressPercent { get; set; }
-
-        [JsonProperty("challenge_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ChallengeType { get; set; }
-
-        /// <summary>Stable portal/interactable key used to enter the station.</summary>
-        [JsonProperty("portal_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? PortalKey { get; set; }
-
-        /// <summary>Stable local scene key for the station gameplay scene.</summary>
-        [JsonProperty("unity_scene_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? UnitySceneKey { get; set; }
-
-        [JsonProperty("content_revision", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ContentRevision { get; set; }
-
-        [JsonProperty("world_metadata", NullValueHandling = NullValueHandling.Ignore)]
-        public WorldMetadataDto? WorldMetadata { get; set; }
     }
 
     /// <summary>
-    /// Response from station-list endpoints — wraps the station scope and the
-    /// station array. Science exploration-preview terms return an empty
-    /// <see cref="Stations"/> array with <see cref="PreviewMode"/> set; this is
-    /// a valid no-station preview state, not an error.
+    /// Response from quiz-list endpoints.
+    /// Science exploration-preview terms may return an empty list with preview mode.
     /// </summary>
-    public class StationListDto
+    public class QuizListDto
     {
         [JsonProperty("subject_slug", NullValueHandling = NullValueHandling.Ignore)]
         public string? SubjectSlug { get; set; }
@@ -459,140 +439,56 @@ namespace NutriMind.Runtime.App.Dto
         [JsonProperty("term_number", NullValueHandling = NullValueHandling.Ignore)]
         public int? TermNumber { get; set; }
 
-        [JsonProperty("stations")]
-        public List<StationDto> Stations { get; set; } = new List<StationDto>();
+        [JsonProperty("quizzes")]
+        public List<QuizDto> Quizzes { get; set; } = new List<QuizDto>();
 
-        /// <summary>
-        /// Exploration-preview marker (e.g. <c>"exploration_only"</c>) for
-        /// Science terms that intentionally expose no playable stations.
-        /// </summary>
         [JsonProperty("preview_mode", NullValueHandling = NullValueHandling.Ignore)]
         public string? PreviewMode { get; set; }
 
-        /// <summary>Optional student-safe message describing a preview state.</summary>
         [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
         public string? Message { get; set; }
     }
 
-    // ──────────────────────────────────────────────────────────────
-    //  Station Content & Session
-    // ──────────────────────────────────────────────────────────────
-
     /// <summary>
-    /// Response from <c>GET /api/v1/student/stations/{station_id}/content</c>.
-    /// Student-safe station content and world task metadata.
-    /// Never exposes answer keys, scoring rules, or teacher notes.
+    /// Response from GET /api/v1/student/quizzes/{quiz_id}.
     /// </summary>
-    public class StationContentDto
+    public class QuizDetailDto : QuizDto
     {
-        [JsonProperty("station_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationId { get; set; }
-
-        [JsonProperty("station_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationKey { get; set; }
-
-        [JsonProperty("subject_slug", NullValueHandling = NullValueHandling.Ignore)]
-        public string? SubjectSlug { get; set; }
-
-        [JsonProperty("grade_level", NullValueHandling = NullValueHandling.Ignore)]
-        public int? GradeLevel { get; set; }
-
-        [JsonProperty("term_number", NullValueHandling = NullValueHandling.Ignore)]
-        public int? TermNumber { get; set; }
-
-        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Title { get; set; }
-
-        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Description { get; set; }
-
-        [JsonProperty("learning_skill", NullValueHandling = NullValueHandling.Ignore)]
-        public string? LearningSkill { get; set; }
-
-        [JsonProperty("student_learning_goal", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StudentLearningGoal { get; set; }
-
         [JsonProperty("instructions", NullValueHandling = NullValueHandling.Ignore)]
         public string? Instructions { get; set; }
 
-        [JsonProperty("completion_rule", NullValueHandling = NullValueHandling.Ignore)]
-        public CompletionRuleDto? CompletionRule { get; set; }
-
-        [JsonProperty("world_tasks", NullValueHandling = NullValueHandling.Ignore)]
-        public List<WorldTaskDto>? WorldTasks { get; set; }
-
-        [JsonProperty("challenges", NullValueHandling = NullValueHandling.Ignore)]
-        public List<ChallengeDto>? Challenges { get; set; }
-
-        [JsonProperty("content_revision", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ContentRevision { get; set; }
-
-        [JsonProperty("world_metadata", NullValueHandling = NullValueHandling.Ignore)]
-        public WorldMetadataDto? WorldMetadata { get; set; }
-
-        // ── Optional learning-gameplay / narrative fields ──
-
-        [JsonProperty("story_context", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StoryContext { get; set; }
-
-        [JsonProperty("mission_title", NullValueHandling = NullValueHandling.Ignore)]
-        public string? MissionTitle { get; set; }
-
-        [JsonProperty("mission_summary", NullValueHandling = NullValueHandling.Ignore)]
-        public string? MissionSummary { get; set; }
-
-        [JsonProperty("npc_guides", NullValueHandling = NullValueHandling.Ignore)]
-        public List<NpcGuideDto>? NpcGuides { get; set; }
-
-        [JsonProperty("learning_cycle", NullValueHandling = NullValueHandling.Ignore)]
-        public LearningCycleDto? LearningCycle { get; set; }
-
-        [JsonProperty("hint_policy", NullValueHandling = NullValueHandling.Ignore)]
-        public HintPolicyDto? HintPolicy { get; set; }
-
-        [JsonProperty("discoveries", NullValueHandling = NullValueHandling.Ignore)]
-        public List<DiscoveryDto>? Discoveries { get; set; }
-
-        [JsonProperty("reflection_prompt", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ReflectionPrompt { get; set; }
-
-        [JsonProperty("reward_preview", NullValueHandling = NullValueHandling.Ignore)]
-        public List<RewardPreviewDto>? RewardPreview { get; set; }
-
-        [JsonProperty("world_restoration_state", NullValueHandling = NullValueHandling.Ignore)]
-        public WorldRestorationStateDto? WorldRestorationState { get; set; }
-
-        [JsonProperty("success_feedback", NullValueHandling = NullValueHandling.Ignore)]
-        public SuccessFeedbackDto? SuccessFeedback { get; set; }
+        [JsonProperty("items")]
+        public List<QuizItemDto> Items { get; set; } = new List<QuizItemDto>();
     }
 
     /// <summary>
-    /// A challenge within station content.
-    /// Answer details are student-safe; never includes answer keys.
+    /// A question or task item inside a quiz.
     /// </summary>
-    public class ChallengeDto
+    public class QuizItemDto
     {
-        [JsonProperty("challenge_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ChallengeId { get; set; }
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+        public string? Id { get; set; }
 
-        [JsonProperty("challenge_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ChallengeType { get; set; }
+        [JsonProperty("quiz_id", NullValueHandling = NullValueHandling.Ignore)]
+        public string? QuizId { get; set; }
+
+        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+        public string? Type { get; set; }
 
         [JsonProperty("prompt", NullValueHandling = NullValueHandling.Ignore)]
         public string? Prompt { get; set; }
 
         [JsonProperty("options", NullValueHandling = NullValueHandling.Ignore)]
-        public List<ChallengeOptionDto>? Options { get; set; }
+        public List<QuizItemOptionDto>? Options { get; set; }
 
         [JsonProperty("order_index", NullValueHandling = NullValueHandling.Ignore)]
         public int? OrderIndex { get; set; }
     }
 
     /// <summary>
-    /// A choice/option within a challenge.
-    /// Never includes correct/incorrect flag.
+    /// A selectable option or match option for a quiz item.
     /// </summary>
-    public class ChallengeOptionDto
+    public class QuizItemOptionDto
     {
         [JsonProperty("key", NullValueHandling = NullValueHandling.Ignore)]
         public string? Key { get; set; }
@@ -605,304 +501,21 @@ namespace NutriMind.Runtime.App.Dto
     }
 
     /// <summary>
-    /// Canonical four-step learning cycle (Discover → Practice → Apply → Review).
-    /// Each phase holds short, student-safe guidance text. All phases optional.
+    /// Request body for POST /api/v1/student/quizzes/{quiz_id}/attempts.
     /// </summary>
-    public class LearningCycleDto
+    public class QuizAttemptRequestDto
     {
-        [JsonProperty("discover", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Discover { get; set; }
-
-        [JsonProperty("practice", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Practice { get; set; }
-
-        [JsonProperty("apply", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Apply { get; set; }
-
-        [JsonProperty("review", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Review { get; set; }
-    }
-
-    /// <summary>
-    /// Station completion rule (e.g. <c>complete_required_challenges</c>).
-    /// </summary>
-    public class CompletionRuleDto
-    {
-        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Type { get; set; }
-
-        [JsonProperty("required_count", NullValueHandling = NullValueHandling.Ignore)]
-        public int? RequiredCount { get; set; }
-    }
-
-    /// <summary>
-    /// A world task / interactable within station content. Carries the stable
-    /// local presentation keys (portal, interactable, prefab) used by Unity to
-    /// place and drive the learning interaction, and links to its challenge.
-    /// </summary>
-    public class WorldTaskDto
-    {
-        [JsonProperty("task_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? TaskId { get; set; }
-
-        [JsonProperty("task_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? TaskKey { get; set; }
-
-        [JsonProperty("task_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string? TaskType { get; set; }
-
-        [JsonProperty("portal_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? PortalKey { get; set; }
-
-        [JsonProperty("interactable_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? InteractableKey { get; set; }
-
-        [JsonProperty("prefab_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? PrefabKey { get; set; }
-
-        [JsonProperty("world_position_hint", NullValueHandling = NullValueHandling.Ignore)]
-        public string? WorldPositionHint { get; set; }
-
-        [JsonProperty("challenge_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ChallengeId { get; set; }
-
-        [JsonProperty("required", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Required { get; set; }
-    }
-
-    /// <summary>
-    /// NPC guide DTO within station content. Provides concise, child-friendly
-    /// mission guidance (intro + completion). Stable <see cref="NpcKey"/> allows
-    /// a UI-Toolkit dialogue fallback when a character/voice asset is missing.
-    /// </summary>
-    public class NpcGuideDto
-    {
-        [JsonProperty("npc_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? NpcKey { get; set; }
-
-        [JsonProperty("display_name", NullValueHandling = NullValueHandling.Ignore)]
-        public string? DisplayName { get; set; }
-
-        [JsonProperty("role", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Role { get; set; }
-
-        [JsonProperty("avatar_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? AvatarKey { get; set; }
-
-        [JsonProperty("intro_dialogue", NullValueHandling = NullValueHandling.Ignore)]
-        public string? IntroDialogue { get; set; }
-
-        [JsonProperty("completion_dialogue", NullValueHandling = NullValueHandling.Ignore)]
-        public string? CompletionDialogue { get; set; }
-    }
-
-    /// <summary>
-    /// Hint policy configuration within station content. Encourages safe
-    /// mistakes: ordinary mistakes are not punished and world progress is
-    /// preserved. Tiered hints scaffold without exposing answer keys.
-    /// </summary>
-    public class HintPolicyDto
-    {
-        [JsonProperty("max_hint_tier", NullValueHandling = NullValueHandling.Ignore)]
-        public int? MaxHintTier { get; set; }
-
-        [JsonProperty("preserve_world_progress", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? PreserveWorldProgress { get; set; }
-
-        [JsonProperty("penalize_ordinary_mistake", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? PenalizeOrdinaryMistake { get; set; }
-
-        [JsonProperty("tiers", NullValueHandling = NullValueHandling.Ignore)]
-        public List<HintTierDto>? Tiers { get; set; }
-    }
-
-    /// <summary>
-    /// A single hint tier within a hint policy.
-    /// </summary>
-    public class HintTierDto
-    {
-        [JsonProperty("tier", NullValueHandling = NullValueHandling.Ignore)]
-        public int? Tier { get; set; }
-
-        [JsonProperty("text", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Text { get; set; }
-    }
-
-    /// <summary>
-    /// Optional discovery entry within station content. Discoveries are never
-    /// required to complete a station and must not become grind.
-    /// </summary>
-    public class DiscoveryDto
-    {
-        [JsonProperty("discovery_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? DiscoveryKey { get; set; }
-
-        [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Type { get; set; }
-
-        [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Title { get; set; }
-
-        [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Description { get; set; }
-
-        [JsonProperty("optional", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Optional { get; set; }
-
-        [JsonProperty("reward_preview", NullValueHandling = NullValueHandling.Ignore)]
-        public RewardPreviewDto? RewardPreview { get; set; }
-    }
-
-    /// <summary>
-    /// Reward preview within station content.
-    /// Does NOT represent an earned reward — only motivation display.
-    /// </summary>
-    public class RewardPreviewDto
-    {
-        [JsonProperty("code", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Code { get; set; }
-
-        [JsonProperty("reward_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? RewardKey { get; set; }
-
-        [JsonProperty("reward_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string? RewardType { get; set; }
-
-        [JsonProperty("display_name", NullValueHandling = NullValueHandling.Ignore)]
-        public string? DisplayName { get; set; }
-
-        [JsonProperty("icon_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? IconKey { get; set; }
-
-        [JsonProperty("quantity", NullValueHandling = NullValueHandling.Ignore)]
-        public int? Quantity { get; set; }
-
-        /// <summary>
-        /// When a reward is granted (e.g. <c>term_after_both_stations</c> for a
-        /// subject crystal). Presentation/preview only — grants are provider-owned.
-        /// </summary>
-        [JsonProperty("grant_scope", NullValueHandling = NullValueHandling.Ignore)]
-        public string? GrantScope { get; set; }
-    }
-
-    /// <summary>
-    /// World restoration state within station content. Restoration is applied
-    /// only after a provider-accepted completion.
-    /// </summary>
-    public class WorldRestorationStateDto
-    {
-        [JsonProperty("state_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StateKey { get; set; }
-
-        [JsonProperty("apply_after_accepted_completion", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? ApplyAfterAcceptedCompletion { get; set; }
-
-        [JsonProperty("state_data", NullValueHandling = NullValueHandling.Ignore)]
-        public object? StateData { get; set; }
-    }
-
-    /// <summary>
-    /// Success feedback within station content.
-    /// Presentation-only; no scoring/correctness authority.
-    /// </summary>
-    public class SuccessFeedbackDto
-    {
-        [JsonProperty("message", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Message { get; set; }
-
-        [JsonProperty("encouraging_phrases", NullValueHandling = NullValueHandling.Ignore)]
-        public List<string>? EncouragingPhrases { get; set; }
-    }
-
-    // ──────────────────────────────────────────────────────────────
-    //  Station Start/Resume
-    // ──────────────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Request body for <c>POST /api/v1/student/stations/{station_id}/start</c>.
-    /// </summary>
-    public class StationStartRequestDto
-    {
-        [JsonProperty("client_version", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ClientVersion { get; set; }
-    }
-
-    /// <summary>
-    /// Response from <c>POST /api/v1/student/stations/{station_id}/start</c>.
-    /// Returns station session for starting or resuming.
-    /// </summary>
-    public class StationStartResponseDto
-    {
-        [JsonProperty("station_session_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationSessionId { get; set; }
-
-        [JsonProperty("station_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationId { get; set; }
-
-        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Status { get; set; }
-
-        [JsonProperty("resuming", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Resuming { get; set; }
-
-        [JsonProperty("started_at", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StartedAt { get; set; }
-
-        [JsonProperty("content_revision", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ContentRevision { get; set; }
-
-        [JsonProperty("challenge_progress", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, object>? ChallengeProgress { get; set; }
-    }
-
-    // ──────────────────────────────────────────────────────────────
-    //  Attempts
-    // ──────────────────────────────────────────────────────────────
-
-    /// <summary>
-    /// Request body for <c>POST /api/v1/student/challenges/{challenge_id}/attempts</c>.
-    /// The <see cref="ClientAttemptUuid"/> is sent as <c>client_attempt_uuid</c>
-    /// for idempotent retry behaviour — duplicate UUIDs resolve to the same
-    /// attempt result rather than creating double scores.
-    /// </summary>
-    public class AttemptRequestDto
-    {
-        [JsonProperty("station_session_id")]
-        public string? StationSessionId { get; set; }
-
-        [JsonProperty("station_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationId { get; set; }
-
         [JsonProperty("client_attempt_uuid")]
         public string? ClientAttemptUuid { get; set; }
 
-        [JsonProperty("answer")]
-        public object? Answer { get; set; }
-
-        [JsonProperty("time_spent_seconds", NullValueHandling = NullValueHandling.Ignore)]
-        public int? TimeSpentSeconds { get; set; }
-
-        [JsonProperty("used_rewards", NullValueHandling = NullValueHandling.Ignore)]
-        public List<UsedRewardDto>? UsedRewards { get; set; }
+        [JsonProperty("answers")]
+        public Dictionary<string, object> Answers { get; set; } = new Dictionary<string, object>();
     }
 
     /// <summary>
-    /// A single reward used during an attempt.
+    /// Response body for POST /api/v1/student/quizzes/{quiz_id}/attempts.
     /// </summary>
-    public class UsedRewardDto
-    {
-        [JsonProperty("code")]
-        public string? Code { get; set; }
-
-        [JsonProperty("quantity", NullValueHandling = NullValueHandling.Ignore)]
-        public int? Quantity { get; set; }
-    }
-
-    /// <summary>
-    /// Response from <c>POST /api/v1/student/challenges/{challenge_id}/attempts</c>.
-    /// Student-safe feedback; never includes answer keys or hidden scoring.
-    /// </summary>
-    public class AttemptResponseDto
+    public class QuizAttemptResponseDto
     {
         [JsonProperty("attempt_id", NullValueHandling = NullValueHandling.Ignore)]
         public string? AttemptId { get; set; }
@@ -910,72 +523,41 @@ namespace NutriMind.Runtime.App.Dto
         [JsonProperty("client_attempt_uuid", NullValueHandling = NullValueHandling.Ignore)]
         public string? ClientAttemptUuid { get; set; }
 
-        [JsonProperty("challenge_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ChallengeId { get; set; }
+        [JsonProperty("quiz_id", NullValueHandling = NullValueHandling.Ignore)]
+        public string? QuizId { get; set; }
 
         [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
         public string? Status { get; set; }
 
-        /// <summary>Server/provider accepted the submission as a valid attempt.</summary>
-        [JsonProperty("accepted", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Accepted { get; set; }
+        [JsonProperty("score", NullValueHandling = NullValueHandling.Ignore)]
+        public decimal? Score { get; set; }
 
-        /// <summary>Authoritative correctness — never inferred locally.</summary>
-        [JsonProperty("correct", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Correct { get; set; }
+        [JsonProperty("total_possible", NullValueHandling = NullValueHandling.Ignore)]
+        public decimal? TotalPossible { get; set; }
 
-        /// <summary>
-        /// True when this result is an idempotent replay of a previously
-        /// processed <c>client_attempt_uuid</c> (no double scoring/rewards).
-        /// </summary>
+        [JsonProperty("percentage", NullValueHandling = NullValueHandling.Ignore)]
+        public decimal? Percentage { get; set; }
+
+        [JsonProperty("passed", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? Passed { get; set; }
+
         [JsonProperty("is_replay", NullValueHandling = NullValueHandling.Ignore)]
         public bool? IsReplay { get; set; }
 
-        [JsonProperty("review_status", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ReviewStatus { get; set; }
-
-        [JsonProperty("feedback", NullValueHandling = NullValueHandling.Ignore)]
-        public AttemptFeedbackDto? Feedback { get; set; }
-
-        [JsonProperty("score_awarded", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? ScoreAwarded { get; set; }
-
-        [JsonProperty("progress", NullValueHandling = NullValueHandling.Ignore)]
-        public AttemptProgressDto? Progress { get; set; }
-
-        [JsonProperty("rewards_granted", NullValueHandling = NullValueHandling.Ignore)]
-        public List<RewardGrantDto>? RewardsGranted { get; set; }
+        [JsonProperty("answers_feedback", NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string, QuizItemFeedbackDto>? AnswersFeedback { get; set; }
 
         [JsonProperty("progress_updated", NullValueHandling = NullValueHandling.Ignore)]
         public bool? ProgressUpdated { get; set; }
 
         [JsonProperty("progress_revision", NullValueHandling = NullValueHandling.Ignore)]
         public string? ProgressRevision { get; set; }
-
-        [JsonProperty("reward_wallet_revision", NullValueHandling = NullValueHandling.Ignore)]
-        public string? RewardWalletRevision { get; set; }
     }
 
     /// <summary>
-    /// Per-attempt station progress snapshot returned with an attempt result.
+    /// Feedback for an individual quiz item.
     /// </summary>
-    public class AttemptProgressDto
-    {
-        [JsonProperty("completed_challenges", NullValueHandling = NullValueHandling.Ignore)]
-        public int? CompletedChallenges { get; set; }
-
-        [JsonProperty("required_challenges", NullValueHandling = NullValueHandling.Ignore)]
-        public int? RequiredChallenges { get; set; }
-
-        [JsonProperty("station_progress_percent", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? StationProgressPercent { get; set; }
-    }
-
-    /// <summary>
-    /// Feedback returned within an attempt response.
-    /// Presentation-only; no answer keys or hidden scoring data.
-    /// </summary>
-    public class AttemptFeedbackDto
+    public class QuizItemFeedbackDto
     {
         [JsonProperty("is_correct", NullValueHandling = NullValueHandling.Ignore)]
         public bool? IsCorrect { get; set; }
@@ -986,163 +568,47 @@ namespace NutriMind.Runtime.App.Dto
         [JsonProperty("explanation", NullValueHandling = NullValueHandling.Ignore)]
         public string? Explanation { get; set; }
 
-        [JsonProperty("misconception_message", NullValueHandling = NullValueHandling.Ignore)]
-        public string? MisconceptionMessage { get; set; }
-
-        [JsonProperty("encouraging_message", NullValueHandling = NullValueHandling.Ignore)]
-        public string? EncouragingMessage { get; set; }
-
-        [JsonProperty("retry_action", NullValueHandling = NullValueHandling.Ignore)]
-        public string? RetryAction { get; set; }
-
-        [JsonProperty("retry_allowed", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? RetryAllowed { get; set; }
-
-        [JsonProperty("remaining_attempts", NullValueHandling = NullValueHandling.Ignore)]
-        public int? RemainingAttempts { get; set; }
-
-        [JsonProperty("current_hint_tier", NullValueHandling = NullValueHandling.Ignore)]
-        public int? CurrentHintTier { get; set; }
-
-        [JsonProperty("next_hint_tier", NullValueHandling = NullValueHandling.Ignore)]
-        public int? NextHintTier { get; set; }
-
         [JsonProperty("hint_text", NullValueHandling = NullValueHandling.Ignore)]
         public string? HintText { get; set; }
     }
 
     /// <summary>
-    /// A reward granted after a successful attempt.
+    /// Individual quiz result record.
     /// </summary>
-    public class RewardGrantDto
+    public class QuizResultDto
     {
-        [JsonProperty("reward_code", NullValueHandling = NullValueHandling.Ignore)]
-        public string? RewardCode { get; set; }
+        [JsonProperty("attempt_id", NullValueHandling = NullValueHandling.Ignore)]
+        public string? AttemptId { get; set; }
 
-        [JsonProperty("reward_type", NullValueHandling = NullValueHandling.Ignore)]
-        public string? RewardType { get; set; }
+        [JsonProperty("quiz_id", NullValueHandling = NullValueHandling.Ignore)]
+        public string? QuizId { get; set; }
 
-        [JsonProperty("display_name", NullValueHandling = NullValueHandling.Ignore)]
-        public string? DisplayName { get; set; }
+        [JsonProperty("score", NullValueHandling = NullValueHandling.Ignore)]
+        public decimal? Score { get; set; }
 
-        [JsonProperty("quantity", NullValueHandling = NullValueHandling.Ignore)]
-        public int? Quantity { get; set; }
-    }
+        [JsonProperty("total_possible", NullValueHandling = NullValueHandling.Ignore)]
+        public decimal? TotalPossible { get; set; }
 
-    // ──────────────────────────────────────────────────────────────
-    //  Station Completion
-    // ──────────────────────────────────────────────────────────────
+        [JsonProperty("percentage", NullValueHandling = NullValueHandling.Ignore)]
+        public decimal? Percentage { get; set; }
 
-    /// <summary>
-    /// Request body for <c>POST /api/v1/student/stations/{station_id}/complete</c>.
-    /// </summary>
-    public class StationCompleteRequestDto
-    {
-        [JsonProperty("station_session_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationSessionId { get; set; }
-    }
+        [JsonProperty("passed", NullValueHandling = NullValueHandling.Ignore)]
+        public bool? Passed { get; set; }
 
-    /// <summary>
-    /// Response from <c>POST /api/v1/student/stations/{station_id}/complete</c>.
-    /// </summary>
-    public class StationCompleteResponseDto
-    {
-        [JsonProperty("station_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationId { get; set; }
+        [JsonProperty("completed_at", NullValueHandling = NullValueHandling.Ignore)]
+        public string? CompletedAt { get; set; }
 
-        [JsonProperty("status", NullValueHandling = NullValueHandling.Ignore)]
-        public string? Status { get; set; }
-
-        [JsonProperty("completed", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Completed { get; set; }
-
-        /// <summary>
-        /// True when this completion is an idempotent replay (already completed);
-        /// no double scoring, double rewards, or duplicate progress is applied.
-        /// </summary>
-        [JsonProperty("is_replay", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? IsReplay { get; set; }
-
-        [JsonProperty("score_total", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? ScoreTotal { get; set; }
-
-        /// <summary>Portal completion state for the originating world (e.g. <c>completed</c>).</summary>
-        [JsonProperty("portal_state", NullValueHandling = NullValueHandling.Ignore)]
-        public string? PortalState { get; set; }
-
-        /// <summary>Stations unlocked as a result of this completion.</summary>
-        [JsonProperty("unlocks", NullValueHandling = NullValueHandling.Ignore)]
-        public List<StationUnlockDto>? Unlocks { get; set; }
-
-        /// <summary>Term-completion result, including a subject crystal/badge when earned.</summary>
-        [JsonProperty("term_completion", NullValueHandling = NullValueHandling.Ignore)]
-        public TermCompletionDto? TermCompletion { get; set; }
-
-        [JsonProperty("rewards_granted", NullValueHandling = NullValueHandling.Ignore)]
-        public List<RewardGrantDto>? RewardsGranted { get; set; }
-
-        /// <summary>Provider-confirmed world restoration result applied on completion.</summary>
-        [JsonProperty("world_restoration_result", NullValueHandling = NullValueHandling.Ignore)]
-        public WorldRestorationResultDto? WorldRestorationResult { get; set; }
-
-        [JsonProperty("progress_summary", NullValueHandling = NullValueHandling.Ignore)]
-        public ProgressSummaryDto? ProgressSummary { get; set; }
-
-        [JsonProperty("progress_revision", NullValueHandling = NullValueHandling.Ignore)]
-        public string? ProgressRevision { get; set; }
-
-        [JsonProperty("reward_wallet_revision", NullValueHandling = NullValueHandling.Ignore)]
-        public string? RewardWalletRevision { get; set; }
+        [JsonProperty("answers", NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string, object>? Answers { get; set; }
     }
 
     /// <summary>
-    /// A station unlocked by a completion result.
+    /// Response wrapper for GET /api/v1/student/quiz-results.
     /// </summary>
-    public class StationUnlockDto
+    public class QuizResultListDto
     {
-        [JsonProperty("station_id", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationId { get; set; }
-
-        [JsonProperty("station_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationKey { get; set; }
-
-        [JsonProperty("state", NullValueHandling = NullValueHandling.Ignore)]
-        public string? State { get; set; }
-    }
-
-    /// <summary>
-    /// Term-completion result. When both required term stations are complete the
-    /// provider may award a subject-themed crystal and/or badge.
-    /// </summary>
-    public class TermCompletionDto
-    {
-        [JsonProperty("subject_slug", NullValueHandling = NullValueHandling.Ignore)]
-        public string? SubjectSlug { get; set; }
-
-        [JsonProperty("term_number", NullValueHandling = NullValueHandling.Ignore)]
-        public int? TermNumber { get; set; }
-
-        [JsonProperty("completed", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Completed { get; set; }
-
-        [JsonProperty("crystal", NullValueHandling = NullValueHandling.Ignore)]
-        public RewardGrantDto? Crystal { get; set; }
-
-        [JsonProperty("badge", NullValueHandling = NullValueHandling.Ignore)]
-        public RewardGrantDto? Badge { get; set; }
-    }
-
-    /// <summary>
-    /// Provider-confirmed world restoration result. Only applied after an
-    /// accepted completion — Unity owns the animation, not the state authority.
-    /// </summary>
-    public class WorldRestorationResultDto
-    {
-        [JsonProperty("state_key", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StateKey { get; set; }
-
-        [JsonProperty("restored", NullValueHandling = NullValueHandling.Ignore)]
-        public bool? Restored { get; set; }
+        [JsonProperty("results")]
+        public List<QuizResultDto> Results { get; set; } = new List<QuizResultDto>();
     }
 
     // ──────────────────────────────────────────────────────────────
@@ -1160,14 +626,14 @@ namespace NutriMind.Runtime.App.Dto
         [JsonProperty("subjects", NullValueHandling = NullValueHandling.Ignore)]
         public List<SubjectProgressDto>? Subjects { get; set; }
 
-        [JsonProperty("total_stations_completed", NullValueHandling = NullValueHandling.Ignore)]
-        public int? TotalStationsCompleted { get; set; }
+        [JsonProperty("total_quizzes_completed", NullValueHandling = NullValueHandling.Ignore)]
+        public int? TotalQuizzesCompleted { get; set; }
 
-        [JsonProperty("total_stations_available", NullValueHandling = NullValueHandling.Ignore)]
-        public int? TotalStationsAvailable { get; set; }
+        [JsonProperty("total_quizzes_available", NullValueHandling = NullValueHandling.Ignore)]
+        public int? TotalQuizzesAvailable { get; set; }
 
-        [JsonProperty("started_stations", NullValueHandling = NullValueHandling.Ignore)]
-        public int? StartedStations { get; set; }
+        [JsonProperty("started_quizzes", NullValueHandling = NullValueHandling.Ignore)]
+        public int? StartedQuizzes { get; set; }
 
         [JsonProperty("overall_percentage", NullValueHandling = NullValueHandling.Ignore)]
         public decimal? OverallPercentage { get; set; }
@@ -1193,11 +659,11 @@ namespace NutriMind.Runtime.App.Dto
         [JsonProperty("subject_name", NullValueHandling = NullValueHandling.Ignore)]
         public string? SubjectName { get; set; }
 
-        [JsonProperty("stations_completed", NullValueHandling = NullValueHandling.Ignore)]
-        public int? StationsCompleted { get; set; }
+        [JsonProperty("quizzes_completed", NullValueHandling = NullValueHandling.Ignore)]
+        public int? QuizzesCompleted { get; set; }
 
-        [JsonProperty("stations_available", NullValueHandling = NullValueHandling.Ignore)]
-        public int? StationsAvailable { get; set; }
+        [JsonProperty("quizzes_available", NullValueHandling = NullValueHandling.Ignore)]
+        public int? QuizzesAvailable { get; set; }
 
         [JsonProperty("percentage", NullValueHandling = NullValueHandling.Ignore)]
         public decimal? Percentage { get; set; }
@@ -1220,11 +686,11 @@ namespace NutriMind.Runtime.App.Dto
         [JsonProperty("term_number", NullValueHandling = NullValueHandling.Ignore)]
         public int? TermNumber { get; set; }
 
-        [JsonProperty("stations_completed", NullValueHandling = NullValueHandling.Ignore)]
-        public int? StationsCompleted { get; set; }
+        [JsonProperty("quizzes_completed", NullValueHandling = NullValueHandling.Ignore)]
+        public int? QuizzesCompleted { get; set; }
 
-        [JsonProperty("stations_available", NullValueHandling = NullValueHandling.Ignore)]
-        public int? StationsAvailable { get; set; }
+        [JsonProperty("quizzes_available", NullValueHandling = NullValueHandling.Ignore)]
+        public int? QuizzesAvailable { get; set; }
 
         [JsonProperty("percentage", NullValueHandling = NullValueHandling.Ignore)]
         public decimal? Percentage { get; set; }
@@ -1322,8 +788,8 @@ namespace NutriMind.Runtime.App.Dto
         [JsonProperty("student_settings_revision", NullValueHandling = NullValueHandling.Ignore)]
         public string? StudentSettingsRevision { get; set; }
 
-        [JsonProperty("station_unlock_revision", NullValueHandling = NullValueHandling.Ignore)]
-        public string? StationUnlockRevision { get; set; }
+        [JsonProperty("quiz_revision", NullValueHandling = NullValueHandling.Ignore)]
+        public string? QuizRevision { get; set; }
 
         [JsonProperty("published_content_revision", NullValueHandling = NullValueHandling.Ignore)]
         public string? PublishedContentRevision { get; set; }

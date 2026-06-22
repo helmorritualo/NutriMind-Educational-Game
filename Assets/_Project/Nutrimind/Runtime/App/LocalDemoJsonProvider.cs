@@ -32,22 +32,19 @@ namespace NutriMind.Runtime.App
         private readonly DataProviderError _loadError;   // non-null when fixture unavailable
 
         // ── Static topology derived from the immutable fixture ──
-        private readonly Dictionary<string, (string Slug, int Term)> _stationScope = new();
-        private readonly Dictionary<string, List<string>> _termStations = new();   // "slug:term" -> station ids (ordered)
-        private readonly Dictionary<string, List<string>> _subjectStations = new(); // slug -> station ids
-        private readonly Dictionary<string, List<string>> _stationChallenges = new(); // station id -> challenge ids
-        private readonly Dictionary<string, string> _challengeStation = new();      // challenge id -> station id
+        private readonly Dictionary<string, (string Slug, int Term)> _quizScope = new();
+        private readonly Dictionary<string, List<string>> _termQuizzes = new();   // "slug:term" -> quiz ids (ordered)
+        private readonly Dictionary<string, List<string>> _subjectQuizzes = new(); // slug -> quiz ids
 
         // ── Mutable, resettable live session state ──
         private bool _authenticated;
         private SettingsDto _settings;
         private RewardWalletDto _wallet;
-        private readonly HashSet<string> _startedStations = new();
-        private readonly HashSet<string> _completedStations = new();
-        private readonly HashSet<string> _completedChallenges = new();
-        private readonly Dictionary<string, string> _stationStates = new();         // station id -> live state
-        private readonly Dictionary<string, AttemptResponseDto> _attemptsByUuid = new();
-        private readonly Dictionary<string, StationCompleteResponseDto> _completionByStation = new();
+        private readonly HashSet<string> _startedQuizzes = new();
+        private readonly HashSet<string> _completedQuizzes = new();
+        private readonly Dictionary<string, string> _quizStates = new();         // quiz id -> live state
+        private readonly Dictionary<string, QuizAttemptResponseDto> _attemptsByUuid = new();
+        private readonly Dictionary<string, QuizResultDto> _quizResultByAttemptId = new();
         private int _progressRev = 1, _settingsRev = 1, _unlockRev = 1, _walletRev = 1;
         private const string ContentRevision = "content-rev-1";
 
@@ -125,56 +122,40 @@ namespace NutriMind.Runtime.App
             _authenticated = false;
             _settings = Clone(_fixture.Responses?.Settings) ?? new SettingsDto();
             _wallet = Clone(_fixture.Responses?.Rewards) ?? new RewardWalletDto { Rewards = new List<RewardBalanceDto>() };
-            _startedStations.Clear();
-            _completedStations.Clear();
-            _completedChallenges.Clear();
+            _startedQuizzes.Clear();
+            _completedQuizzes.Clear();
             _attemptsByUuid.Clear();
-            _completionByStation.Clear();
+            _quizResultByAttemptId.Clear();
             _progressRev = _settingsRev = _unlockRev = _walletRev = 1;
 
-            _stationStates.Clear();
-            if (_fixture.StationsByScope != null)
+            _quizStates.Clear();
+            if (_fixture.QuizzesByScope != null)
             {
-                foreach (var list in _fixture.StationsByScope.Values)
+                foreach (var list in _fixture.QuizzesByScope.Values)
                 {
-                    if (list?.Stations == null) continue;
-                    foreach (var s in list.Stations)
+                    if (list?.Quizzes == null) continue;
+                    foreach (var s in list.Quizzes)
                         if (!string.IsNullOrEmpty(s?.Id))
-                            _stationStates[s.Id] = s.State ?? "locked";
+                            _quizStates[s.Id] = s.State ?? "locked";
                 }
             }
         }
 
         private void BuildTopology()
         {
-            if (_fixture.StationsByScope != null)
+            if (_fixture.QuizzesByScope != null)
             {
-                foreach (var list in _fixture.StationsByScope.Values)
+                foreach (var list in _fixture.QuizzesByScope.Values)
                 {
-                    if (list?.Stations == null) continue;
-                    foreach (var s in list.Stations)
+                    if (list?.Quizzes == null) continue;
+                    foreach (var s in list.Quizzes)
                     {
                         if (string.IsNullOrEmpty(s?.Id)) continue;
                         string slug = s.SubjectSlug ?? list.SubjectSlug ?? "";
                         int term = s.TermNumber ?? list.TermNumber ?? 0;
-                        _stationScope[s.Id] = (slug, term);
-                        Append(_termStations, $"{slug}:{term}", s.Id);
-                        Append(_subjectStations, slug, s.Id);
-                    }
-                }
-            }
-
-            if (_fixture.StationContentById != null)
-            {
-                foreach (var kvp in _fixture.StationContentById)
-                {
-                    var content = kvp.Value;
-                    if (content?.Challenges == null) continue;
-                    foreach (var c in content.Challenges)
-                    {
-                        if (string.IsNullOrEmpty(c?.ChallengeId)) continue;
-                        Append(_stationChallenges, kvp.Key, c.ChallengeId);
-                        _challengeStation[c.ChallengeId] = kvp.Key;
+                        _quizScope[s.Id] = (slug, term);
+                        Append(_termQuizzes, $"{slug}:{term}", s.Id);
+                        Append(_subjectQuizzes, slug, s.Id);
                     }
                 }
             }
@@ -283,7 +264,7 @@ namespace NutriMind.Runtime.App
         }
 
         // ──────────────────────────────────────────────────────────────
-        //  Subjects, Terms, Stations
+        //  Subjects, Terms, Quizzes
         // ──────────────────────────────────────────────────────────────
 
         public Task<DataResult<List<SubjectDto>>> GetSubjectsAsync(CancellationToken ct = default)
@@ -304,221 +285,156 @@ namespace NutriMind.Runtime.App
             return Fail<List<TermDto>>(new DataProviderError("NOT_FOUND", "That subject could not be found.") { Action = "return_to_menu" });
         }
 
-        public Task<DataResult<StationListDto>> GetStationsAsync(string subjectSlug, int termNumber, CancellationToken ct = default)
+        public Task<DataResult<QuizListDto>> GetQuizzesAsync(string subjectSlug, int termNumber, CancellationToken ct = default)
         {
-            if (!TryAuth<StationListDto>(out var fail)) return fail;
+            if (!TryAuth<QuizListDto>(out var fail)) return fail;
             if (string.IsNullOrWhiteSpace(subjectSlug))
-                return Fail<StationListDto>(new DataProviderError("VALIDATION_ERROR", "Subject slug is required.") { Action = "retry" });
+                return Fail<QuizListDto>(new DataProviderError("VALIDATION_ERROR", "Subject slug is required.") { Action = "retry" });
 
             string key = $"{subjectSlug}:{termNumber}";
-            // Stations scope keys are stored as "slug:grade:term"; match on slug+term.
-            string scopeKey = _fixture.StationsByScope?.Keys
+            string scopeKey = _fixture.QuizzesByScope?.Keys
                 .FirstOrDefault(k => k.StartsWith(subjectSlug + ":", StringComparison.Ordinal)
                                   && k.EndsWith(":" + termNumber, StringComparison.Ordinal));
 
-            if (scopeKey == null || _fixture.StationsByScope == null
-                || !_fixture.StationsByScope.TryGetValue(scopeKey, out var list))
+            if (scopeKey == null || _fixture.QuizzesByScope == null
+                || !_fixture.QuizzesByScope.TryGetValue(scopeKey, out var list))
             {
-                return Fail<StationListDto>(new DataProviderError("NOT_FOUND", "That world could not be found.") { Action = "return_to_menu" });
+                return Fail<QuizListDto>(new DataProviderError("NOT_FOUND", "That world could not be found.") { Action = "return_to_menu" });
             }
 
-            var clone = Clone(list) ?? new StationListDto();
-            // Overlay live station states (unlocks/completions) onto the response.
-            if (clone.Stations != null)
+            var clone = Clone(list) ?? new QuizListDto();
+            if (clone.Quizzes != null)
             {
-                foreach (var s in clone.Stations)
+                foreach (var q in clone.Quizzes)
                 {
-                    if (s?.Id == null) continue;
-                    if (_stationStates.TryGetValue(s.Id, out var live)) s.State = live;
-                    if (_completedStations.Contains(s.Id)) { s.State = "completed"; s.ProgressPercent = 100m; }
+                    if (q?.Id == null) continue;
+                    if (_quizStates.TryGetValue(q.Id, out var live)) q.State = live;
+                    if (_completedQuizzes.Contains(q.Id)) { q.State = "completed"; q.ProgressPercent = 100m; }
                 }
             }
-            return Task.FromResult(DataResult<StationListDto>.Ok(clone));
+            return Task.FromResult(DataResult<QuizListDto>.Ok(clone));
         }
 
         // ──────────────────────────────────────────────────────────────
-        //  Station Content & Session
+        //  Quiz Detail & Attempts (Laravel quiz_first_laravel_1 REST)
         // ──────────────────────────────────────────────────────────────
 
-        public Task<DataResult<StationContentDto>> GetStationContentAsync(string stationId, CancellationToken ct = default)
+        public Task<DataResult<QuizDetailDto>> GetQuizDetailAsync(string quizId, CancellationToken ct = default)
         {
-            if (!TryAuth<StationContentDto>(out var fail)) return fail;
-            if (string.IsNullOrWhiteSpace(stationId))
-                return Fail<StationContentDto>(new DataProviderError("VALIDATION_ERROR", "Station ID is required.") { Action = "retry" });
+            if (!TryAuth<QuizDetailDto>(out var fail)) return fail;
+            if (string.IsNullOrWhiteSpace(quizId))
+                return Fail<QuizDetailDto>(new DataProviderError("VALIDATION_ERROR", "Quiz ID is required.") { Action = "retry" });
 
-            if (_fixture.StationContentById != null && _fixture.StationContentById.TryGetValue(stationId, out var content))
-                return Task.FromResult(DataResult<StationContentDto>.Ok(Clone(content)));
-
-            return Fail<StationContentDto>(new DataProviderError("CONTENT_NOT_PUBLISHED", "This activity isn't ready yet.") { Action = "return_to_menu" });
-        }
-
-        public Task<DataResult<StationStartResponseDto>> StartStationAsync(string stationId, StationStartRequestDto request = null, CancellationToken ct = default)
-        {
-            if (!TryAuth<StationStartResponseDto>(out var fail)) return fail;
-            if (string.IsNullOrWhiteSpace(stationId))
-                return Fail<StationStartResponseDto>(new DataProviderError("VALIDATION_ERROR", "Station ID is required.") { Action = "retry" });
-
-            if (_fixture.StationStartById == null || !_fixture.StationStartById.TryGetValue(stationId, out var start))
-                return Fail<StationStartResponseDto>(new DataProviderError("NOT_FOUND", "That activity could not be found.") { Action = "return_to_menu" });
-
-            string state = _stationStates.TryGetValue(stationId, out var st) ? st : "locked";
-            if (state == "locked")
-                return Fail<StationStartResponseDto>(new DataProviderError("STATION_LOCKED", "This station is still locked. Finish the earlier station first.") { Action = "return_to_menu", Retryable = false });
-
-            bool resuming = _startedStations.Contains(stationId);
-            _startedStations.Add(stationId);
-            if (!_completedStations.Contains(stationId) && state == "unlocked")
-                _stationStates[stationId] = "started";
-
-            var clone = Clone(start) ?? new StationStartResponseDto { StationId = stationId };
-            clone.Resuming = resuming;
-            clone.Status = _completedStations.Contains(stationId) ? "completed" : "in_progress";
-            clone.ChallengeProgress = BuildChallengeProgress(stationId);
-            return Task.FromResult(DataResult<StationStartResponseDto>.Ok(clone));
-        }
-
-        // ──────────────────────────────────────────────────────────────
-        //  Attempts
-        // ──────────────────────────────────────────────────────────────
-
-        public Task<DataResult<AttemptResponseDto>> SubmitAttemptAsync(string challengeId, AttemptRequestDto request, CancellationToken ct = default)
-        {
-            if (!TryAuth<AttemptResponseDto>(out var fail)) return fail;
-            if (string.IsNullOrWhiteSpace(challengeId) || request == null)
-                return Fail<AttemptResponseDto>(new DataProviderError("VALIDATION_ERROR", "A challenge attempt requires a challenge and an answer.") { Action = "retry" });
-
-            // Idempotent replay: a previously processed client_attempt_uuid returns
-            // the SAME result with is_replay=true — no double scoring or rewards.
-            string uuid = request.ClientAttemptUuid;
-            if (!string.IsNullOrEmpty(uuid) && _attemptsByUuid.TryGetValue(uuid, out var prior))
+            if (_fixture.QuizDetailById != null && _fixture.QuizDetailById.TryGetValue(quizId, out var content))
             {
-                var replay = Clone(prior);
-                replay.IsReplay = true;
-                return Task.FromResult(DataResult<AttemptResponseDto>.Ok(replay));
+                var clone = Clone(content);
+                if (_completedQuizzes.Contains(quizId)) { clone.State = "completed"; clone.ProgressPercent = 100m; }
+                else if (_quizStates.TryGetValue(quizId, out var live)) { clone.State = live; }
+                return Task.FromResult(DataResult<QuizDetailDto>.Ok(clone));
             }
 
-            if (_fixture.AttemptResultByChallengeId == null || !_fixture.AttemptResultByChallengeId.TryGetValue(challengeId, out var attemptFixture))
-                return Fail<AttemptResponseDto>(new DataProviderError("NOT_FOUND", "That challenge could not be found.") { Action = "return_to_menu" });
+            return Fail<QuizDetailDto>(new DataProviderError("CONTENT_NOT_PUBLISHED", "This quiz content isn't ready yet.") { Action = "return_to_menu" });
+        }
 
-            string stationId = _challengeStation.TryGetValue(challengeId, out var sid) ? sid : null;
-            bool alreadyCorrect = _completedChallenges.Contains(challengeId);
-            bool correct = alreadyCorrect || EvaluateAnswer(challengeId, request.Answer);
+        public Task<DataResult<QuizAttemptResponseDto>> SubmitQuizAttemptAsync(string quizId, QuizAttemptRequestDto request, CancellationToken ct = default)
+        {
+            if (!TryAuth<QuizAttemptResponseDto>(out var fail)) return fail;
+            if (string.IsNullOrWhiteSpace(quizId) || request == null)
+                return Fail<QuizAttemptResponseDto>(new DataProviderError("VALIDATION_ERROR", "A quiz attempt requires a quiz and answer sheet.") { Action = "retry" });
 
-            AttemptResponseDto response;
-            if (correct)
+            string uuid = request.ClientAttemptUuid;
+
+            // Check for duplicate client_attempt_uuid replay.
+            if (!string.IsNullOrEmpty(uuid) && _attemptsByUuid.TryGetValue(uuid, out var prior))
             {
-                response = Clone(attemptFixture.ResponseTemplate) ?? new AttemptResponseDto();
-                response.ChallengeId = challengeId;
-                response.Status = "accepted";
-                response.Accepted = true;
-                response.Correct = true;
-                response.IsReplay = false;
-
-                bool firstTime = !alreadyCorrect;
-                if (firstTime)
+                // Idempotent reply: if the answers match the prior attempt, replay the exact response with is_replay = true.
+                // If the answers do NOT match, return a duplicate client_attempt_uuid conflict.
+                bool matchesPriorAnswers = MatchAnswers(prior.QuizId, prior.AttemptId, request.Answers);
+                if (matchesPriorAnswers)
                 {
-                    _completedChallenges.Add(challengeId);
-                    GrantRewards(response.RewardsGranted);   // grant coins once
-                    _progressRev++;
-                    response.ProgressUpdated = true;
+                    var replay = Clone(prior);
+                    replay.IsReplay = true;
+                    return Task.FromResult(DataResult<QuizAttemptResponseDto>.Ok(replay));
                 }
                 else
                 {
-                    response.RewardsGranted = new List<RewardGrantDto>();
-                    response.ProgressUpdated = false;
-                    response.ScoreAwarded = 0m;
+                    return Fail<QuizAttemptResponseDto>(new DataProviderError("CONFLICT", "An attempt with this UUID already exists but contains different answers.") { Action = "retry", Retryable = false });
                 }
             }
-            else
-            {
-                // Safe mistake: encouraging, tiered hint; no penalty, world progress preserved.
-                response = new AttemptResponseDto
-                {
-                    ChallengeId = challengeId,
-                    Status = "rejected",
-                    Accepted = true,     // the attempt was accepted/recorded
-                    Correct = false,
-                    IsReplay = false,
-                    ScoreAwarded = 0m,
-                    ProgressUpdated = false,
-                    Feedback = Clone(attemptFixture.SafeMistake) ?? new AttemptFeedbackDto { IsCorrect = false, RetryAllowed = true },
-                    RewardsGranted = new List<RewardGrantDto>()
-                };
-            }
 
-            response.AttemptId = string.IsNullOrEmpty(response.AttemptId) ? $"attempt-{Guid.NewGuid():N}" : response.AttemptId;
-            response.ClientAttemptUuid = uuid;
-            response.Progress = BuildAttemptProgress(stationId);
+            if (_fixture.AttemptResultByQuizId == null || !_fixture.AttemptResultByQuizId.TryGetValue(quizId, out var attemptFixture))
+                return Fail<QuizAttemptResponseDto>(new DataProviderError("NOT_FOUND", "That quiz could not be found.") { Action = "return_to_menu" });
+
+            var responseTemplate = Clone(attemptFixture.ResponseTemplate) ?? new QuizAttemptResponseDto();
+
+            // Evaluate answers.
+            bool correct = EvaluateQuizAnswers(quizId, request.Answers, out var feedbackMap, out decimal score, out decimal totalPossible);
+
+            var response = new QuizAttemptResponseDto
+            {
+                AttemptId = string.IsNullOrEmpty(responseTemplate.AttemptId) ? $"attempt-{Guid.NewGuid():N}" : responseTemplate.AttemptId,
+                QuizId = quizId,
+                Status = "completed",
+                Score = score,
+                TotalPossible = totalPossible,
+                Percentage = totalPossible == 0 ? 100m : Math.Round(score / totalPossible * 100m, 1),
+                Passed = totalPossible == 0 || (score / totalPossible >= 0.75m), // standard 75% pass mark
+                IsReplay = false,
+                AnswersFeedback = feedbackMap,
+                ProgressUpdated = true
+            };
+
             response.ProgressRevision = $"progress-rev-{_progressRev}";
-            response.RewardWalletRevision = $"wallet-rev-{_walletRev}";
+
+            _startedQuizzes.Add(quizId);
+            if (response.Passed == true)
+            {
+                _completedQuizzes.Add(quizId);
+                _quizStates[quizId] = "completed";
+                _progressRev++;
+                ComputeQuizUnlocks(quizId);
+            }
 
             if (!string.IsNullOrEmpty(uuid))
-                _attemptsByUuid[uuid] = Clone(response);   // store canonical (non-replay) result
-
-            return Task.FromResult(DataResult<AttemptResponseDto>.Ok(response));
-        }
-
-        // ──────────────────────────────────────────────────────────────
-        //  Station Completion
-        // ──────────────────────────────────────────────────────────────
-
-        public Task<DataResult<StationCompleteResponseDto>> CompleteStationAsync(string stationId, StationCompleteRequestDto request = null, CancellationToken ct = default)
-        {
-            if (!TryAuth<StationCompleteResponseDto>(out var fail)) return fail;
-            if (string.IsNullOrWhiteSpace(stationId))
-                return Fail<StationCompleteResponseDto>(new DataProviderError("VALIDATION_ERROR", "Station ID is required.") { Action = "retry" });
-
-            // Idempotent replay: re-completing a finished station returns the SAME
-            // result with is_replay=true — no double rewards, crystals, or unlocks.
-            if (_completionByStation.TryGetValue(stationId, out var prior))
             {
-                var replay = Clone(prior);
-                replay.IsReplay = true;
-                replay.ProgressSummary = BuildProgressSummary();
-                return Task.FromResult(DataResult<StationCompleteResponseDto>.Ok(replay));
+                response.ClientAttemptUuid = uuid;
+                _attemptsByUuid[uuid] = Clone(response);
             }
 
-            if (_fixture.CompletionResultByStationId == null || !_fixture.CompletionResultByStationId.TryGetValue(stationId, out var template))
-                return Fail<StationCompleteResponseDto>(new DataProviderError("NOT_FOUND", "That activity could not be found.") { Action = "return_to_menu" });
+            // Also record the attempt result so it can be retrieved by id
+            var resultRecord = new QuizResultDto
+            {
+                AttemptId = response.AttemptId,
+                QuizId = quizId,
+                Score = response.Score,
+                TotalPossible = response.TotalPossible,
+                Percentage = response.Percentage,
+                Passed = response.Passed,
+                CompletedAt = DateTime.UtcNow.ToString("o"),
+                Answers = request.Answers
+            };
+            _quizResultByAttemptId[response.AttemptId] = resultRecord;
 
-            // Require all required challenges complete before finalizing.
-            var challenges = _stationChallenges.TryGetValue(stationId, out var chs) ? chs : new List<string>();
-            int required = challenges.Count;
-            int done = challenges.Count(c => _completedChallenges.Contains(c));
-            if (required > 0 && done < required)
-                return Fail<StationCompleteResponseDto>(new DataProviderError("VALIDATION_ERROR", "Finish all the challenges before completing this station.") { Action = "retry", Retryable = false });
+            return Task.FromResult(DataResult<QuizAttemptResponseDto>.Ok(response));
+        }
 
-            var response = Clone(template) ?? new StationCompleteResponseDto { StationId = stationId };
-            response.StationId = stationId;
-            response.Status = "completed";
-            response.Completed = true;
-            response.IsReplay = false;
+        public Task<DataResult<QuizResultListDto>> GetQuizResultsAsync(CancellationToken ct = default)
+        {
+            if (!TryAuth<QuizResultListDto>(out var fail)) return fail;
+            var list = new QuizResultListDto { Results = _quizResultByAttemptId.Values.ToList() };
+            return Task.FromResult(DataResult<QuizResultListDto>.Ok(list));
+        }
 
-            // Apply completion once.
-            _completedStations.Add(stationId);
-            _stationStates[stationId] = "completed";
-            GrantRewards(response.RewardsGranted);   // completion coins
-            _wallet.TotalStars = (_wallet.TotalStars ?? 0) + 1;
-            _walletRev++;
-            _progressRev++;
+        public Task<DataResult<QuizResultDto>> GetQuizResultAsync(string attemptId, CancellationToken ct = default)
+        {
+            if (!TryAuth<QuizResultDto>(out var fail)) return fail;
+            if (string.IsNullOrWhiteSpace(attemptId))
+                return Fail<QuizResultDto>(new DataProviderError("VALIDATION_ERROR", "Attempt ID is required.") { Action = "retry" });
 
-            // Compute unlocks.
-            response.Unlocks = ComputeUnlocks(stationId);
-            if (response.Unlocks.Count > 0) _unlockRev++;
+            if (_quizResultByAttemptId.TryGetValue(attemptId, out var result))
+                return Task.FromResult(DataResult<QuizResultDto>.Ok(Clone(result)));
 
-            // Term completion + subject crystal (granted once when both term stations done).
-            response.TermCompletion = ComputeTermCompletion(stationId);
-
-            // World restoration applies only after this accepted completion.
-            if (response.WorldRestorationResult != null)
-                response.WorldRestorationResult.Restored = true;
-
-            response.ProgressSummary = BuildProgressSummary();
-            response.ProgressRevision = $"progress-rev-{_progressRev}";
-            response.RewardWalletRevision = $"wallet-rev-{_walletRev}";
-
-            _completionByStation[stationId] = Clone(response);
-            return Task.FromResult(DataResult<StationCompleteResponseDto>.Ok(response));
+            return Fail<QuizResultDto>(new DataProviderError("NOT_FOUND", "That quiz result could not be found.") { Action = "return_to_menu" });
         }
 
         // ──────────────────────────────────────────────────────────────
@@ -535,35 +451,6 @@ namespace NutriMind.Runtime.App
         {
             if (!TryAuth<RewardWalletDto>(out var fail)) return fail;
             return Task.FromResult(DataResult<RewardWalletDto>.Ok(BuildWallet()));
-        }
-
-        public Task<DataResult<UseRewardResponseDto>> UseRewardAsync(string rewardCode, UseRewardRequestDto request, CancellationToken ct = default)
-        {
-            if (!TryAuth<UseRewardResponseDto>(out var fail)) return fail;
-            if (string.IsNullOrWhiteSpace(rewardCode))
-                return Fail<UseRewardResponseDto>(new DataProviderError("VALIDATION_ERROR", "A reward code is required.") { Action = "retry" });
-
-            var entry = _wallet.Rewards?.FirstOrDefault(r => r.RewardCode == rewardCode);
-            int qty = request?.Quantity ?? 1;
-            if (qty < 1) qty = 1;
-
-            if (entry == null || entry.IsUsable != true || (entry.Quantity ?? 0) < qty)
-            {
-                return Fail<UseRewardResponseDto>(new DataProviderError("VALIDATION_ERROR",
-                    "You don't have enough of that reward to use right now.") { Action = "return_to_menu", Retryable = false });
-            }
-
-            entry.Quantity -= qty;
-            if (entry.RewardType == "coin") _wallet.TotalCoins = entry.Quantity;
-            _walletRev++;
-            _wallet.Revision = $"wallet-rev-{_walletRev}";
-
-            return Task.FromResult(DataResult<UseRewardResponseDto>.Ok(new UseRewardResponseDto
-            {
-                RewardCode = rewardCode,
-                RemainingQuantity = entry.Quantity,
-                Effect = entry.RewardCode == "hint_token" ? "hint_revealed" : "reward_used"
-            }));
         }
 
         // ──────────────────────────────────────────────────────────────
@@ -604,21 +491,89 @@ namespace NutriMind.Runtime.App
         private static Task<DataResult<T>> Fail<T>(DataProviderError error)
             => Task.FromResult(DataResult<T>.Fail(error));
 
-        private bool EvaluateAnswer(string challengeId, object answer)
+        private bool MatchAnswers(string quizId, string attemptId, Dictionary<string, object> incoming)
         {
-            if (_fixture.DemoOnlyEvaluation == null || !_fixture.DemoOnlyEvaluation.TryGetValue(challengeId, out var eval))
-                return false;
-            JToken expected = eval is JObject obj ? obj["expected_answer"] : eval;
-            if (expected == null) return false;
-            JToken actual = answer == null ? JValue.CreateNull() : JToken.FromObject(answer);
-            // Unwrap a common {"answer": X} / {"selected_option": X} envelope.
-            if (actual is JObject ao)
+            if (attemptId != null && _quizResultByAttemptId.TryGetValue(attemptId, out var priorResult))
             {
-                if (ao["expected_answer"] != null) actual = ao["expected_answer"];
-                else if (ao["answer"] != null) actual = ao["answer"];
-                else if (ao["selected_option"] != null) actual = ao["selected_option"];
+                if (priorResult.Answers == null || incoming == null) return priorResult.Answers == incoming;
+                if (priorResult.Answers.Count != incoming.Count) return false;
+                foreach (var kvp in priorResult.Answers)
+                {
+                    if (!incoming.TryGetValue(kvp.Key, out var value)) return false;
+                    JToken expected = kvp.Value == null ? JValue.CreateNull() : JToken.FromObject(kvp.Value);
+                    JToken actual = value == null ? JValue.CreateNull() : JToken.FromObject(value);
+                    if (!DeepMatch(expected, actual)) return false;
+                }
+                return true;
             }
-            return DeepMatch(expected, actual);
+            return false;
+        }
+
+        private bool EvaluateQuizAnswers(string quizId, Dictionary<string, object> answers, out Dictionary<string, QuizItemFeedbackDto> feedbackMap, out decimal score, out decimal totalPossible)
+        {
+            feedbackMap = new Dictionary<string, QuizItemFeedbackDto>();
+            score = 0m;
+            totalPossible = 0m;
+
+            if (_fixture.QuizDetailById == null || !_fixture.QuizDetailById.TryGetValue(quizId, out var detail))
+                return false;
+
+            if (detail.Items == null) return true;
+
+            totalPossible = detail.Items.Count;
+            bool allCorrect = true;
+
+            foreach (var item in detail.Items)
+            {
+                if (string.IsNullOrEmpty(item.Id)) continue;
+
+                bool correct = false;
+                object answerObj = null;
+                if (answers != null) answers.TryGetValue(item.Id, out answerObj);
+
+                if (_fixture.DemoOnlyEvaluation != null && _fixture.DemoOnlyEvaluation.TryGetValue(item.Id, out var expectedVal))
+                {
+                    JToken expected = expectedVal is JObject obj && obj["expected_answer"] != null ? obj["expected_answer"] : expectedVal;
+                    JToken actual = answerObj == null ? JValue.CreateNull() : JToken.FromObject(answerObj);
+                    if (actual is JObject ao)
+                    {
+                        if (ao["expected_answer"] != null) actual = ao["expected_answer"];
+                        else if (ao["answer"] != null) actual = ao["answer"];
+                        else if (ao["selected_option"] != null) actual = ao["selected_option"];
+                    }
+                    correct = DeepMatch(expected, actual);
+                }
+                else
+                {
+                    // Fallback if no evaluation defined (e.g., matching options, default correct is true for placeholder)
+                    correct = answerObj != null;
+                }
+
+                if (correct)
+                {
+                    score += 1m;
+                }
+                else
+                {
+                    allCorrect = false;
+                }
+
+                // Build feedback (use safe mistakes from the fixture if available)
+                var fb = new QuizItemFeedbackDto { IsCorrect = correct };
+                if (_fixture.AttemptResultByQuizId != null && _fixture.AttemptResultByQuizId.TryGetValue(quizId, out var attemptFixture))
+                {
+                    if (attemptFixture.SafeMistakes != null && attemptFixture.SafeMistakes.TryGetValue(item.Id, out var itemFb))
+                    {
+                        fb.Message = itemFb.Message;
+                        fb.Explanation = itemFb.Explanation;
+                        fb.HintText = itemFb.HintText;
+                    }
+                }
+
+                feedbackMap[item.Id] = fb;
+            }
+
+            return allCorrect;
         }
 
         private static bool DeepMatch(JToken expected, JToken actual)
@@ -647,110 +602,36 @@ namespace NutriMind.Runtime.App
 
         private static string Scalar(JToken t) => t == null || t.Type == JTokenType.Null ? string.Empty : t.ToString().Trim();
 
-        private void GrantRewards(List<RewardGrantDto> grants)
+        private void ComputeQuizUnlocks(string quizId)
         {
-            if (grants == null || _wallet.Rewards == null) return;
-            bool changed = false;
-            foreach (var g in grants)
+            if (!_quizScope.TryGetValue(quizId, out var scope)) return;
+
+            // Unlock remaining quizzes in this term.
+            if (_termQuizzes.TryGetValue($"{scope.Slug}:{scope.Term}", out var termQuizzes))
             {
-                if (string.IsNullOrEmpty(g?.RewardCode)) continue;
-                var entry = _wallet.Rewards.FirstOrDefault(r => r.RewardCode == g.RewardCode);
-                int add = g.Quantity ?? 0;
-                if (entry == null)
+                foreach (var qid in termQuizzes)
                 {
-                    entry = new RewardBalanceDto
+                    if (qid == quizId || _completedQuizzes.Contains(qid)) continue;
+                    if (_quizStates.TryGetValue(qid, out var s) && s == "locked")
                     {
-                        RewardCode = g.RewardCode,
-                        RewardType = g.RewardType,
-                        DisplayName = g.DisplayName,
-                        Quantity = add,
-                        IsUsable = g.RewardType == "coin" ? false : true
-                    };
-                    _wallet.Rewards.Add(entry);
-                }
-                else entry.Quantity = (entry.Quantity ?? 0) + add;
-
-                if (g.RewardType == "coin") _wallet.TotalCoins = (_wallet.TotalCoins ?? 0) + add;
-                changed = true;
-            }
-            if (changed) { _walletRev++; _wallet.Revision = $"wallet-rev-{_walletRev}"; }
-        }
-
-        private List<StationUnlockDto> ComputeUnlocks(string stationId)
-        {
-            var unlocks = new List<StationUnlockDto>();
-            if (!_stationScope.TryGetValue(stationId, out var scope)) return unlocks;
-
-            // Unlock remaining stations in this term.
-            if (_termStations.TryGetValue($"{scope.Slug}:{scope.Term}", out var termStations))
-            {
-                foreach (var sid in termStations)
-                {
-                    if (sid == stationId || _completedStations.Contains(sid)) continue;
-                    if (_stationStates.TryGetValue(sid, out var s) && s == "locked")
-                    {
-                        _stationStates[sid] = "unlocked";
-                        unlocks.Add(new StationUnlockDto { StationId = sid, State = "unlocked" });
+                        _quizStates[qid] = "unlocked";
+                        _unlockRev++;
                     }
                 }
             }
 
-            // If the term is now complete, unlock the first station of the next term.
-            bool termComplete = _termStations.TryGetValue($"{scope.Slug}:{scope.Term}", out var ts)
-                                && ts.All(_completedStations.Contains);
-            if (termComplete && _termStations.TryGetValue($"{scope.Slug}:{scope.Term + 1}", out var next) && next.Count > 0)
+            // If all quizzes of this term are complete, unlock the first quiz of the next term.
+            bool termComplete = _termQuizzes.TryGetValue($"{scope.Slug}:{scope.Term}", out var ts)
+                                && ts.All(_completedQuizzes.Contains);
+            if (termComplete && _termQuizzes.TryGetValue($"{scope.Slug}:{scope.Term + 1}", out var next) && next.Count > 0)
             {
                 string first = next[0];
-                if (_stationStates.TryGetValue(first, out var s2) && s2 == "locked")
+                if (_quizStates.TryGetValue(first, out var s2) && s2 == "locked")
                 {
-                    _stationStates[first] = "unlocked";
-                    unlocks.Add(new StationUnlockDto { StationId = first, State = "unlocked" });
+                    _quizStates[first] = "unlocked";
+                    _unlockRev++;
                 }
             }
-            return unlocks;
-        }
-
-        private TermCompletionDto ComputeTermCompletion(string stationId)
-        {
-            if (!_stationScope.TryGetValue(stationId, out var scope)) return null;
-            if (!_termStations.TryGetValue($"{scope.Slug}:{scope.Term}", out var termStations)) return null;
-
-            bool complete = termStations.All(_completedStations.Contains);
-            var tc = new TermCompletionDto { SubjectSlug = scope.Slug, TermNumber = scope.Term, Completed = complete };
-            if (complete)
-            {
-                var crystal = new RewardGrantDto
-                {
-                    RewardCode = $"crystal_{scope.Slug}",
-                    RewardType = "crystal",
-                    DisplayName = $"{Capitalize(scope.Slug)} Crystal",
-                    Quantity = 1
-                };
-                tc.Crystal = crystal;
-                GrantRewards(new List<RewardGrantDto> { crystal });   // grant once (completion is idempotent)
-            }
-            return tc;
-        }
-
-        private Dictionary<string, object> BuildChallengeProgress(string stationId)
-        {
-            var map = new Dictionary<string, object>();
-            if (_stationChallenges.TryGetValue(stationId, out var chs))
-                foreach (var c in chs) map[c] = _completedChallenges.Contains(c) ? "completed" : "pending";
-            return map;
-        }
-
-        private AttemptProgressDto BuildAttemptProgress(string stationId)
-        {
-            if (stationId == null || !_stationChallenges.TryGetValue(stationId, out var chs) || chs.Count == 0)
-                return new AttemptProgressDto { CompletedChallenges = 0, RequiredChallenges = 0, StationProgressPercent = 0m };
-            int done = chs.Count(c => _completedChallenges.Contains(c));
-            return new AttemptProgressDto
-            {
-                CompletedChallenges = done,
-                RequiredChallenges = chs.Count,
-                StationProgressPercent = Math.Round((decimal)done / chs.Count * 100m, 1)
-            };
         }
 
         private RewardWalletDto BuildWallet()
@@ -765,7 +646,7 @@ namespace NutriMind.Runtime.App
             var baseSync = Clone(_fixture.Responses?.SyncStatus) ?? new SyncStatusDto();
             baseSync.StudentProgressRevision = $"progress-rev-{_progressRev}";
             baseSync.StudentSettingsRevision = $"settings-rev-{_settingsRev}";
-            baseSync.StationUnlockRevision = $"unlock-rev-{_unlockRev}";
+            baseSync.QuizRevision = $"unlock-rev-{_unlockRev}";
             baseSync.PublishedContentRevision = ContentRevision;
             baseSync.RewardWalletRevision = $"wallet-rev-{_walletRev}";
             return baseSync;
@@ -774,12 +655,12 @@ namespace NutriMind.Runtime.App
         private ProgressSummaryDto BuildProgressSummary()
         {
             var summary = Clone(_fixture.Responses?.ProgressSummary) ?? new ProgressSummaryDto();
-            int totalAvailable = _subjectStations.Values.Sum(v => v.Count);
-            int totalCompleted = _completedStations.Count;
+            int totalAvailable = _subjectQuizzes.Values.Sum(v => v.Count);
+            int totalCompleted = _completedQuizzes.Count;
 
-            summary.TotalStationsAvailable = totalAvailable;
-            summary.TotalStationsCompleted = totalCompleted;
-            summary.StartedStations = _startedStations.Count;
+            summary.TotalQuizzesAvailable = totalAvailable;
+            summary.TotalQuizzesCompleted = totalCompleted;
+            summary.StartedQuizzes = _startedQuizzes.Count;
             summary.OverallPercentage = totalAvailable == 0 ? 0m : Math.Round((decimal)totalCompleted / totalAvailable * 100m, 1);
             summary.Stars = _wallet.TotalStars ?? 0;
             summary.Coins = _wallet.TotalCoins ?? 0;
@@ -790,11 +671,11 @@ namespace NutriMind.Runtime.App
                 foreach (var sp in summary.Subjects)
                 {
                     string slug = sp.SubjectSlug ?? "";
-                    var stations = _subjectStations.TryGetValue(slug, out var list) ? list : new List<string>();
-                    int avail = stations.Count;
-                    int done = stations.Count(_completedStations.Contains);
-                    sp.StationsAvailable = avail;
-                    sp.StationsCompleted = done;
+                    var quizzes = _subjectQuizzes.TryGetValue(slug, out var list) ? list : new List<string>();
+                    int avail = quizzes.Count;
+                    int done = quizzes.Count(_completedQuizzes.Contains);
+                    sp.QuizzesAvailable = avail;
+                    sp.QuizzesCompleted = done;
                     sp.Percentage = avail == 0 ? 0m : Math.Round((decimal)done / avail * 100m, 1);
                     sp.ProgressPercent = sp.Percentage;
 
@@ -803,11 +684,11 @@ namespace NutriMind.Runtime.App
                         foreach (var tp in sp.Terms)
                         {
                             int term = tp.TermNumber ?? 0;
-                            var ts = _termStations.TryGetValue($"{slug}:{term}", out var tlist) ? tlist : new List<string>();
+                            var ts = _termQuizzes.TryGetValue($"{slug}:{term}", out var tlist) ? tlist : new List<string>();
                             int tAvail = ts.Count;
-                            int tDone = ts.Count(_completedStations.Contains);
-                            tp.StationsAvailable = tAvail;
-                            tp.StationsCompleted = tDone;
+                            int tDone = ts.Count(_completedQuizzes.Contains);
+                            tp.QuizzesAvailable = tAvail;
+                            tp.QuizzesCompleted = tDone;
                             tp.Percentage = tAvail == 0 ? 0m : Math.Round((decimal)tDone / tAvail * 100m, 1);
                         }
                     }
@@ -815,9 +696,6 @@ namespace NutriMind.Runtime.App
             }
             return summary;
         }
-
-        private static string Capitalize(string s)
-            => string.IsNullOrEmpty(s) ? s : char.ToUpperInvariant(s[0]) + s.Substring(1);
 
         /// <summary>
         /// Deep-clones a DTO via a JSON round-trip so the immutable fixture source

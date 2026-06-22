@@ -109,58 +109,34 @@ namespace NutriMind.Runtime.App
         Task<DataResult<List<TermDto>>> GetTermsAsync(string subjectSlug, CancellationToken ct = default);
 
         /// <summary>
-        /// Station state list for a subject/term. Requires auth.
-        /// <c>GET /api/v1/student/subjects/{subject_slug}/terms/{term_number}/stations</c>
-        /// <para>
-        /// Returns a <see cref="StationListDto"/> object (not a bare array) so
-        /// Science exploration-preview terms can return an empty
-        /// <see cref="StationListDto.Stations"/> array with a
-        /// <see cref="StationListDto.PreviewMode"/> marker. An empty list is a
-        /// valid preview state, not an error.
-        /// </para>
+        /// Get quiz list for a subject/term. Requires auth.
+        /// <c>GET /api/v1/student/quizzes</c>
         /// </summary>
-        Task<DataResult<StationListDto>> GetStationsAsync(string subjectSlug, int termNumber, CancellationToken ct = default);
-
-        // ──────────────────────────────────────────────────────────────
-        //  Station Content & Session
-        // ──────────────────────────────────────────────────────────────
+        Task<DataResult<QuizListDto>> GetQuizzesAsync(string subjectSlug, int termNumber, CancellationToken ct = default);
 
         /// <summary>
-        /// Approved station content and world tasks. Requires auth.
-        /// <c>GET /api/v1/student/stations/{station_id}/content</c>
+        /// Get detailed content for a quiz. Requires auth.
+        /// <c>GET /api/v1/student/quizzes/{quiz_id}</c>
         /// </summary>
-        Task<DataResult<StationContentDto>> GetStationContentAsync(string stationId, CancellationToken ct = default);
+        Task<DataResult<QuizDetailDto>> GetQuizDetailAsync(string quizId, CancellationToken ct = default);
 
         /// <summary>
-        /// Start or resume station session. Requires auth.
-        /// <c>POST /api/v1/student/stations/{station_id}/start</c>
+        /// Submit quiz attempt. Requires auth.
+        /// <c>POST /api/v1/student/quizzes/{quiz_id}/attempts</c>
         /// </summary>
-        Task<DataResult<StationStartResponseDto>> StartStationAsync(string stationId, StationStartRequestDto request = null, CancellationToken ct = default);
-
-        // ──────────────────────────────────────────────────────────────
-        //  Attempts
-        // ──────────────────────────────────────────────────────────────
+        Task<DataResult<QuizAttemptResponseDto>> SubmitQuizAttemptAsync(string quizId, QuizAttemptRequestDto request, CancellationToken ct = default);
 
         /// <summary>
-        /// Submit answer attempt. Requires auth.
-        /// <c>POST /api/v1/student/challenges/{challenge_id}/attempts</c>
-        /// <para>
-        /// The <see cref="AttemptRequestDto.ClientAttemptUuid"/> is sent as
-        /// <c>client_attempt_uuid</c> for idempotent retry. Duplicate
-        /// UUIDs resolve to the existing attempt result.
-        /// </para>
+        /// Get all quiz attempt results for the student. Requires auth.
+        /// <c>GET /api/v1/student/quiz-results</c>
         /// </summary>
-        Task<DataResult<AttemptResponseDto>> SubmitAttemptAsync(string challengeId, AttemptRequestDto request, CancellationToken ct = default);
-
-        // ──────────────────────────────────────────────────────────────
-        //  Station Completion
-        // ──────────────────────────────────────────────────────────────
+        Task<DataResult<QuizResultListDto>> GetQuizResultsAsync(CancellationToken ct = default);
 
         /// <summary>
-        /// Finalize station completion where separate completion is required. Requires auth.
-        /// <c>POST /api/v1/student/stations/{station_id}/complete</c>
+        /// Get a specific quiz attempt result. Requires auth.
+        /// <c>GET /api/v1/student/quiz-results/{attempt_id}</c>
         /// </summary>
-        Task<DataResult<StationCompleteResponseDto>> CompleteStationAsync(string stationId, StationCompleteRequestDto request = null, CancellationToken ct = default);
+        Task<DataResult<QuizResultDto>> GetQuizResultAsync(string attemptId, CancellationToken ct = default);
 
         // ──────────────────────────────────────────────────────────────
         //  Progress & Rewards
@@ -177,12 +153,6 @@ namespace NutriMind.Runtime.App
         /// <c>GET /api/v1/student/rewards</c>
         /// </summary>
         Task<DataResult<RewardWalletDto>> GetRewardsAsync(CancellationToken ct = default);
-
-        /// <summary>
-        /// Use a server-approved reward. Requires auth.
-        /// <c>POST /api/v1/student/rewards/{reward_code}/use</c>
-        /// </summary>
-        Task<DataResult<UseRewardResponseDto>> UseRewardAsync(string rewardCode, UseRewardRequestDto request, CancellationToken ct = default);
 
         // ──────────────────────────────────────────────────────────────
         //  Sync

@@ -74,6 +74,7 @@ namespace NutriMind.Runtime.App
             "SERVER_UNAVAILABLE",
             "SERVER_TIMEOUT",
             "MAINTENANCE_MODE",
+            "QUIZ_LOCKED",
             "STATION_LOCKED",
             "STATION_ALREADY_COMPLETED",
             "CONTENT_NOT_PUBLISHED",
@@ -243,81 +244,58 @@ namespace NutriMind.Runtime.App
         }
 
         /// <inheritdoc />
-        public Task<DataResult<StationListDto>> GetStationsAsync(string subjectSlug, int termNumber, CancellationToken ct = default)
+        public Task<DataResult<QuizListDto>> GetQuizzesAsync(string subjectSlug, int termNumber, CancellationToken ct = default)
         {
             if (string.IsNullOrWhiteSpace(subjectSlug))
-                return Task.FromResult(DataResult<StationListDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Subject slug is required.")));
+                return Task.FromResult(DataResult<QuizListDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Subject slug is required.")));
 
-            return GetAsync<StationListDto>(
-                $"/student/subjects/{Uri.EscapeDataString(subjectSlug)}/terms/{termNumber}/stations",
+            return GetAsync<QuizListDto>(
+                $"/student/quizzes?subject_slug={Uri.EscapeDataString(subjectSlug)}&term_number={termNumber}",
                 auth: true, ct: ct);
         }
 
         // ──────────────────────────────────────────────────────────────
-        //  Station Content & Session
+        //  Quiz & Assessment System (Laravel quiz_first_laravel_1 REST)
         // ──────────────────────────────────────────────────────────────
 
         /// <inheritdoc />
-        public Task<DataResult<StationContentDto>> GetStationContentAsync(string stationId, CancellationToken ct = default)
+        public Task<DataResult<QuizDetailDto>> GetQuizDetailAsync(string quizId, CancellationToken ct = default)
         {
-            if (string.IsNullOrWhiteSpace(stationId))
-                return Task.FromResult(DataResult<StationContentDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Station ID is required.")));
+            if (string.IsNullOrWhiteSpace(quizId))
+                return Task.FromResult(DataResult<QuizDetailDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Quiz ID is required.")));
 
-            return GetAsync<StationContentDto>($"/student/stations/{Uri.EscapeDataString(stationId)}/content", auth: true, ct: ct);
+            return GetAsync<QuizDetailDto>($"/student/quizzes/{Uri.EscapeDataString(quizId)}", auth: true, ct: ct);
         }
 
         /// <inheritdoc />
-        public Task<DataResult<StationStartResponseDto>> StartStationAsync(string stationId, StationStartRequestDto request = null, CancellationToken ct = default)
+        public Task<DataResult<QuizAttemptResponseDto>> SubmitQuizAttemptAsync(string quizId, QuizAttemptRequestDto request, CancellationToken ct = default)
         {
-            if (string.IsNullOrWhiteSpace(stationId))
-                return Task.FromResult(DataResult<StationStartResponseDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Station ID is required.")));
-
-            return PostAsync<StationStartResponseDto>(
-                $"/student/stations/{Uri.EscapeDataString(stationId)}/start",
-                request,
-                auth: true,
-                idempotent: false,
-                ct: ct);
-        }
-
-        // ──────────────────────────────────────────────────────────────
-        //  Attempts
-        // ──────────────────────────────────────────────────────────────
-
-        /// <inheritdoc />
-        public Task<DataResult<AttemptResponseDto>> SubmitAttemptAsync(string challengeId, AttemptRequestDto request, CancellationToken ct = default)
-        {
-            if (string.IsNullOrWhiteSpace(challengeId))
-                return Task.FromResult(DataResult<AttemptResponseDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Challenge ID is required.")));
+            if (string.IsNullOrWhiteSpace(quizId))
+                return Task.FromResult(DataResult<QuizAttemptResponseDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Quiz ID is required.")));
 
             if (request == null)
-                return Task.FromResult(DataResult<AttemptResponseDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Attempt request is required.")));
+                return Task.FromResult(DataResult<QuizAttemptResponseDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Attempt request is required.")));
 
             // Attempts are idempotent via client_attempt_uuid, so retries are safe.
-            return PostAsync<AttemptResponseDto>(
-                $"/student/challenges/{Uri.EscapeDataString(challengeId)}/attempts",
+            return PostAsync<QuizAttemptResponseDto>(
+                $"/student/quizzes/{Uri.EscapeDataString(quizId)}/attempts",
                 request,
                 auth: true,
                 idempotent: true,
                 ct: ct);
         }
 
-        // ──────────────────────────────────────────────────────────────
-        //  Station Completion
-        // ──────────────────────────────────────────────────────────────
+        /// <inheritdoc />
+        public Task<DataResult<QuizResultListDto>> GetQuizResultsAsync(CancellationToken ct = default)
+            => GetAsync<QuizResultListDto>("/student/quiz-results", auth: true, ct: ct);
 
         /// <inheritdoc />
-        public Task<DataResult<StationCompleteResponseDto>> CompleteStationAsync(string stationId, StationCompleteRequestDto request = null, CancellationToken ct = default)
+        public Task<DataResult<QuizResultDto>> GetQuizResultAsync(string attemptId, CancellationToken ct = default)
         {
-            if (string.IsNullOrWhiteSpace(stationId))
-                return Task.FromResult(DataResult<StationCompleteResponseDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Station ID is required.")));
+            if (string.IsNullOrWhiteSpace(attemptId))
+                return Task.FromResult(DataResult<QuizResultDto>.Fail(new DataProviderError("VALIDATION_ERROR", "Attempt ID is required.")));
 
-            return PostAsync<StationCompleteResponseDto>(
-                $"/student/stations/{Uri.EscapeDataString(stationId)}/complete",
-                request,
-                auth: true,
-                idempotent: false,
-                ct: ct);
+            return GetAsync<QuizResultDto>($"/student/quiz-results/{Uri.EscapeDataString(attemptId)}", auth: true, ct: ct);
         }
 
         // ──────────────────────────────────────────────────────────────

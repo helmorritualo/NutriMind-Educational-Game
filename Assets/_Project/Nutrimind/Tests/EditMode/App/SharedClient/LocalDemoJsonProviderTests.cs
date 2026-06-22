@@ -14,8 +14,8 @@ namespace NutriMind.Tests.EditMode.App
     /// <summary>
     /// Verifies the local demo provider against the fabricated fixture:
     /// JSON validity, DTO deserialization, provider parity with HTTP, reset,
-    /// logout, settings, hints, discoveries, idempotent (duplicate) attempts,
-    /// completion (unlocks + term crystal), reward use, safe error contracts,
+    /// logout, settings, hints, idempotent (duplicate) attempts,
+    /// result retrieval, reward balance retrieval, safe error contracts,
     /// immutable source data, and the development-only guard.
     /// </summary>
     [TestFixture]
@@ -23,8 +23,8 @@ namespace NutriMind.Tests.EditMode.App
     {
         private const string Lrn = "000000000001";
         private const string Pin = "1234";
-        private const string Term1Station1 = "literaquest-t1-s1";
-        private const string Term1Station2 = "literaquest-t1-s2";
+        private const string Term1Quiz1 = "literaquest-t1-q1";
+        private const string Term1Quiz2 = "literaquest-t1-q2";
 
         private string _fixtureJson;
         private JObject _fixtureRoot;
@@ -51,38 +51,34 @@ namespace NutriMind.Tests.EditMode.App
             return p;
         }
 
-        private JToken ExpectedAnswer(string challengeId)
+        private JToken ExpectedAnswer(string itemId)
         {
-            var eval = _fixtureRoot["demo_only_evaluation"]?[challengeId]?["expected_answer"];
-            Assert.That(eval, Is.Not.Null, "Fixture must define an expected answer for " + challengeId);
+            var eval = _fixtureRoot["demo_only_evaluation"]?[itemId]?["expected_answer"];
+            Assert.That(eval, Is.Not.Null, "Fixture must define an expected answer for " + itemId);
             return eval;
         }
 
-        private List<string> ChallengeIds(string stationId)
+        private List<string> QuizItemIds(string quizId)
         {
             var ids = new List<string>();
-            var challenges = _fixtureRoot["station_content_by_id"]?[stationId]?["challenges"] as JArray;
-            Assert.That(challenges, Is.Not.Null, "Fixture must define challenges for " + stationId);
-            foreach (var c in challenges) ids.Add(c["challenge_id"].ToString());
+            var items = _fixtureRoot["quiz_detail_by_id"]?[quizId]?["items"] as JArray;
+            Assert.That(items, Is.Not.Null, "Fixture must define items for " + quizId);
+            foreach (var item in items) ids.Add(item["id"].ToString());
             return ids;
         }
 
-        private void CompleteAllChallenges(LocalDemoJsonProvider p, string stationId)
+        private QuizAttemptRequestDto BuildCorrectAttempt(string quizId)
         {
-            p.StartStationAsync(stationId).Wait();
-            foreach (var cid in ChallengeIds(stationId))
+            var req = new QuizAttemptRequestDto
             {
-                var req = new AttemptRequestDto
-                {
-                    StationSessionId = "sess-" + stationId,
-                    StationId = stationId,
-                    ClientAttemptUuid = System.Guid.NewGuid().ToString("N"),
-                    Answer = ExpectedAnswer(cid)
-                };
-                var r = p.SubmitAttemptAsync(cid, req).Result;
-                Assert.That(r.Success, Is.True);
-                Assert.That(r.Data.Correct, Is.True, "Expected-answer submission should be correct for " + cid);
+                ClientAttemptUuid = System.Guid.NewGuid().ToString("N"),
+                Answers = new Dictionary<string, object>()
+            };
+            foreach (var itemId in QuizItemIds(quizId))
+            {
+                req.Answers[itemId] = ExpectedAnswer(itemId);
             }
+            return req;
         }
 
         // ── JSON validation + DTO deserialization ─────────────────────
@@ -103,10 +99,9 @@ namespace NutriMind.Tests.EditMode.App
             Assert.That(fixture, Is.Not.Null);
             Assert.That(fixture.Responses?.Subjects, Has.Count.EqualTo(3));
             Assert.That(fixture.TermsBySubject, Has.Count.EqualTo(3));
-            Assert.That(fixture.StationContentById, Has.Count.EqualTo(12));
-            Assert.That(fixture.StationStartById, Has.Count.EqualTo(12));
-            Assert.That(fixture.CompletionResultByStationId, Has.Count.EqualTo(12));
-            Assert.That(fixture.AttemptResultByChallengeId.Count, Is.GreaterThanOrEqualTo(12));
+            Assert.That(fixture.QuizDetailById, Has.Count.EqualTo(12));
+            Assert.That(fixture.AttemptResultByQuizId, Has.Count.EqualTo(12));
+            Assert.That(fixture.DemoOnlyEvaluation, Is.Not.Null.And.Count.GreaterThan(0));
             Assert.That(fixture.ErrorFixtures, Is.Not.Null.And.Count.GreaterThan(0));
         }
 
@@ -146,8 +141,9 @@ namespace NutriMind.Tests.EditMode.App
         public void Logout_ResetsToCleanBaseline()
         {
             var p = NewLoggedIn();
-            CompleteAllChallenges(p, Term1Station1);
-            p.CompleteStationAsync(Term1Station1).Wait();
+            var req = BuildCorrectAttempt(Term1Quiz1);
+            var attempt = p.SubmitQuizAttemptAsync(Term1Quiz1, req).Result;
+            Assert.That(attempt.Success, Is.True);
 
             var logout = p.LogoutAsync(CancellationToken.None).Result;
             Assert.That(logout.Success, Is.True);
@@ -157,7 +153,7 @@ namespace NutriMind.Tests.EditMode.App
             Assert.That(p.GetProgressSummaryAsync().Result.Success, Is.False);
             var p2 = p; p2.LoginAsync(new LoginRequestDto { Lrn = Lrn, Pin = Pin }).Wait();
             var progress = p2.GetProgressSummaryAsync().Result;
-            Assert.That(progress.Data.TotalStationsCompleted, Is.EqualTo(0));
+            Assert.That(progress.Data.TotalQuizzesCompleted, Is.EqualTo(0));
         }
 
         // ── Settings ──────────────────────────────────────────────────
@@ -178,7 +174,7 @@ namespace NutriMind.Tests.EditMode.App
             Assert.That(patched.Data.Language, Is.EqualTo(before.Language));
         }
 
-        // ── Subjects / terms / stations / science preview ─────────────
+        // ── Subjects / terms / quizzes / science preview ─────────────
 
         [Test]
         public void Subjects_ReturnsThree_WithScienceExplorationPreview()
@@ -193,218 +189,131 @@ namespace NutriMind.Tests.EditMode.App
         }
 
         [Test]
-        public void ScienceStations_EmptyPreviewList_IsNotAnError()
+        public void ScienceQuizzes_EmptyPreviewList_IsNotAnError()
         {
             var p = NewLoggedIn();
-            var stations = p.GetStationsAsync("sciencequest", 1).Result;
-            Assert.That(stations.Success, Is.True);
-            Assert.That(stations.Data.Stations, Has.Count.EqualTo(0));
-            Assert.That(stations.Data.PreviewMode, Is.EqualTo("exploration_only"));
+            var quizzes = p.GetQuizzesAsync("sciencequest", 1).Result;
+            Assert.That(quizzes.Success, Is.True);
+            Assert.That(quizzes.Data.Quizzes, Has.Count.EqualTo(0));
+            Assert.That(quizzes.Data.PreviewMode, Is.EqualTo("exploration_only"));
         }
 
         [Test]
-        public void PlayableStations_AreReturnedForTerm()
+        public void PlayableQuizzes_AreReturnedForTerm()
         {
             var p = NewLoggedIn();
-            var stations = p.GetStationsAsync("literaquest", 1).Result;
-            Assert.That(stations.Success, Is.True);
-            Assert.That(stations.Data.Stations, Has.Count.EqualTo(2));
+            var quizzes = p.GetQuizzesAsync("literaquest", 1).Result;
+            Assert.That(quizzes.Success, Is.True);
+            Assert.That(quizzes.Data.Quizzes, Has.Count.EqualTo(2));
         }
 
-        // ── Hints / discoveries (station content) ─────────────────────
+        // ── Hints / discoveries (quiz details) ─────────────────────
 
         [Test]
-        public void StationContent_ExposesHintPolicyAndOptionalDiscovery()
+        public void QuizDetail_ExposesInstructionsAndItems()
         {
             var p = NewLoggedIn();
-            var content = p.GetStationContentAsync(Term1Station1).Result;
+            var content = p.GetQuizDetailAsync(Term1Quiz1).Result;
             Assert.That(content.Success, Is.True);
-            Assert.That(content.Data.HintPolicy, Is.Not.Null);
-            Assert.That(content.Data.HintPolicy.PreserveWorldProgress, Is.True);
-            Assert.That(content.Data.HintPolicy.PenalizeOrdinaryMistake, Is.False);
-            Assert.That(content.Data.Discoveries, Is.Not.Null.And.Count.GreaterThan(0));
-            Assert.That(content.Data.Discoveries[0].Optional, Is.True,
-                "Discoveries must be optional (never required to complete a station).");
-            Assert.That(content.Data.LearningCycle, Is.Not.Null);
-            Assert.That(content.Data.LearningCycle.Discover, Is.Not.Null.And.Not.Empty);
+            Assert.That(content.Data.Instructions, Is.Not.Null);
+            Assert.That(content.Data.Items, Is.Not.Null.And.Count.GreaterThan(0));
         }
 
         [Test]
-        public void WrongAnswer_ReturnsEncouragingSafeMistakeHint_NoPenalty()
+        public void WrongAnswer_ReturnsEncouragingSafeMistakeHint()
         {
             var p = NewLoggedIn();
-            string cid = ChallengeIds(Term1Station1)[0];
-            p.StartStationAsync(Term1Station1).Wait();
-            var r = p.SubmitAttemptAsync(cid, new AttemptRequestDto
+            string itemId = QuizItemIds(Term1Quiz1)[0];
+            var req = new QuizAttemptRequestDto
             {
-                StationSessionId = "sess",
                 ClientAttemptUuid = System.Guid.NewGuid().ToString("N"),
-                Answer = "definitely_wrong_zzz"
-            }).Result;
+                Answers = new Dictionary<string, object> { { itemId, "definitely_wrong_zzz" } }
+            };
+            var r = p.SubmitQuizAttemptAsync(Term1Quiz1, req).Result;
 
             Assert.That(r.Success, Is.True, "A wrong answer is still an accepted, recorded attempt.");
-            Assert.That(r.Data.Correct, Is.False);
-            Assert.That(r.Data.Feedback, Is.Not.Null);
-            Assert.That(r.Data.Feedback.RetryAllowed, Is.True);
-            Assert.That(r.Data.Feedback.HintText, Is.Not.Null.And.Not.Empty, "Safe mistake must offer a hint.");
-            Assert.That(r.Data.ScoreAwarded, Is.EqualTo(0m), "Ordinary mistakes are not penalized with score.");
-            // World progress preserved: no challenge marked complete.
-            Assert.That(r.Data.Progress.CompletedChallenges, Is.EqualTo(0));
+            Assert.That(r.Data.AnswersFeedback, Is.Not.Null);
+            Assert.That(r.Data.AnswersFeedback.TryGetValue(itemId, out var fb), Is.True);
+            Assert.That(fb.IsCorrect, Is.False);
+            Assert.That(fb.HintText, Is.Not.Null.And.Not.Empty, "Safe mistake must offer a hint.");
+            Assert.That(r.Data.Passed, Is.False);
         }
 
         // ── Attempts: correctness + idempotent duplicate replay ───────
 
         [Test]
-        public void CorrectAnswer_IsAcceptedAndGrantsReward()
+        public void CorrectAnswer_IsAcceptedAndPassesQuiz()
         {
             var p = NewLoggedIn();
-            string cid = ChallengeIds(Term1Station1)[0];
-            p.StartStationAsync(Term1Station1).Wait();
-            var r = p.SubmitAttemptAsync(cid, new AttemptRequestDto
-            {
-                StationSessionId = "sess",
-                ClientAttemptUuid = System.Guid.NewGuid().ToString("N"),
-                Answer = ExpectedAnswer(cid)
-            }).Result;
+            var req = BuildCorrectAttempt(Term1Quiz1);
+            var r = p.SubmitQuizAttemptAsync(Term1Quiz1, req).Result;
 
             Assert.That(r.Success, Is.True);
-            Assert.That(r.Data.Correct, Is.True);
-            Assert.That(r.Data.Accepted, Is.True);
+            Assert.That(r.Data.Passed, Is.True);
             Assert.That(r.Data.IsReplay, Is.Not.EqualTo(true));
-            Assert.That(r.Data.RewardsGranted, Is.Not.Null.And.Count.GreaterThan(0));
-            Assert.That(r.Data.Progress.CompletedChallenges, Is.EqualTo(1));
+            Assert.That(r.Data.Score, Is.EqualTo(r.Data.TotalPossible));
         }
 
         [Test]
-        public void DuplicateAttemptUuid_IsIdempotentReplay_NoDoubleReward()
+        public void DuplicateAttemptUuid_WithSameAnswers_IsIdempotentReplay()
         {
             var p = NewLoggedIn();
-            string cid = ChallengeIds(Term1Station1)[0];
-            p.StartStationAsync(Term1Station1).Wait();
-            var req = new AttemptRequestDto
-            {
-                StationSessionId = "sess",
-                StationId = Term1Station1,
-                ClientAttemptUuid = "dup-uuid-1",
-                Answer = ExpectedAnswer(cid)
-            };
+            var req = BuildCorrectAttempt(Term1Quiz1);
+            req.ClientAttemptUuid = "dup-uuid-1";
 
-            var first = p.SubmitAttemptAsync(cid, req).Result;
-            int coinsAfterFirst = p.GetRewardsAsync().Result.Data.TotalCoins ?? 0;
-
-            var second = p.SubmitAttemptAsync(cid, req).Result;
-            int coinsAfterSecond = p.GetRewardsAsync().Result.Data.TotalCoins ?? 0;
+            var first = p.SubmitQuizAttemptAsync(Term1Quiz1, req).Result;
+            var second = p.SubmitQuizAttemptAsync(Term1Quiz1, req).Result;
 
             Assert.That(first.Data.IsReplay, Is.Not.EqualTo(true));
             Assert.That(second.Data.IsReplay, Is.True, "Duplicate client_attempt_uuid must replay idempotently.");
-            Assert.That(second.Data.Correct, Is.EqualTo(first.Data.Correct));
+            Assert.That(second.Data.Passed, Is.EqualTo(first.Data.Passed));
             Assert.That(second.Data.AttemptId, Is.EqualTo(first.Data.AttemptId));
-            Assert.That(coinsAfterSecond, Is.EqualTo(coinsAfterFirst), "Replay must not grant rewards twice.");
-        }
-
-        // ── Completion: unlocks, term crystal, idempotency ────────────
-
-        [Test]
-        public void CompleteStation_FinalizesUnlocksAndUpdatesProgress()
-        {
-            var p = NewLoggedIn();
-            CompleteAllChallenges(p, Term1Station1);
-            var done = p.CompleteStationAsync(Term1Station1).Result;
-
-            Assert.That(done.Success, Is.True);
-            Assert.That(done.Data.Completed, Is.True);
-            Assert.That(done.Data.IsReplay, Is.Not.EqualTo(true));
-            Assert.That(done.Data.PortalState, Is.EqualTo("completed"));
-            Assert.That(done.Data.WorldRestorationResult.Restored, Is.True);
-            Assert.That(done.Data.ProgressSummary.TotalStationsCompleted, Is.EqualTo(1));
-            Assert.That(done.Data.ProgressRevision, Is.Not.Null);
         }
 
         [Test]
-        public void CompleteStation_BeforeAllChallenges_FailsSafely()
+        public void DuplicateAttemptUuid_WithDifferentAnswers_FailsWithConflict()
         {
             var p = NewLoggedIn();
-            p.StartStationAsync(Term1Station1).Wait();
-            var done = p.CompleteStationAsync(Term1Station1).Result;
-            Assert.That(done.Success, Is.False);
-            Assert.That(done.Error.Code, Is.EqualTo("VALIDATION_ERROR"));
+            var req1 = BuildCorrectAttempt(Term1Quiz1);
+            req1.ClientAttemptUuid = "conflict-uuid-1";
+
+            var first = p.SubmitQuizAttemptAsync(Term1Quiz1, req1).Result;
+            Assert.That(first.Success, Is.True);
+
+            var req2 = new QuizAttemptRequestDto
+            {
+                ClientAttemptUuid = "conflict-uuid-1",
+                Answers = new Dictionary<string, object> { { QuizItemIds(Term1Quiz1)[0], "bad" } }
+            };
+
+            var second = p.SubmitQuizAttemptAsync(Term1Quiz1, req2).Result;
+            Assert.That(second.Success, Is.False);
+            Assert.That(second.Error.Code, Is.EqualTo("CONFLICT"));
         }
 
-        [Test]
-        public void CompleteStation_Duplicate_IsIdempotentReplay()
-        {
-            var p = NewLoggedIn();
-            CompleteAllChallenges(p, Term1Station1);
-            var first = p.CompleteStationAsync(Term1Station1).Result;
-            int starsAfterFirst = p.GetProgressSummaryAsync().Result.Data.Stars ?? 0;
-
-            var second = p.CompleteStationAsync(Term1Station1).Result;
-            int starsAfterSecond = p.GetProgressSummaryAsync().Result.Data.Stars ?? 0;
-
-            Assert.That(first.Data.IsReplay, Is.Not.EqualTo(true));
-            Assert.That(second.Data.IsReplay, Is.True);
-            Assert.That(starsAfterSecond, Is.EqualTo(starsAfterFirst), "Re-completion must not award stars twice.");
-        }
+        // ── Progress: locks & completion ────────────────────────────────
 
         [Test]
-        public void CompletingBothTermStations_AwardsSubjectCrystalOnce()
+        public void CompletingQuiz_UnlocksNextQuiz()
         {
             var p = NewLoggedIn();
-            CompleteAllChallenges(p, Term1Station1);
-            p.CompleteStationAsync(Term1Station1).Wait();
+            // Term 2 quiz 1 starts locked.
+            var lockedStart = p.GetQuizDetailAsync("literaquest-t2-q1").Result;
+            Assert.That(lockedStart.Success, Is.True);
+            Assert.That(lockedStart.Data.State, Is.EqualTo("locked"));
 
-            CompleteAllChallenges(p, Term1Station2);
-            var done = p.CompleteStationAsync(Term1Station2).Result;
+            // Complete Term 1 Quiz 1
+            var r1 = p.SubmitQuizAttemptAsync(Term1Quiz1, BuildCorrectAttempt(Term1Quiz1)).Result;
+            Assert.That(r1.Success, Is.True);
 
-            Assert.That(done.Data.TermCompletion, Is.Not.Null);
-            Assert.That(done.Data.TermCompletion.Completed, Is.True);
-            Assert.That(done.Data.TermCompletion.Crystal, Is.Not.Null);
-            Assert.That(done.Data.TermCompletion.Crystal.RewardType, Is.EqualTo("crystal"));
+            // Complete Term 1 Quiz 2
+            var r2 = p.SubmitQuizAttemptAsync(Term1Quiz2, BuildCorrectAttempt(Term1Quiz2)).Result;
+            Assert.That(r2.Success, Is.True);
 
-            // Crystal is present in the wallet exactly once.
-            var wallet = p.GetRewardsAsync().Result.Data;
-            int crystals = 0;
-            foreach (var r in wallet.Rewards) if (r.RewardType == "crystal") crystals += r.Quantity ?? 0;
-            Assert.That(crystals, Is.EqualTo(1));
-        }
-
-        [Test]
-        public void CompletingFirstStation_UnlocksNextStation_WhereApplicable()
-        {
-            var p = NewLoggedIn();
-            // Term 2 station 1 starts locked.
-            var lockedStart = p.StartStationAsync("literaquest-t2-s1").Result;
-            Assert.That(lockedStart.Success, Is.False);
-            Assert.That(lockedStart.Error.Code, Is.EqualTo("STATION_LOCKED"));
-
-            // Complete both term-1 stations -> term complete -> unlock term-2 station 1.
-            CompleteAllChallenges(p, Term1Station1);
-            p.CompleteStationAsync(Term1Station1).Wait();
-            CompleteAllChallenges(p, Term1Station2);
-            p.CompleteStationAsync(Term1Station2).Wait();
-
-            var nowStart = p.StartStationAsync("literaquest-t2-s1").Result;
-            Assert.That(nowStart.Success, Is.True, "Next term's first station should unlock after term completion.");
-        }
-
-        // ── Reward use ────────────────────────────────────────────────
-
-        [Test]
-        public void UseReward_DecrementsBalance_AndOverUseFails()
-        {
-            var p = NewLoggedIn();
-            var before = p.GetRewardsAsync().Result.Data;
-            var hint = before.Rewards.Find(r => r.RewardCode == "hint_token");
-            Assert.That(hint, Is.Not.Null.And.Property("Quantity").GreaterThan(0));
-            int qty = hint.Quantity ?? 0;
-
-            var use = p.UseRewardAsync("hint_token", new UseRewardRequestDto { Quantity = 1 }).Result;
-            Assert.That(use.Success, Is.True);
-            Assert.That(use.Data.RemainingQuantity, Is.EqualTo(qty - 1));
-
-            var over = p.UseRewardAsync("hint_token", new UseRewardRequestDto { Quantity = 9999 }).Result;
-            Assert.That(over.Success, Is.False);
-            Assert.That(over.Error.Code, Is.EqualTo("VALIDATION_ERROR"));
+            // Now Term 2 Quiz 1 should be unlocked
+            var unlockedDetail = p.GetQuizDetailAsync("literaquest-t2-q1").Result;
+            Assert.That(unlockedDetail.Success, Is.True);
+            Assert.That(unlockedDetail.Data.State, Is.EqualTo("unlocked"));
         }
 
         // ── Reset + immutable source ──────────────────────────────────
@@ -413,28 +322,26 @@ namespace NutriMind.Tests.EditMode.App
         public void ResetDemoState_RestoresBaseline()
         {
             var p = NewLoggedIn();
-            CompleteAllChallenges(p, Term1Station1);
-            p.CompleteStationAsync(Term1Station1).Wait();
+            p.SubmitQuizAttemptAsync(Term1Quiz1, BuildCorrectAttempt(Term1Quiz1)).Wait();
             p.PatchSettingsAsync(new SettingsDto { MusicVolume = 0.1f }).Wait();
 
             p.ResetDemoState();
             Assert.That(p.IsAuthenticated, Is.False);
 
             p.LoginAsync(new LoginRequestDto { Lrn = Lrn, Pin = Pin }).Wait();
-            Assert.That(p.GetProgressSummaryAsync().Result.Data.TotalStationsCompleted, Is.EqualTo(0));
-            Assert.That(p.GetRewardsAsync().Result.Data.TotalCoins, Is.EqualTo(0));
+            Assert.That(p.GetProgressSummaryAsync().Result.Data.TotalQuizzesCompleted, Is.EqualTo(0));
         }
 
         [Test]
         public void SourceFixtureData_IsImmutable_AcrossInstances()
         {
             var p1 = NewLoggedIn();
-            CompleteAllChallenges(p1, Term1Station1);
-            p1.CompleteStationAsync(Term1Station1).Wait();
+            p1.SubmitQuizAttemptAsync(Term1Quiz1, BuildCorrectAttempt(Term1Quiz1)).Wait();
 
             // A fresh instance built from the SAME source JSON sees a clean baseline.
             var p2 = NewLoggedIn();
-            Assert.That(p2.GetProgressSummaryAsync().Result.Data.TotalStationsCompleted, Is.EqualTo(0),
+            p2.LoginAsync(new LoginRequestDto { Lrn = Lrn, Pin = Pin }).Wait();
+            Assert.That(p2.GetProgressSummaryAsync().Result.Data.TotalQuizzesCompleted, Is.EqualTo(0),
                 "Mutations must not leak into the immutable source fixture.");
         }
 
@@ -461,9 +368,6 @@ namespace NutriMind.Tests.EditMode.App
         [Test]
         public void DevelopmentGuard_EditorAllowsLocalDemoProvider()
         {
-            // In editor/development the provider constructs and loads cleanly.
-            // Release builds reject it (CompositionRoot throws + provider #if guard);
-            // that path cannot execute under the editor test runner.
             var p = New();
             Assert.That(p.IsReady, Is.True);
         }
@@ -471,14 +375,12 @@ namespace NutriMind.Tests.EditMode.App
         // ── Provider parity (Local vs HTTP use identical DTOs) ────────
 
         [Test]
-        public void Parity_LocalAndHttpProviders_ProduceEquivalentStationContent()
+        public void Parity_LocalAndHttpProviders_ProduceEquivalentQuizContent()
         {
-            // The local provider serves a station-content DTO from the fixture.
             var local = NewLoggedIn();
-            var localResult = local.GetStationContentAsync(Term1Station1).Result;
+            var localResult = local.GetQuizDetailAsync(Term1Quiz1).Result;
             Assert.That(localResult.Success, Is.True);
 
-            // Feed the SAME payload through the HTTP provider's deserialization path.
             string payload = JsonConvert.SerializeObject(localResult.Data, JsonSettings.SafeDefaults);
             var transport = new FakeHttpTransport();
             transport.EnqueueSuccess(200, payload);
@@ -486,16 +388,13 @@ namespace NutriMind.Tests.EditMode.App
                 new HttpProviderConfig { BaseUrl = "https://demo.nutrimind.example", MaxRetries = 0 },
                 new AuthSessionState { Token = "demo" }, transport);
 
-            var httpResult = http.GetStationContentAsync(Term1Station1).Result;
+            var httpResult = http.GetQuizDetailAsync(Term1Quiz1).Result;
             Assert.That(httpResult.Success, Is.True);
 
-            // Both providers yield an equivalent DTO graph.
-            Assert.That(httpResult.Data.StationId, Is.EqualTo(localResult.Data.StationId));
-            Assert.That(httpResult.Data.MissionTitle, Is.EqualTo(localResult.Data.MissionTitle));
-            Assert.That(httpResult.Data.Challenges.Count, Is.EqualTo(localResult.Data.Challenges.Count));
-            Assert.That(httpResult.Data.LearningCycle.Discover, Is.EqualTo(localResult.Data.LearningCycle.Discover));
-            Assert.That(httpResult.Data.HintPolicy.MaxHintTier, Is.EqualTo(localResult.Data.HintPolicy.MaxHintTier));
-            Assert.That(httpResult.Data.WorldTasks.Count, Is.EqualTo(localResult.Data.WorldTasks.Count));
+            Assert.That(httpResult.Data.Id, Is.EqualTo(localResult.Data.Id));
+            Assert.That(httpResult.Data.Title, Is.EqualTo(localResult.Data.Title));
+            Assert.That(httpResult.Data.Items.Count, Is.EqualTo(localResult.Data.Items.Count));
+            Assert.That(httpResult.Data.Instructions, Is.EqualTo(localResult.Data.Instructions));
         }
     }
 }

@@ -12,32 +12,16 @@
   "responses": {
     "ping": {
       "status": "ok",
-      "server_time": "2025-01-15T08:00:00Z",
-      "api_version": "v1"
+      "server_time": "2025-01-15T08:00:00Z"
     },
     "config": {
-      "api_version": "v1",
-      "contract_version": "2.0",
-      "server_time": "2025-01-15T08:00:00Z",
+      "api_version": "1.0.0",
+      "contract_version": "quiz_first_laravel_1",
       "maintenance_mode": false,
-      "minimum_unity_client_version": "1.0.0",
-      "supported_languages": [
-        "en",
-        "fil"
-      ],
-      "polling": {
-        "enabled": true,
-        "default_interval_seconds": 45,
-        "minimum_interval_seconds": 15
-      },
-      "realtime": {
-        "enabled": false,
-        "events_are_metadata_only": true
-      }
+      "minimum_unity_client_version": "1.0.0"
     },
     "login": {
-      "token": "demo-token-DO-NOT-USE",
-      "token_type": "Bearer",
+      "token": "fake-jwt-token-0001",
       "student": {
         "id": "demo-student-5-001",
         "name": "Maya Santos",
@@ -55,10 +39,10 @@
         "language_preference": "en"
       },
       "classroom": {
-        "id": "demo-class-5A",
-        "name": "Grade 5 - Sampaguita",
+        "id": "class-5a",
+        "name": "Grade 5 Section A",
         "grade_level": 5,
-        "section": "Sampaguita"
+        "section": "A"
       },
       "subjects": [
         {
@@ -98,171 +82,12 @@
           "progress_percent": 0.0,
           "preview_mode": "exploration_only"
         }
-      ],
-      "progress_summary": {
-        "student_id": "demo-student-5-001",
-        "subjects": [
-          {
-            "subject_slug": "literaquest",
-            "subject_name": "LiteraQuest",
-            "stations_completed": 0,
-            "stations_available": 6,
-            "percentage": 0.0,
-            "progress_percent": 0.0,
-            "terms": [
-              {
-                "term_number": 1,
-                "stations_completed": 0,
-                "stations_available": 2,
-                "percentage": 0.0
-              },
-              {
-                "term_number": 2,
-                "stations_completed": 0,
-                "stations_available": 2,
-                "percentage": 0.0
-              },
-              {
-                "term_number": 3,
-                "stations_completed": 0,
-                "stations_available": 2,
-                "percentage": 0.0
-              }
-            ]
-          },
-          {
-            "subject_slug": "healthquest",
-            "subject_name": "PE & Health Quest",
-            "stations_completed": 0,
-            "stations_available": 6,
-            "percentage": 0.0,
-            "progress_percent": 0.0,
-            "terms": [
-              {
-                "term_number": 1,
-                "stations_completed": 0,
-                "stations_available": 2,
-                "percentage": 0.0
-              },
-              {
-                "term_number": 2,
-                "stations_completed": 0,
-                "stations_available": 2,
-                "percentage": 0.0
-              },
-              {
-                "term_number": 3,
-                "stations_completed": 0,
-                "stations_available": 2,
-                "percentage": 0.0
-              }
-            ]
-          },
-          {
-            "subject_slug": "sciencequest",
-            "subject_name": "ScienceQuest",
-            "stations_completed": 0,
-            "stations_available": 0,
-            "percentage": 0.0,
-            "progress_percent": 0.0,
-            "preview_mode": "exploration_only",
-            "terms": [
-              {
-                "term_number": 1,
-                "stations_completed": 0,
-                "stations_available": 0,
-                "percentage": 0.0
-              },
-              {
-                "term_number": 2,
-                "stations_completed": 0,
-                "stations_available": 0,
-                "percentage": 0.0
-              },
-              {
-                "term_number": 3,
-                "stations_completed": 0,
-                "stations_available": 0,
-                "percentage": 0.0
-              }
-            ]
-          }
-        ],
-        "total_stations_completed": 0,
-        "total_stations_available": 12,
-        "started_stations": 0,
-        "overall_percentage": 0.0,
-        "stars": 0,
-        "coins": 0,
-        "revision": "progress-rev-1"
-      },
-      "rewards": {
-        "student_id": "demo-student-5-001",
-        "rewards": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 0,
-            "is_usable": false,
-            "description": "Earned by solving challenges."
-          },
-          {
-            "reward_code": "hint_token",
-            "reward_type": "consumable",
-            "display_name": "Hint Token",
-            "icon_key": "icon_hint",
-            "quantity": 3,
-            "is_usable": true,
-            "description": "Reveal a helpful hint."
-          },
-          {
-            "reward_code": "skip_token",
-            "reward_type": "consumable",
-            "display_name": "Skip Token",
-            "icon_key": "icon_skip",
-            "quantity": 1,
-            "is_usable": true,
-            "description": "Skip one challenge."
-          }
-        ],
-        "total_coins": 0,
-        "total_stars": 0,
-        "revision": "wallet-rev-1"
-      },
-      "settings": {
-        "language": "en",
-        "master_volume": 0.8,
-        "music_volume": 0.7,
-        "sfx_volume": 0.9,
-        "mute_all": false,
-        "subtitles_enabled": true,
-        "reduced_motion": false,
-        "show_hints": true,
-        "text_size": "medium",
-        "notifications_enabled": true,
-        "accessibility_preferences": {
-          "high_contrast": false
-        },
-        "revision": "settings-rev-1"
-      },
-      "sync_status": {
-        "student_progress_revision": "progress-rev-1",
-        "student_settings_revision": "settings-rev-1",
-        "station_unlock_revision": "unlock-rev-1",
-        "published_content_revision": "content-rev-1",
-        "reward_wallet_revision": "wallet-rev-1",
-        "server_time": "2025-01-15T08:00:00Z",
-        "next_poll_after_seconds": 45
-      }
+      ]
     },
     "profile": {
       "id": "demo-student-5-001",
-      "name": "Maya Santos",
-      "lrn_masked": "************4521",
+      "name": "Maya",
       "grade_level": 5,
-      "language_preference": "en",
       "avatar_key": "avatar_explorer_teal"
     },
     "settings": {
@@ -326,27 +151,27 @@
         {
           "subject_slug": "literaquest",
           "subject_name": "LiteraQuest",
-          "stations_completed": 0,
-          "stations_available": 6,
+          "quizzes_completed": 0,
+          "quizzes_available": 6,
           "percentage": 0.0,
           "progress_percent": 0.0,
           "terms": [
             {
               "term_number": 1,
-              "stations_completed": 0,
-              "stations_available": 2,
+              "quizzes_completed": 0,
+              "quizzes_available": 2,
               "percentage": 0.0
             },
             {
               "term_number": 2,
-              "stations_completed": 0,
-              "stations_available": 2,
+              "quizzes_completed": 0,
+              "quizzes_available": 2,
               "percentage": 0.0
             },
             {
               "term_number": 3,
-              "stations_completed": 0,
-              "stations_available": 2,
+              "quizzes_completed": 0,
+              "quizzes_available": 2,
               "percentage": 0.0
             }
           ]
@@ -354,27 +179,27 @@
         {
           "subject_slug": "healthquest",
           "subject_name": "PE & Health Quest",
-          "stations_completed": 0,
-          "stations_available": 6,
+          "quizzes_completed": 0,
+          "quizzes_available": 6,
           "percentage": 0.0,
           "progress_percent": 0.0,
           "terms": [
             {
               "term_number": 1,
-              "stations_completed": 0,
-              "stations_available": 2,
+              "quizzes_completed": 0,
+              "quizzes_available": 2,
               "percentage": 0.0
             },
             {
               "term_number": 2,
-              "stations_completed": 0,
-              "stations_available": 2,
+              "quizzes_completed": 0,
+              "quizzes_available": 2,
               "percentage": 0.0
             },
             {
               "term_number": 3,
-              "stations_completed": 0,
-              "stations_available": 2,
+              "quizzes_completed": 0,
+              "quizzes_available": 2,
               "percentage": 0.0
             }
           ]
@@ -382,36 +207,36 @@
         {
           "subject_slug": "sciencequest",
           "subject_name": "ScienceQuest",
-          "stations_completed": 0,
-          "stations_available": 0,
+          "quizzes_completed": 0,
+          "quizzes_available": 0,
           "percentage": 0.0,
           "progress_percent": 0.0,
           "preview_mode": "exploration_only",
           "terms": [
             {
               "term_number": 1,
-              "stations_completed": 0,
-              "stations_available": 0,
+              "quizzes_completed": 0,
+              "quizzes_available": 0,
               "percentage": 0.0
             },
             {
               "term_number": 2,
-              "stations_completed": 0,
-              "stations_available": 0,
+              "quizzes_completed": 0,
+              "quizzes_available": 0,
               "percentage": 0.0
             },
             {
               "term_number": 3,
-              "stations_completed": 0,
-              "stations_available": 0,
+              "quizzes_completed": 0,
+              "quizzes_available": 0,
               "percentage": 0.0
             }
           ]
         }
       ],
-      "total_stations_completed": 0,
-      "total_stations_available": 12,
-      "started_stations": 0,
+      "total_quizzes_completed": 0,
+      "total_quizzes_available": 12,
+      "started_quizzes": 0,
       "overall_percentage": 0.0,
       "stars": 0,
       "coins": 0,
@@ -455,7 +280,7 @@
     "sync_status": {
       "student_progress_revision": "progress-rev-1",
       "student_settings_revision": "settings-rev-1",
-      "station_unlock_revision": "unlock-rev-1",
+      "quiz_revision": "unlock-rev-1",
       "published_content_revision": "content-rev-1",
       "reward_wallet_revision": "wallet-rev-1",
       "server_time": "2025-01-15T08:00:00Z",
@@ -650,69 +475,37 @@
       }
     ]
   },
-  "stations_by_scope": {
+  "quizzes_by_scope": {
     "literaquest:5:1": {
       "subject_slug": "literaquest",
       "grade_level": 5,
       "term_number": 1,
-      "stations": [
+      "quizzes": [
         {
-          "id": "literaquest-t1-s1",
-          "station_key": "vocabulary_clue_trail",
-          "station_number": 1,
+          "id": "literaquest-t1-q1",
           "title": "Vocabulary Clue Trail",
-          "description": "A Vocabulary Clue Trail mission in Whispering Library.",
+          "description": "A Vocabulary Clue Trail quiz in Whispering Library.",
           "subject_slug": "literaquest",
-          "grade_level": 5,
           "term_number": 1,
+          "grade_level": 5,
           "state": "unlocked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "multiple_choice",
-          "portal_key": "portal_vocabulary_clue_trail",
-          "unity_scene_key": "scene_world_literaquest_t1",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_literaquest_t1",
-            "world_title": "Whispering Library",
-            "unity_scene_key": "scene_world_literaquest_t1",
-            "unity_scene_name": "World_Literaquest_T1",
-            "scene_address_key": "addr_world_literaquest_t1",
-            "environment_tags": [
-              "library",
-              "whisper"
-            ],
-            "mechanic_family": "word_puzzle"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         },
         {
-          "id": "literaquest-t1-s2",
-          "station_key": "synonym_bridge",
-          "station_number": 2,
+          "id": "literaquest-t1-q2",
           "title": "Synonym Bridge",
-          "description": "A Synonym Bridge mission in Whispering Library.",
+          "description": "A Synonym Bridge quiz in Whispering Library.",
           "subject_slug": "literaquest",
-          "grade_level": 5,
           "term_number": 1,
+          "grade_level": 5,
           "state": "unlocked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "matching",
-          "portal_key": "portal_synonym_bridge",
-          "unity_scene_key": "scene_world_literaquest_t1",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_literaquest_t1",
-            "world_title": "Whispering Library",
-            "unity_scene_key": "scene_world_literaquest_t1",
-            "unity_scene_name": "World_Literaquest_T1",
-            "scene_address_key": "addr_world_literaquest_t1",
-            "environment_tags": [
-              "library",
-              "whisper"
-            ],
-            "mechanic_family": "word_puzzle"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         }
       ]
     },
@@ -720,64 +513,32 @@
       "subject_slug": "literaquest",
       "grade_level": 5,
       "term_number": 2,
-      "stations": [
+      "quizzes": [
         {
-          "id": "literaquest-t2-s1",
-          "station_key": "context_clue_cove",
-          "station_number": 3,
+          "id": "literaquest-t2-q1",
           "title": "Context Clue Cove",
-          "description": "A Context Clue Cove mission in Story Harbor.",
+          "description": "A Context Clue Cove quiz in Story Harbor.",
           "subject_slug": "literaquest",
-          "grade_level": 5,
           "term_number": 2,
+          "grade_level": 5,
           "state": "locked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "multiple_choice",
-          "portal_key": "portal_context_clue_cove",
-          "unity_scene_key": "scene_world_literaquest_t2",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_literaquest_t2",
-            "world_title": "Story Harbor",
-            "unity_scene_key": "scene_world_literaquest_t2",
-            "unity_scene_name": "World_Literaquest_T2",
-            "scene_address_key": "addr_world_literaquest_t2",
-            "environment_tags": [
-              "harbor",
-              "story"
-            ],
-            "mechanic_family": "word_puzzle"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         },
         {
-          "id": "literaquest-t2-s2",
-          "station_key": "main_idea_lighthouse",
-          "station_number": 4,
+          "id": "literaquest-t2-q2",
           "title": "Main Idea Lighthouse",
-          "description": "A Main Idea Lighthouse mission in Story Harbor.",
+          "description": "A Main Idea Lighthouse quiz in Story Harbor.",
           "subject_slug": "literaquest",
-          "grade_level": 5,
           "term_number": 2,
+          "grade_level": 5,
           "state": "locked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "scenario_choice",
-          "portal_key": "portal_main_idea_lighthouse",
-          "unity_scene_key": "scene_world_literaquest_t2",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_literaquest_t2",
-            "world_title": "Story Harbor",
-            "unity_scene_key": "scene_world_literaquest_t2",
-            "unity_scene_name": "World_Literaquest_T2",
-            "scene_address_key": "addr_world_literaquest_t2",
-            "environment_tags": [
-              "harbor",
-              "story"
-            ],
-            "mechanic_family": "word_puzzle"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         }
       ]
     },
@@ -785,64 +546,32 @@
       "subject_slug": "literaquest",
       "grade_level": 5,
       "term_number": 3,
-      "stations": [
+      "quizzes": [
         {
-          "id": "literaquest-t3-s1",
-          "station_key": "inference_summit",
-          "station_number": 5,
+          "id": "literaquest-t3-q1",
           "title": "Inference Summit",
-          "description": "A Inference Summit mission in Riddle Peaks.",
+          "description": "A Inference Summit quiz in Riddle Peaks.",
           "subject_slug": "literaquest",
-          "grade_level": 5,
           "term_number": 3,
+          "grade_level": 5,
           "state": "locked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "multiple_choice",
-          "portal_key": "portal_inference_summit",
-          "unity_scene_key": "scene_world_literaquest_t3",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_literaquest_t3",
-            "world_title": "Riddle Peaks",
-            "unity_scene_key": "scene_world_literaquest_t3",
-            "unity_scene_name": "World_Literaquest_T3",
-            "scene_address_key": "addr_world_literaquest_t3",
-            "environment_tags": [
-              "mountain",
-              "riddle"
-            ],
-            "mechanic_family": "word_puzzle"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         },
         {
-          "id": "literaquest-t3-s2",
-          "station_key": "figurative_peak",
-          "station_number": 6,
+          "id": "literaquest-t3-q2",
           "title": "Figurative Peak",
-          "description": "A Figurative Peak mission in Riddle Peaks.",
+          "description": "A Figurative Peak quiz in Riddle Peaks.",
           "subject_slug": "literaquest",
-          "grade_level": 5,
           "term_number": 3,
+          "grade_level": 5,
           "state": "locked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "matching",
-          "portal_key": "portal_figurative_peak",
-          "unity_scene_key": "scene_world_literaquest_t3",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_literaquest_t3",
-            "world_title": "Riddle Peaks",
-            "unity_scene_key": "scene_world_literaquest_t3",
-            "unity_scene_name": "World_Literaquest_T3",
-            "scene_address_key": "addr_world_literaquest_t3",
-            "environment_tags": [
-              "mountain",
-              "riddle"
-            ],
-            "mechanic_family": "word_puzzle"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         }
       ]
     },
@@ -850,64 +579,32 @@
       "subject_slug": "healthquest",
       "grade_level": 5,
       "term_number": 1,
-      "stations": [
+      "quizzes": [
         {
-          "id": "healthquest-t1-s1",
-          "station_key": "warmup_rhythm",
-          "station_number": 1,
+          "id": "healthquest-t1-q1",
           "title": "Warmup Rhythm",
-          "description": "A Warmup Rhythm mission in Sunrise Field.",
+          "description": "A Warmup Rhythm quiz in Sunrise Field.",
           "subject_slug": "healthquest",
-          "grade_level": 5,
           "term_number": 1,
+          "grade_level": 5,
           "state": "unlocked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "ordering",
-          "portal_key": "portal_warmup_rhythm",
-          "unity_scene_key": "scene_world_healthquest_t1",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_healthquest_t1",
-            "world_title": "Sunrise Field",
-            "unity_scene_key": "scene_world_healthquest_t1",
-            "unity_scene_name": "World_Healthquest_T1",
-            "scene_address_key": "addr_world_healthquest_t1",
-            "environment_tags": [
-              "field",
-              "sunrise"
-            ],
-            "mechanic_family": "movement_rhythm"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         },
         {
-          "id": "healthquest-t1-s2",
-          "station_key": "hydration_station",
-          "station_number": 2,
+          "id": "healthquest-t1-q2",
           "title": "Hydration Station",
-          "description": "A Hydration Station mission in Sunrise Field.",
+          "description": "A Hydration Station quiz in Sunrise Field.",
           "subject_slug": "healthquest",
-          "grade_level": 5,
           "term_number": 1,
+          "grade_level": 5,
           "state": "unlocked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "true_false",
-          "portal_key": "portal_hydration_station",
-          "unity_scene_key": "scene_world_healthquest_t1",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_healthquest_t1",
-            "world_title": "Sunrise Field",
-            "unity_scene_key": "scene_world_healthquest_t1",
-            "unity_scene_name": "World_Healthquest_T1",
-            "scene_address_key": "addr_world_healthquest_t1",
-            "environment_tags": [
-              "field",
-              "sunrise"
-            ],
-            "mechanic_family": "movement_rhythm"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         }
       ]
     },
@@ -915,64 +612,32 @@
       "subject_slug": "healthquest",
       "grade_level": 5,
       "term_number": 2,
-      "stations": [
+      "quizzes": [
         {
-          "id": "healthquest-t2-s1",
-          "station_key": "food_group_market",
-          "station_number": 3,
+          "id": "healthquest-t2-q1",
           "title": "Food Group Market",
-          "description": "A Food Group Market mission in Wellness Village.",
+          "description": "A Food Group Market quiz in Wellness Village.",
           "subject_slug": "healthquest",
-          "grade_level": 5,
           "term_number": 2,
+          "grade_level": 5,
           "state": "locked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "matching",
-          "portal_key": "portal_food_group_market",
-          "unity_scene_key": "scene_world_healthquest_t2",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_healthquest_t2",
-            "world_title": "Wellness Village",
-            "unity_scene_key": "scene_world_healthquest_t2",
-            "unity_scene_name": "World_Healthquest_T2",
-            "scene_address_key": "addr_world_healthquest_t2",
-            "environment_tags": [
-              "village",
-              "wellness"
-            ],
-            "mechanic_family": "movement_rhythm"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         },
         {
-          "id": "healthquest-t2-s2",
-          "station_key": "balance_beam",
-          "station_number": 4,
+          "id": "healthquest-t2-q2",
           "title": "Balance Beam",
-          "description": "A Balance Beam mission in Wellness Village.",
+          "description": "A Balance Beam quiz in Wellness Village.",
           "subject_slug": "healthquest",
-          "grade_level": 5,
           "term_number": 2,
+          "grade_level": 5,
           "state": "locked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "multiple_choice",
-          "portal_key": "portal_balance_beam",
-          "unity_scene_key": "scene_world_healthquest_t2",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_healthquest_t2",
-            "world_title": "Wellness Village",
-            "unity_scene_key": "scene_world_healthquest_t2",
-            "unity_scene_name": "World_Healthquest_T2",
-            "scene_address_key": "addr_world_healthquest_t2",
-            "environment_tags": [
-              "village",
-              "wellness"
-            ],
-            "mechanic_family": "movement_rhythm"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         }
       ]
     },
@@ -980,64 +645,32 @@
       "subject_slug": "healthquest",
       "grade_level": 5,
       "term_number": 3,
-      "stations": [
+      "quizzes": [
         {
-          "id": "healthquest-t3-s1",
-          "station_key": "endurance_climb",
-          "station_number": 5,
+          "id": "healthquest-t3-q1",
           "title": "Endurance Climb",
-          "description": "A Endurance Climb mission in Summit Trail.",
+          "description": "A Endurance Climb quiz in Summit Trail.",
           "subject_slug": "healthquest",
-          "grade_level": 5,
           "term_number": 3,
+          "grade_level": 5,
           "state": "locked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "ordering",
-          "portal_key": "portal_endurance_climb",
-          "unity_scene_key": "scene_world_healthquest_t3",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_healthquest_t3",
-            "world_title": "Summit Trail",
-            "unity_scene_key": "scene_world_healthquest_t3",
-            "unity_scene_name": "World_Healthquest_T3",
-            "scene_address_key": "addr_world_healthquest_t3",
-            "environment_tags": [
-              "summit",
-              "trail"
-            ],
-            "mechanic_family": "movement_rhythm"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         },
         {
-          "id": "healthquest-t3-s2",
-          "station_key": "teamwork_relay",
-          "station_number": 6,
+          "id": "healthquest-t3-q2",
           "title": "Teamwork Relay",
-          "description": "A Teamwork Relay mission in Summit Trail.",
+          "description": "A Teamwork Relay quiz in Summit Trail.",
           "subject_slug": "healthquest",
-          "grade_level": 5,
           "term_number": 3,
+          "grade_level": 5,
           "state": "locked",
-          "required": true,
-          "progress_percent": 0.0,
-          "challenge_type": "scenario_choice",
-          "portal_key": "portal_teamwork_relay",
-          "unity_scene_key": "scene_world_healthquest_t3",
-          "content_revision": "content-rev-1",
-          "world_metadata": {
-            "world_theme_key": "world_healthquest_t3",
-            "world_title": "Summit Trail",
-            "unity_scene_key": "scene_world_healthquest_t3",
-            "unity_scene_name": "World_Healthquest_T3",
-            "scene_address_key": "addr_world_healthquest_t3",
-            "environment_tags": [
-              "summit",
-              "trail"
-            ],
-            "mechanic_family": "movement_rhythm"
-          }
+          "total_items": 2,
+          "duration_minutes": 15,
+          "is_available": true,
+          "progress_percent": 0.0
         }
       ]
     },
@@ -1045,71 +678,35 @@
       "subject_slug": "sciencequest",
       "grade_level": 5,
       "term_number": 1,
-      "stations": [],
+      "quizzes": [],
       "preview_mode": "exploration_only",
-      "message": "Science worlds are open for exploration. Playable missions are coming soon."
+      "message": "Science worlds are open for exploration. Playable quizzes are coming soon."
     },
     "sciencequest:5:2": {
       "subject_slug": "sciencequest",
       "grade_level": 5,
       "term_number": 2,
-      "stations": [],
+      "quizzes": [],
       "preview_mode": "exploration_only",
-      "message": "Science worlds are open for exploration. Playable missions are coming soon."
+      "message": "Science worlds are open for exploration. Playable quizzes are coming soon."
     },
     "sciencequest:5:3": {
       "subject_slug": "sciencequest",
       "grade_level": 5,
       "term_number": 3,
-      "stations": [],
+      "quizzes": [],
       "preview_mode": "exploration_only",
-      "message": "Science worlds are open for exploration. Playable missions are coming soon."
+      "message": "Science worlds are open for exploration. Playable quizzes are coming soon."
     }
   },
-  "station_content_by_id": {
-    "literaquest-t1-s1": {
-      "station_id": "literaquest-t1-s1",
-      "station_key": "vocabulary_clue_trail",
-      "subject_slug": "literaquest",
-      "grade_level": 5,
-      "term_number": 1,
-      "title": "Vocabulary Clue Trail: A LiteraQuest Mission",
-      "description": "Help restore Whispering Library by completing the Vocabulary Clue Trail challenges.",
-      "learning_skill": "reading comprehension",
-      "student_learning_goal": "I can practice reading comprehension while exploring Whispering Library.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+  "quiz_detail_by_id": {
+    "literaquest-t1-q1": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "literaquest-t1-s1-c1-task",
-          "task_key": "task_vocabulary_clue_trail_1",
-          "task_type": "challenge",
-          "portal_key": "portal_vocabulary_clue_trail",
-          "interactable_key": "interactable_vocabulary_clue_trail_1",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "literaquest-t1-s1-c1",
-          "required": true
-        },
-        {
-          "task_id": "literaquest-t1-s1-c2-task",
-          "task_key": "task_vocabulary_clue_trail_2",
-          "task_type": "challenge",
-          "portal_key": "portal_vocabulary_clue_trail",
-          "interactable_key": "interactable_vocabulary_clue_trail_2",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "literaquest-t1-s1-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "literaquest-t1-s1-c1",
-          "challenge_type": "multiple_choice",
+          "id": "literaquest-t1-q1-item1",
+          "quiz_id": "literaquest-t1-q1",
+          "type": "multiple_choice",
           "prompt": "Which choice best fits the Vocabulary Clue Trail clue?",
           "options": [
             {
@@ -1136,159 +733,32 @@
           "order_index": 1
         },
         {
-          "challenge_id": "literaquest-t1-s1-c2",
-          "challenge_type": "fill_blank",
+          "id": "literaquest-t1-q1-item2",
+          "quiz_id": "literaquest-t1-q1",
+          "type": "fill_blank",
           "prompt": "Fill in the blank with the best word.",
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_literaquest_t1",
-        "world_title": "Whispering Library",
-        "unity_scene_key": "scene_world_literaquest_t1",
-        "unity_scene_name": "World_Literaquest_T1",
-        "scene_address_key": "addr_world_literaquest_t1",
-        "environment_tags": [
-          "library",
-          "whisper"
-        ],
-        "mechanic_family": "word_puzzle"
-      },
-      "story_context": "Something has gone quiet in Whispering Library. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Vocabulary Clue Trail Mission",
-      "mission_summary": "Solve the Vocabulary Clue Trail challenges to restore part of Whispering Library.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_literaquest",
-          "display_name": "Lumi the Owl",
-          "role": "mentor",
-          "avatar_key": "npc_literaquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_vocabulary_clue_trail",
-          "type": "lore",
-          "title": "Secret of Vocabulary Clue Trail",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_literaquest",
-          "reward_type": "crystal",
-          "display_name": "LiteraQuest Crystal",
-          "icon_key": "icon_crystal_literaquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_vocabulary_clue_trail",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_literaquest",
-          "ambient_key": "ambient_literaquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "literaquest-t1-s2": {
-      "station_id": "literaquest-t1-s2",
-      "station_key": "synonym_bridge",
+      "id": "literaquest-t1-q1",
+      "title": "Vocabulary Clue Trail",
+      "description": "Practice your skills in Vocabulary Clue Trail.",
       "subject_slug": "literaquest",
-      "grade_level": 5,
       "term_number": 1,
-      "title": "Synonym Bridge: A LiteraQuest Mission",
-      "description": "Help restore Whispering Library by completing the Synonym Bridge challenges.",
-      "learning_skill": "reading comprehension",
-      "student_learning_goal": "I can practice reading comprehension while exploring Whispering Library.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "grade_level": 5,
+      "state": "unlocked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "literaquest-t1-q2": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "literaquest-t1-s2-c1-task",
-          "task_key": "task_synonym_bridge_1",
-          "task_type": "challenge",
-          "portal_key": "portal_synonym_bridge",
-          "interactable_key": "interactable_synonym_bridge_1",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "literaquest-t1-s2-c1",
-          "required": true
-        },
-        {
-          "task_id": "literaquest-t1-s2-c2-task",
-          "task_key": "task_synonym_bridge_2",
-          "task_type": "challenge",
-          "portal_key": "portal_synonym_bridge",
-          "interactable_key": "interactable_synonym_bridge_2",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "literaquest-t1-s2-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "literaquest-t1-s2-c1",
-          "challenge_type": "matching",
+          "id": "literaquest-t1-q2-item1",
+          "quiz_id": "literaquest-t1-q2",
+          "type": "matching",
           "prompt": "Match each item on the left to its pair.",
           "options": [
             {
@@ -1310,8 +780,9 @@
           "order_index": 1
         },
         {
-          "challenge_id": "literaquest-t1-s2-c2",
-          "challenge_type": "multiple_choice",
+          "id": "literaquest-t1-q2-item2",
+          "quiz_id": "literaquest-t1-q2",
+          "type": "multiple_choice",
           "prompt": "Which choice best fits the Synonym Bridge clue?",
           "options": [
             {
@@ -1338,153 +809,25 @@
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_literaquest_t1",
-        "world_title": "Whispering Library",
-        "unity_scene_key": "scene_world_literaquest_t1",
-        "unity_scene_name": "World_Literaquest_T1",
-        "scene_address_key": "addr_world_literaquest_t1",
-        "environment_tags": [
-          "library",
-          "whisper"
-        ],
-        "mechanic_family": "word_puzzle"
-      },
-      "story_context": "Something has gone quiet in Whispering Library. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Synonym Bridge Mission",
-      "mission_summary": "Solve the Synonym Bridge challenges to restore part of Whispering Library.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_literaquest",
-          "display_name": "Lumi the Owl",
-          "role": "mentor",
-          "avatar_key": "npc_literaquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_synonym_bridge",
-          "type": "lore",
-          "title": "Secret of Synonym Bridge",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_literaquest",
-          "reward_type": "crystal",
-          "display_name": "LiteraQuest Crystal",
-          "icon_key": "icon_crystal_literaquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_synonym_bridge",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_literaquest",
-          "ambient_key": "ambient_literaquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "literaquest-t2-s1": {
-      "station_id": "literaquest-t2-s1",
-      "station_key": "context_clue_cove",
+      "id": "literaquest-t1-q2",
+      "title": "Synonym Bridge",
+      "description": "Practice your skills in Synonym Bridge.",
       "subject_slug": "literaquest",
+      "term_number": 1,
       "grade_level": 5,
-      "term_number": 2,
-      "title": "Context Clue Cove: A LiteraQuest Mission",
-      "description": "Help restore Story Harbor by completing the Context Clue Cove challenges.",
-      "learning_skill": "reading comprehension",
-      "student_learning_goal": "I can practice reading comprehension while exploring Story Harbor.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "state": "unlocked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "literaquest-t2-q1": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "literaquest-t2-s1-c1-task",
-          "task_key": "task_context_clue_cove_1",
-          "task_type": "challenge",
-          "portal_key": "portal_context_clue_cove",
-          "interactable_key": "interactable_context_clue_cove_1",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "literaquest-t2-s1-c1",
-          "required": true
-        },
-        {
-          "task_id": "literaquest-t2-s1-c2-task",
-          "task_key": "task_context_clue_cove_2",
-          "task_type": "challenge",
-          "portal_key": "portal_context_clue_cove",
-          "interactable_key": "interactable_context_clue_cove_2",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "literaquest-t2-s1-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "literaquest-t2-s1-c1",
-          "challenge_type": "multiple_choice",
+          "id": "literaquest-t2-q1-item1",
+          "quiz_id": "literaquest-t2-q1",
+          "type": "multiple_choice",
           "prompt": "Which choice best fits the Context Clue Cove clue?",
           "options": [
             {
@@ -1511,8 +854,9 @@
           "order_index": 1
         },
         {
-          "challenge_id": "literaquest-t2-s1-c2",
-          "challenge_type": "true_false",
+          "id": "literaquest-t2-q1-item2",
+          "quiz_id": "literaquest-t2-q1",
+          "type": "true_false",
           "prompt": "True or false: the Context Clue Cove statement is correct.",
           "options": [
             {
@@ -1529,153 +873,25 @@
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_literaquest_t2",
-        "world_title": "Story Harbor",
-        "unity_scene_key": "scene_world_literaquest_t2",
-        "unity_scene_name": "World_Literaquest_T2",
-        "scene_address_key": "addr_world_literaquest_t2",
-        "environment_tags": [
-          "harbor",
-          "story"
-        ],
-        "mechanic_family": "word_puzzle"
-      },
-      "story_context": "Something has gone quiet in Story Harbor. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Context Clue Cove Mission",
-      "mission_summary": "Solve the Context Clue Cove challenges to restore part of Story Harbor.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_literaquest",
-          "display_name": "Lumi the Owl",
-          "role": "mentor",
-          "avatar_key": "npc_literaquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_context_clue_cove",
-          "type": "lore",
-          "title": "Secret of Context Clue Cove",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_literaquest",
-          "reward_type": "crystal",
-          "display_name": "LiteraQuest Crystal",
-          "icon_key": "icon_crystal_literaquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_context_clue_cove",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_literaquest",
-          "ambient_key": "ambient_literaquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "literaquest-t2-s2": {
-      "station_id": "literaquest-t2-s2",
-      "station_key": "main_idea_lighthouse",
+      "id": "literaquest-t2-q1",
+      "title": "Context Clue Cove",
+      "description": "Practice your skills in Context Clue Cove.",
       "subject_slug": "literaquest",
-      "grade_level": 5,
       "term_number": 2,
-      "title": "Main Idea Lighthouse: A LiteraQuest Mission",
-      "description": "Help restore Story Harbor by completing the Main Idea Lighthouse challenges.",
-      "learning_skill": "reading comprehension",
-      "student_learning_goal": "I can practice reading comprehension while exploring Story Harbor.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "grade_level": 5,
+      "state": "locked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "literaquest-t2-q2": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "literaquest-t2-s2-c1-task",
-          "task_key": "task_main_idea_lighthouse_1",
-          "task_type": "challenge",
-          "portal_key": "portal_main_idea_lighthouse",
-          "interactable_key": "interactable_main_idea_lighthouse_1",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "literaquest-t2-s2-c1",
-          "required": true
-        },
-        {
-          "task_id": "literaquest-t2-s2-c2-task",
-          "task_key": "task_main_idea_lighthouse_2",
-          "task_type": "challenge",
-          "portal_key": "portal_main_idea_lighthouse",
-          "interactable_key": "interactable_main_idea_lighthouse_2",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "literaquest-t2-s2-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "literaquest-t2-s2-c1",
-          "challenge_type": "scenario_choice",
+          "id": "literaquest-t2-q2-item1",
+          "quiz_id": "literaquest-t2-q2",
+          "type": "scenario_choice",
           "prompt": "What is the best thing to do in this situation?",
           "options": [
             {
@@ -1697,8 +913,9 @@
           "order_index": 1
         },
         {
-          "challenge_id": "literaquest-t2-s2-c2",
-          "challenge_type": "multiple_choice",
+          "id": "literaquest-t2-q2-item2",
+          "quiz_id": "literaquest-t2-q2",
+          "type": "multiple_choice",
           "prompt": "Which choice best fits the Main Idea Lighthouse clue?",
           "options": [
             {
@@ -1725,153 +942,25 @@
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_literaquest_t2",
-        "world_title": "Story Harbor",
-        "unity_scene_key": "scene_world_literaquest_t2",
-        "unity_scene_name": "World_Literaquest_T2",
-        "scene_address_key": "addr_world_literaquest_t2",
-        "environment_tags": [
-          "harbor",
-          "story"
-        ],
-        "mechanic_family": "word_puzzle"
-      },
-      "story_context": "Something has gone quiet in Story Harbor. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Main Idea Lighthouse Mission",
-      "mission_summary": "Solve the Main Idea Lighthouse challenges to restore part of Story Harbor.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_literaquest",
-          "display_name": "Lumi the Owl",
-          "role": "mentor",
-          "avatar_key": "npc_literaquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_main_idea_lighthouse",
-          "type": "lore",
-          "title": "Secret of Main Idea Lighthouse",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_literaquest",
-          "reward_type": "crystal",
-          "display_name": "LiteraQuest Crystal",
-          "icon_key": "icon_crystal_literaquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_main_idea_lighthouse",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_literaquest",
-          "ambient_key": "ambient_literaquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "literaquest-t3-s1": {
-      "station_id": "literaquest-t3-s1",
-      "station_key": "inference_summit",
+      "id": "literaquest-t2-q2",
+      "title": "Main Idea Lighthouse",
+      "description": "Practice your skills in Main Idea Lighthouse.",
       "subject_slug": "literaquest",
+      "term_number": 2,
       "grade_level": 5,
-      "term_number": 3,
-      "title": "Inference Summit: A LiteraQuest Mission",
-      "description": "Help restore Riddle Peaks by completing the Inference Summit challenges.",
-      "learning_skill": "reading comprehension",
-      "student_learning_goal": "I can practice reading comprehension while exploring Riddle Peaks.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "state": "locked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "literaquest-t3-q1": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "literaquest-t3-s1-c1-task",
-          "task_key": "task_inference_summit_1",
-          "task_type": "challenge",
-          "portal_key": "portal_inference_summit",
-          "interactable_key": "interactable_inference_summit_1",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "literaquest-t3-s1-c1",
-          "required": true
-        },
-        {
-          "task_id": "literaquest-t3-s1-c2-task",
-          "task_key": "task_inference_summit_2",
-          "task_type": "challenge",
-          "portal_key": "portal_inference_summit",
-          "interactable_key": "interactable_inference_summit_2",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "literaquest-t3-s1-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "literaquest-t3-s1-c1",
-          "challenge_type": "multiple_choice",
+          "id": "literaquest-t3-q1-item1",
+          "quiz_id": "literaquest-t3-q1",
+          "type": "multiple_choice",
           "prompt": "Which choice best fits the Inference Summit clue?",
           "options": [
             {
@@ -1898,8 +987,9 @@
           "order_index": 1
         },
         {
-          "challenge_id": "literaquest-t3-s1-c2",
-          "challenge_type": "ordering",
+          "id": "literaquest-t3-q1-item2",
+          "quiz_id": "literaquest-t3-q1",
+          "type": "ordering",
           "prompt": "Put these steps in the correct order.",
           "options": [
             {
@@ -1921,153 +1011,25 @@
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_literaquest_t3",
-        "world_title": "Riddle Peaks",
-        "unity_scene_key": "scene_world_literaquest_t3",
-        "unity_scene_name": "World_Literaquest_T3",
-        "scene_address_key": "addr_world_literaquest_t3",
-        "environment_tags": [
-          "mountain",
-          "riddle"
-        ],
-        "mechanic_family": "word_puzzle"
-      },
-      "story_context": "Something has gone quiet in Riddle Peaks. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Inference Summit Mission",
-      "mission_summary": "Solve the Inference Summit challenges to restore part of Riddle Peaks.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_literaquest",
-          "display_name": "Lumi the Owl",
-          "role": "mentor",
-          "avatar_key": "npc_literaquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_inference_summit",
-          "type": "lore",
-          "title": "Secret of Inference Summit",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_literaquest",
-          "reward_type": "crystal",
-          "display_name": "LiteraQuest Crystal",
-          "icon_key": "icon_crystal_literaquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_inference_summit",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_literaquest",
-          "ambient_key": "ambient_literaquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "literaquest-t3-s2": {
-      "station_id": "literaquest-t3-s2",
-      "station_key": "figurative_peak",
+      "id": "literaquest-t3-q1",
+      "title": "Inference Summit",
+      "description": "Practice your skills in Inference Summit.",
       "subject_slug": "literaquest",
-      "grade_level": 5,
       "term_number": 3,
-      "title": "Figurative Peak: A LiteraQuest Mission",
-      "description": "Help restore Riddle Peaks by completing the Figurative Peak challenges.",
-      "learning_skill": "reading comprehension",
-      "student_learning_goal": "I can practice reading comprehension while exploring Riddle Peaks.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "grade_level": 5,
+      "state": "locked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "literaquest-t3-q2": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "literaquest-t3-s2-c1-task",
-          "task_key": "task_figurative_peak_1",
-          "task_type": "challenge",
-          "portal_key": "portal_figurative_peak",
-          "interactable_key": "interactable_figurative_peak_1",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "literaquest-t3-s2-c1",
-          "required": true
-        },
-        {
-          "task_id": "literaquest-t3-s2-c2-task",
-          "task_key": "task_figurative_peak_2",
-          "task_type": "challenge",
-          "portal_key": "portal_figurative_peak",
-          "interactable_key": "interactable_figurative_peak_2",
-          "prefab_key": "prefab_literaquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "literaquest-t3-s2-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "literaquest-t3-s2-c1",
-          "challenge_type": "matching",
+          "id": "literaquest-t3-q2-item1",
+          "quiz_id": "literaquest-t3-q2",
+          "type": "matching",
           "prompt": "Match each item on the left to its pair.",
           "options": [
             {
@@ -2089,159 +1051,32 @@
           "order_index": 1
         },
         {
-          "challenge_id": "literaquest-t3-s2-c2",
-          "challenge_type": "fill_blank",
+          "id": "literaquest-t3-q2-item2",
+          "quiz_id": "literaquest-t3-q2",
+          "type": "fill_blank",
           "prompt": "Fill in the blank with the best word.",
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_literaquest_t3",
-        "world_title": "Riddle Peaks",
-        "unity_scene_key": "scene_world_literaquest_t3",
-        "unity_scene_name": "World_Literaquest_T3",
-        "scene_address_key": "addr_world_literaquest_t3",
-        "environment_tags": [
-          "mountain",
-          "riddle"
-        ],
-        "mechanic_family": "word_puzzle"
-      },
-      "story_context": "Something has gone quiet in Riddle Peaks. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Figurative Peak Mission",
-      "mission_summary": "Solve the Figurative Peak challenges to restore part of Riddle Peaks.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_literaquest",
-          "display_name": "Lumi the Owl",
-          "role": "mentor",
-          "avatar_key": "npc_literaquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_figurative_peak",
-          "type": "lore",
-          "title": "Secret of Figurative Peak",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_literaquest",
-          "reward_type": "crystal",
-          "display_name": "LiteraQuest Crystal",
-          "icon_key": "icon_crystal_literaquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_figurative_peak",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_literaquest",
-          "ambient_key": "ambient_literaquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "healthquest-t1-s1": {
-      "station_id": "healthquest-t1-s1",
-      "station_key": "warmup_rhythm",
-      "subject_slug": "healthquest",
+      "id": "literaquest-t3-q2",
+      "title": "Figurative Peak",
+      "description": "Practice your skills in Figurative Peak.",
+      "subject_slug": "literaquest",
+      "term_number": 3,
       "grade_level": 5,
-      "term_number": 1,
-      "title": "Warmup Rhythm: A PE & Health Quest Mission",
-      "description": "Help restore Sunrise Field by completing the Warmup Rhythm challenges.",
-      "learning_skill": "physical literacy",
-      "student_learning_goal": "I can practice physical literacy while exploring Sunrise Field.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "state": "locked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "healthquest-t1-q1": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "healthquest-t1-s1-c1-task",
-          "task_key": "task_warmup_rhythm_1",
-          "task_type": "challenge",
-          "portal_key": "portal_warmup_rhythm",
-          "interactable_key": "interactable_warmup_rhythm_1",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "healthquest-t1-s1-c1",
-          "required": true
-        },
-        {
-          "task_id": "healthquest-t1-s1-c2-task",
-          "task_key": "task_warmup_rhythm_2",
-          "task_type": "challenge",
-          "portal_key": "portal_warmup_rhythm",
-          "interactable_key": "interactable_warmup_rhythm_2",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "healthquest-t1-s1-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "healthquest-t1-s1-c1",
-          "challenge_type": "ordering",
+          "id": "healthquest-t1-q1-item1",
+          "quiz_id": "healthquest-t1-q1",
+          "type": "ordering",
           "prompt": "Put these steps in the correct order.",
           "options": [
             {
@@ -2263,8 +1098,9 @@
           "order_index": 1
         },
         {
-          "challenge_id": "healthquest-t1-s1-c2",
-          "challenge_type": "multiple_choice",
+          "id": "healthquest-t1-q1-item2",
+          "quiz_id": "healthquest-t1-q1",
+          "type": "multiple_choice",
           "prompt": "Which choice best fits the Warmup Rhythm clue?",
           "options": [
             {
@@ -2291,153 +1127,25 @@
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_healthquest_t1",
-        "world_title": "Sunrise Field",
-        "unity_scene_key": "scene_world_healthquest_t1",
-        "unity_scene_name": "World_Healthquest_T1",
-        "scene_address_key": "addr_world_healthquest_t1",
-        "environment_tags": [
-          "field",
-          "sunrise"
-        ],
-        "mechanic_family": "movement_rhythm"
-      },
-      "story_context": "Something has gone quiet in Sunrise Field. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Warmup Rhythm Mission",
-      "mission_summary": "Solve the Warmup Rhythm challenges to restore part of Sunrise Field.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_healthquest",
-          "display_name": "Coach Rio",
-          "role": "mentor",
-          "avatar_key": "npc_healthquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_warmup_rhythm",
-          "type": "lore",
-          "title": "Secret of Warmup Rhythm",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_healthquest",
-          "reward_type": "crystal",
-          "display_name": "PE & Health Quest Crystal",
-          "icon_key": "icon_crystal_healthquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_warmup_rhythm",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_healthquest",
-          "ambient_key": "ambient_healthquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "healthquest-t1-s2": {
-      "station_id": "healthquest-t1-s2",
-      "station_key": "hydration_station",
+      "id": "healthquest-t1-q1",
+      "title": "Warmup Rhythm",
+      "description": "Practice your skills in Warmup Rhythm.",
       "subject_slug": "healthquest",
-      "grade_level": 5,
       "term_number": 1,
-      "title": "Hydration Station: A PE & Health Quest Mission",
-      "description": "Help restore Sunrise Field by completing the Hydration Station challenges.",
-      "learning_skill": "physical literacy",
-      "student_learning_goal": "I can practice physical literacy while exploring Sunrise Field.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "grade_level": 5,
+      "state": "unlocked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "healthquest-t1-q2": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "healthquest-t1-s2-c1-task",
-          "task_key": "task_hydration_station_1",
-          "task_type": "challenge",
-          "portal_key": "portal_hydration_station",
-          "interactable_key": "interactable_hydration_station_1",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "healthquest-t1-s2-c1",
-          "required": true
-        },
-        {
-          "task_id": "healthquest-t1-s2-c2-task",
-          "task_key": "task_hydration_station_2",
-          "task_type": "challenge",
-          "portal_key": "portal_hydration_station",
-          "interactable_key": "interactable_hydration_station_2",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "healthquest-t1-s2-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "healthquest-t1-s2-c1",
-          "challenge_type": "true_false",
+          "id": "healthquest-t1-q2-item1",
+          "quiz_id": "healthquest-t1-q2",
+          "type": "true_false",
           "prompt": "True or false: the Hydration Station statement is correct.",
           "options": [
             {
@@ -2454,8 +1162,9 @@
           "order_index": 1
         },
         {
-          "challenge_id": "healthquest-t1-s2-c2",
-          "challenge_type": "multiple_choice",
+          "id": "healthquest-t1-q2-item2",
+          "quiz_id": "healthquest-t1-q2",
+          "type": "multiple_choice",
           "prompt": "Which choice best fits the Hydration Station clue?",
           "options": [
             {
@@ -2482,153 +1191,25 @@
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_healthquest_t1",
-        "world_title": "Sunrise Field",
-        "unity_scene_key": "scene_world_healthquest_t1",
-        "unity_scene_name": "World_Healthquest_T1",
-        "scene_address_key": "addr_world_healthquest_t1",
-        "environment_tags": [
-          "field",
-          "sunrise"
-        ],
-        "mechanic_family": "movement_rhythm"
-      },
-      "story_context": "Something has gone quiet in Sunrise Field. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Hydration Station Mission",
-      "mission_summary": "Solve the Hydration Station challenges to restore part of Sunrise Field.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_healthquest",
-          "display_name": "Coach Rio",
-          "role": "mentor",
-          "avatar_key": "npc_healthquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_hydration_station",
-          "type": "lore",
-          "title": "Secret of Hydration Station",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_healthquest",
-          "reward_type": "crystal",
-          "display_name": "PE & Health Quest Crystal",
-          "icon_key": "icon_crystal_healthquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_hydration_station",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_healthquest",
-          "ambient_key": "ambient_healthquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "healthquest-t2-s1": {
-      "station_id": "healthquest-t2-s1",
-      "station_key": "food_group_market",
+      "id": "healthquest-t1-q2",
+      "title": "Hydration Station",
+      "description": "Practice your skills in Hydration Station.",
       "subject_slug": "healthquest",
+      "term_number": 1,
       "grade_level": 5,
-      "term_number": 2,
-      "title": "Food Group Market: A PE & Health Quest Mission",
-      "description": "Help restore Wellness Village by completing the Food Group Market challenges.",
-      "learning_skill": "physical literacy",
-      "student_learning_goal": "I can practice physical literacy while exploring Wellness Village.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "state": "unlocked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "healthquest-t2-q1": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "healthquest-t2-s1-c1-task",
-          "task_key": "task_food_group_market_1",
-          "task_type": "challenge",
-          "portal_key": "portal_food_group_market",
-          "interactable_key": "interactable_food_group_market_1",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "healthquest-t2-s1-c1",
-          "required": true
-        },
-        {
-          "task_id": "healthquest-t2-s1-c2-task",
-          "task_key": "task_food_group_market_2",
-          "task_type": "challenge",
-          "portal_key": "portal_food_group_market",
-          "interactable_key": "interactable_food_group_market_2",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "healthquest-t2-s1-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "healthquest-t2-s1-c1",
-          "challenge_type": "matching",
+          "id": "healthquest-t2-q1-item1",
+          "quiz_id": "healthquest-t2-q1",
+          "type": "matching",
           "prompt": "Match each item on the left to its pair.",
           "options": [
             {
@@ -2650,8 +1231,9 @@
           "order_index": 1
         },
         {
-          "challenge_id": "healthquest-t2-s1-c2",
-          "challenge_type": "multiple_choice",
+          "id": "healthquest-t2-q1-item2",
+          "quiz_id": "healthquest-t2-q1",
+          "type": "multiple_choice",
           "prompt": "Which choice best fits the Food Group Market clue?",
           "options": [
             {
@@ -2678,153 +1260,25 @@
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_healthquest_t2",
-        "world_title": "Wellness Village",
-        "unity_scene_key": "scene_world_healthquest_t2",
-        "unity_scene_name": "World_Healthquest_T2",
-        "scene_address_key": "addr_world_healthquest_t2",
-        "environment_tags": [
-          "village",
-          "wellness"
-        ],
-        "mechanic_family": "movement_rhythm"
-      },
-      "story_context": "Something has gone quiet in Wellness Village. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Food Group Market Mission",
-      "mission_summary": "Solve the Food Group Market challenges to restore part of Wellness Village.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_healthquest",
-          "display_name": "Coach Rio",
-          "role": "mentor",
-          "avatar_key": "npc_healthquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_food_group_market",
-          "type": "lore",
-          "title": "Secret of Food Group Market",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_healthquest",
-          "reward_type": "crystal",
-          "display_name": "PE & Health Quest Crystal",
-          "icon_key": "icon_crystal_healthquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_food_group_market",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_healthquest",
-          "ambient_key": "ambient_healthquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "healthquest-t2-s2": {
-      "station_id": "healthquest-t2-s2",
-      "station_key": "balance_beam",
+      "id": "healthquest-t2-q1",
+      "title": "Food Group Market",
+      "description": "Practice your skills in Food Group Market.",
       "subject_slug": "healthquest",
-      "grade_level": 5,
       "term_number": 2,
-      "title": "Balance Beam: A PE & Health Quest Mission",
-      "description": "Help restore Wellness Village by completing the Balance Beam challenges.",
-      "learning_skill": "physical literacy",
-      "student_learning_goal": "I can practice physical literacy while exploring Wellness Village.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "grade_level": 5,
+      "state": "locked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "healthquest-t2-q2": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "healthquest-t2-s2-c1-task",
-          "task_key": "task_balance_beam_1",
-          "task_type": "challenge",
-          "portal_key": "portal_balance_beam",
-          "interactable_key": "interactable_balance_beam_1",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "healthquest-t2-s2-c1",
-          "required": true
-        },
-        {
-          "task_id": "healthquest-t2-s2-c2-task",
-          "task_key": "task_balance_beam_2",
-          "task_type": "challenge",
-          "portal_key": "portal_balance_beam",
-          "interactable_key": "interactable_balance_beam_2",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "healthquest-t2-s2-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "healthquest-t2-s2-c1",
-          "challenge_type": "multiple_choice",
+          "id": "healthquest-t2-q2-item1",
+          "quiz_id": "healthquest-t2-q2",
+          "type": "multiple_choice",
           "prompt": "Which choice best fits the Balance Beam clue?",
           "options": [
             {
@@ -2851,8 +1305,9 @@
           "order_index": 1
         },
         {
-          "challenge_id": "healthquest-t2-s2-c2",
-          "challenge_type": "true_false",
+          "id": "healthquest-t2-q2-item2",
+          "quiz_id": "healthquest-t2-q2",
+          "type": "true_false",
           "prompt": "True or false: the Balance Beam statement is correct.",
           "options": [
             {
@@ -2869,153 +1324,25 @@
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_healthquest_t2",
-        "world_title": "Wellness Village",
-        "unity_scene_key": "scene_world_healthquest_t2",
-        "unity_scene_name": "World_Healthquest_T2",
-        "scene_address_key": "addr_world_healthquest_t2",
-        "environment_tags": [
-          "village",
-          "wellness"
-        ],
-        "mechanic_family": "movement_rhythm"
-      },
-      "story_context": "Something has gone quiet in Wellness Village. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Balance Beam Mission",
-      "mission_summary": "Solve the Balance Beam challenges to restore part of Wellness Village.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_healthquest",
-          "display_name": "Coach Rio",
-          "role": "mentor",
-          "avatar_key": "npc_healthquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_balance_beam",
-          "type": "lore",
-          "title": "Secret of Balance Beam",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_healthquest",
-          "reward_type": "crystal",
-          "display_name": "PE & Health Quest Crystal",
-          "icon_key": "icon_crystal_healthquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_balance_beam",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_healthquest",
-          "ambient_key": "ambient_healthquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "healthquest-t3-s1": {
-      "station_id": "healthquest-t3-s1",
-      "station_key": "endurance_climb",
+      "id": "healthquest-t2-q2",
+      "title": "Balance Beam",
+      "description": "Practice your skills in Balance Beam.",
       "subject_slug": "healthquest",
+      "term_number": 2,
       "grade_level": 5,
-      "term_number": 3,
-      "title": "Endurance Climb: A PE & Health Quest Mission",
-      "description": "Help restore Summit Trail by completing the Endurance Climb challenges.",
-      "learning_skill": "physical literacy",
-      "student_learning_goal": "I can practice physical literacy while exploring Summit Trail.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "state": "locked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "healthquest-t3-q1": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "healthquest-t3-s1-c1-task",
-          "task_key": "task_endurance_climb_1",
-          "task_type": "challenge",
-          "portal_key": "portal_endurance_climb",
-          "interactable_key": "interactable_endurance_climb_1",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "healthquest-t3-s1-c1",
-          "required": true
-        },
-        {
-          "task_id": "healthquest-t3-s1-c2-task",
-          "task_key": "task_endurance_climb_2",
-          "task_type": "challenge",
-          "portal_key": "portal_endurance_climb",
-          "interactable_key": "interactable_endurance_climb_2",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "healthquest-t3-s1-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "healthquest-t3-s1-c1",
-          "challenge_type": "ordering",
+          "id": "healthquest-t3-q1-item1",
+          "quiz_id": "healthquest-t3-q1",
+          "type": "ordering",
           "prompt": "Put these steps in the correct order.",
           "options": [
             {
@@ -3037,8 +1364,9 @@
           "order_index": 1
         },
         {
-          "challenge_id": "healthquest-t3-s1-c2",
-          "challenge_type": "scenario_choice",
+          "id": "healthquest-t3-q1-item2",
+          "quiz_id": "healthquest-t3-q1",
+          "type": "scenario_choice",
           "prompt": "What is the best thing to do in this situation?",
           "options": [
             {
@@ -3060,153 +1388,25 @@
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_healthquest_t3",
-        "world_title": "Summit Trail",
-        "unity_scene_key": "scene_world_healthquest_t3",
-        "unity_scene_name": "World_Healthquest_T3",
-        "scene_address_key": "addr_world_healthquest_t3",
-        "environment_tags": [
-          "summit",
-          "trail"
-        ],
-        "mechanic_family": "movement_rhythm"
-      },
-      "story_context": "Something has gone quiet in Summit Trail. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Endurance Climb Mission",
-      "mission_summary": "Solve the Endurance Climb challenges to restore part of Summit Trail.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_healthquest",
-          "display_name": "Coach Rio",
-          "role": "mentor",
-          "avatar_key": "npc_healthquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_endurance_climb",
-          "type": "lore",
-          "title": "Secret of Endurance Climb",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
-        },
-        {
-          "code": "crystal_healthquest",
-          "reward_type": "crystal",
-          "display_name": "PE & Health Quest Crystal",
-          "icon_key": "icon_crystal_healthquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
-        }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_endurance_climb",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_healthquest",
-          "ambient_key": "ambient_healthquest"
-        }
-      },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
-      }
-    },
-    "healthquest-t3-s2": {
-      "station_id": "healthquest-t3-s2",
-      "station_key": "teamwork_relay",
+      "id": "healthquest-t3-q1",
+      "title": "Endurance Climb",
+      "description": "Practice your skills in Endurance Climb.",
       "subject_slug": "healthquest",
-      "grade_level": 5,
       "term_number": 3,
-      "title": "Teamwork Relay: A PE & Health Quest Mission",
-      "description": "Help restore Summit Trail by completing the Teamwork Relay challenges.",
-      "learning_skill": "physical literacy",
-      "student_learning_goal": "I can practice physical literacy while exploring Summit Trail.",
-      "instructions": "Talk to your guide, then solve each challenge. Mistakes are okay — keep trying!",
-      "completion_rule": {
-        "type": "complete_required_challenges",
-        "required_count": 2
-      },
-      "world_tasks": [
+      "grade_level": 5,
+      "state": "locked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    },
+    "healthquest-t3-q2": {
+      "instructions": "Solve each item carefully. You must score 75% or higher to pass!",
+      "items": [
         {
-          "task_id": "healthquest-t3-s2-c1-task",
-          "task_key": "task_teamwork_relay_1",
-          "task_type": "challenge",
-          "portal_key": "portal_teamwork_relay",
-          "interactable_key": "interactable_teamwork_relay_1",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_1",
-          "challenge_id": "healthquest-t3-s2-c1",
-          "required": true
-        },
-        {
-          "task_id": "healthquest-t3-s2-c2-task",
-          "task_key": "task_teamwork_relay_2",
-          "task_type": "challenge",
-          "portal_key": "portal_teamwork_relay",
-          "interactable_key": "interactable_teamwork_relay_2",
-          "prefab_key": "prefab_healthquest_task",
-          "world_position_hint": "node_2",
-          "challenge_id": "healthquest-t3-s2-c2",
-          "required": true
-        }
-      ],
-      "challenges": [
-        {
-          "challenge_id": "healthquest-t3-s2-c1",
-          "challenge_type": "scenario_choice",
+          "id": "healthquest-t3-q2-item1",
+          "quiz_id": "healthquest-t3-q2",
+          "type": "scenario_choice",
           "prompt": "What is the best thing to do in this situation?",
           "options": [
             {
@@ -3228,1520 +1428,454 @@
           "order_index": 1
         },
         {
-          "challenge_id": "healthquest-t3-s2-c2",
-          "challenge_type": "fill_blank",
+          "id": "healthquest-t3-q2-item2",
+          "quiz_id": "healthquest-t3-q2",
+          "type": "fill_blank",
           "prompt": "Fill in the blank with the best word.",
           "order_index": 2
         }
       ],
-      "content_revision": "content-rev-1",
-      "world_metadata": {
-        "world_theme_key": "world_healthquest_t3",
-        "world_title": "Summit Trail",
-        "unity_scene_key": "scene_world_healthquest_t3",
-        "unity_scene_name": "World_Healthquest_T3",
-        "scene_address_key": "addr_world_healthquest_t3",
-        "environment_tags": [
-          "summit",
-          "trail"
-        ],
-        "mechanic_family": "movement_rhythm"
+      "id": "healthquest-t3-q2",
+      "title": "Teamwork Relay",
+      "description": "Practice your skills in Teamwork Relay.",
+      "subject_slug": "healthquest",
+      "term_number": 3,
+      "grade_level": 5,
+      "state": "locked",
+      "total_items": 2,
+      "duration_minutes": 15,
+      "is_available": true,
+      "progress_percent": 0.0
+    }
+  },
+  "attempt_result_by_quiz_id": {
+    "literaquest-t1-q1": {
+      "response_template": {
+        "attempt_id": "attempt-literaquest-t1-q1",
+        "quiz_id": "literaquest-t1-q1",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
       },
-      "story_context": "Something has gone quiet in Summit Trail. Your guide needs your help to bring it back to life. Every challenge you solve restores a little more of the world.",
-      "mission_title": "The Teamwork Relay Mission",
-      "mission_summary": "Solve the Teamwork Relay challenges to restore part of Summit Trail.",
-      "npc_guides": [
-        {
-          "npc_key": "guide_healthquest",
-          "display_name": "Coach Rio",
-          "role": "mentor",
-          "avatar_key": "npc_healthquest",
-          "intro_dialogue": "Welcome, explorer! Ready to bring this world back to life?",
-          "completion_dialogue": "Wonderful work! The world is shining again thanks to you."
-        }
-      ],
-      "learning_cycle": {
-        "discover": "Look around and notice the clues in the world.",
-        "practice": "Try the first challenge and learn how it works.",
-        "apply": "Use what you learned to solve the next challenge.",
-        "review": "Think about what you discovered and how you solved it."
-      },
-      "hint_policy": {
-        "max_hint_tier": 3,
-        "preserve_world_progress": true,
-        "penalize_ordinary_mistake": false,
-        "tiers": [
-          {
-            "tier": 1,
-            "text": "Gentle nudge: read the question one more time."
-          },
-          {
-            "tier": 2,
-            "text": "Closer look: focus on the most important clue."
-          },
-          {
-            "tier": 3,
-            "text": "Almost there: you can narrow it down to two choices."
-          }
-        ]
-      },
-      "discoveries": [
-        {
-          "discovery_key": "discovery_teamwork_relay",
-          "type": "lore",
-          "title": "Secret of Teamwork Relay",
-          "description": "An optional bit of world lore to discover. Totally up to you!",
-          "optional": true,
-          "reward_preview": {
-            "code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "icon_key": "icon_coin",
-            "quantity": 2,
-            "grant_scope": "discovery"
-          }
-        }
-      ],
-      "reflection_prompt": "What is one new thing you learned in this mission?",
-      "reward_preview": [
-        {
-          "code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "icon_key": "icon_coin",
-          "quantity": 5,
-          "grant_scope": "per_challenge"
+      "safe_mistakes": {
+        "literaquest-t1-q1-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
         },
-        {
-          "code": "crystal_healthquest",
-          "reward_type": "crystal",
-          "display_name": "PE & Health Quest Crystal",
-          "icon_key": "icon_crystal_healthquest",
-          "quantity": 1,
-          "grant_scope": "term_after_both_stations"
+        "literaquest-t1-q1-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
         }
-      ],
-      "world_restoration_state": {
-        "state_key": "restored_teamwork_relay",
-        "apply_after_accepted_completion": true,
-        "state_data": {
-          "vfx_key": "vfx_restore_healthquest",
-          "ambient_key": "ambient_healthquest"
-        }
+      }
+    },
+    "literaquest-t1-q2": {
+      "response_template": {
+        "attempt_id": "attempt-literaquest-t1-q2",
+        "quiz_id": "literaquest-t1-q2",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
       },
-      "success_feedback": {
-        "message": "You did it! The world feels brighter already.",
-        "encouraging_phrases": [
-          "Amazing thinking!",
-          "You kept going — that's what explorers do!",
-          "Your curiosity is your superpower!"
-        ]
+      "safe_mistakes": {
+        "literaquest-t1-q2-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "literaquest-t1-q2-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "literaquest-t2-q1": {
+      "response_template": {
+        "attempt_id": "attempt-literaquest-t2-q1",
+        "quiz_id": "literaquest-t2-q1",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "literaquest-t2-q1-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "literaquest-t2-q1-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "literaquest-t2-q2": {
+      "response_template": {
+        "attempt_id": "attempt-literaquest-t2-q2",
+        "quiz_id": "literaquest-t2-q2",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "literaquest-t2-q2-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "literaquest-t2-q2-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "literaquest-t3-q1": {
+      "response_template": {
+        "attempt_id": "attempt-literaquest-t3-q1",
+        "quiz_id": "literaquest-t3-q1",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "literaquest-t3-q1-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "literaquest-t3-q1-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "literaquest-t3-q2": {
+      "response_template": {
+        "attempt_id": "attempt-literaquest-t3-q2",
+        "quiz_id": "literaquest-t3-q2",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "literaquest-t3-q2-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "literaquest-t3-q2-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "healthquest-t1-q1": {
+      "response_template": {
+        "attempt_id": "attempt-healthquest-t1-q1",
+        "quiz_id": "healthquest-t1-q1",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "healthquest-t1-q1-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "healthquest-t1-q1-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "healthquest-t1-q2": {
+      "response_template": {
+        "attempt_id": "attempt-healthquest-t1-q2",
+        "quiz_id": "healthquest-t1-q2",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "healthquest-t1-q2-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "healthquest-t1-q2-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "healthquest-t2-q1": {
+      "response_template": {
+        "attempt_id": "attempt-healthquest-t2-q1",
+        "quiz_id": "healthquest-t2-q1",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "healthquest-t2-q1-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "healthquest-t2-q1-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "healthquest-t2-q2": {
+      "response_template": {
+        "attempt_id": "attempt-healthquest-t2-q2",
+        "quiz_id": "healthquest-t2-q2",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "healthquest-t2-q2-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "healthquest-t2-q2-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "healthquest-t3-q1": {
+      "response_template": {
+        "attempt_id": "attempt-healthquest-t3-q1",
+        "quiz_id": "healthquest-t3-q1",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "healthquest-t3-q1-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "healthquest-t3-q1-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
+      }
+    },
+    "healthquest-t3-q2": {
+      "response_template": {
+        "attempt_id": "attempt-healthquest-t3-q2",
+        "quiz_id": "healthquest-t3-q2",
+        "status": "completed",
+        "score": 2.0,
+        "total_possible": 2.0,
+        "percentage": 100.0,
+        "passed": true,
+        "progress_updated": true
+      },
+      "safe_mistakes": {
+        "healthquest-t3-q2-item1": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        },
+        "healthquest-t3-q2-item2": {
+          "is_correct": false,
+          "message": "Not quite — let's try once more.",
+          "explanation": "Think about the clue and choose carefully.",
+          "hint_text": "Gentle nudge: re-read the options."
+        }
       }
     }
   },
-  "station_start_by_id": {
-    "literaquest-t1-s1": {
-      "station_session_id": "sess-literaquest-t1-s1",
-      "station_id": "literaquest-t1-s1",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "literaquest-t1-s2": {
-      "station_session_id": "sess-literaquest-t1-s2",
-      "station_id": "literaquest-t1-s2",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "literaquest-t2-s1": {
-      "station_session_id": "sess-literaquest-t2-s1",
-      "station_id": "literaquest-t2-s1",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "literaquest-t2-s2": {
-      "station_session_id": "sess-literaquest-t2-s2",
-      "station_id": "literaquest-t2-s2",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "literaquest-t3-s1": {
-      "station_session_id": "sess-literaquest-t3-s1",
-      "station_id": "literaquest-t3-s1",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "literaquest-t3-s2": {
-      "station_session_id": "sess-literaquest-t3-s2",
-      "station_id": "literaquest-t3-s2",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "healthquest-t1-s1": {
-      "station_session_id": "sess-healthquest-t1-s1",
-      "station_id": "healthquest-t1-s1",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "healthquest-t1-s2": {
-      "station_session_id": "sess-healthquest-t1-s2",
-      "station_id": "healthquest-t1-s2",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "healthquest-t2-s1": {
-      "station_session_id": "sess-healthquest-t2-s1",
-      "station_id": "healthquest-t2-s1",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "healthquest-t2-s2": {
-      "station_session_id": "sess-healthquest-t2-s2",
-      "station_id": "healthquest-t2-s2",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "healthquest-t3-s1": {
-      "station_session_id": "sess-healthquest-t3-s1",
-      "station_id": "healthquest-t3-s1",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    },
-    "healthquest-t3-s2": {
-      "station_session_id": "sess-healthquest-t3-s2",
-      "station_id": "healthquest-t3-s2",
-      "status": "in_progress",
-      "resuming": false,
-      "started_at": "2025-01-15T08:05:00Z",
-      "content_revision": "content-rev-1",
-      "challenge_progress": {}
-    }
-  },
-  "attempt_result_by_challenge_id": {
-    "literaquest-t1-s1-c1": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t1-s1-c1",
-        "challenge_id": "literaquest-t1-s1-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t1-s1-c2": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t1-s1-c2",
-        "challenge_id": "literaquest-t1-s1-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t1-s2-c1": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t1-s2-c1",
-        "challenge_id": "literaquest-t1-s2-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t1-s2-c2": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t1-s2-c2",
-        "challenge_id": "literaquest-t1-s2-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t2-s1-c1": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t2-s1-c1",
-        "challenge_id": "literaquest-t2-s1-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t2-s1-c2": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t2-s1-c2",
-        "challenge_id": "literaquest-t2-s1-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t2-s2-c1": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t2-s2-c1",
-        "challenge_id": "literaquest-t2-s2-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t2-s2-c2": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t2-s2-c2",
-        "challenge_id": "literaquest-t2-s2-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t3-s1-c1": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t3-s1-c1",
-        "challenge_id": "literaquest-t3-s1-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t3-s1-c2": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t3-s1-c2",
-        "challenge_id": "literaquest-t3-s1-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t3-s2-c1": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t3-s2-c1",
-        "challenge_id": "literaquest-t3-s2-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "literaquest-t3-s2-c2": {
-      "response_template": {
-        "attempt_id": "attempt-literaquest-t3-s2-c2",
-        "challenge_id": "literaquest-t3-s2-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t1-s1-c1": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t1-s1-c1",
-        "challenge_id": "healthquest-t1-s1-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t1-s1-c2": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t1-s1-c2",
-        "challenge_id": "healthquest-t1-s1-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t1-s2-c1": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t1-s2-c1",
-        "challenge_id": "healthquest-t1-s2-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t1-s2-c2": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t1-s2-c2",
-        "challenge_id": "healthquest-t1-s2-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t2-s1-c1": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t2-s1-c1",
-        "challenge_id": "healthquest-t2-s1-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t2-s1-c2": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t2-s1-c2",
-        "challenge_id": "healthquest-t2-s1-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t2-s2-c1": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t2-s2-c1",
-        "challenge_id": "healthquest-t2-s2-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t2-s2-c2": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t2-s2-c2",
-        "challenge_id": "healthquest-t2-s2-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t3-s1-c1": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t3-s1-c1",
-        "challenge_id": "healthquest-t3-s1-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t3-s1-c2": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t3-s1-c2",
-        "challenge_id": "healthquest-t3-s1-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t3-s2-c1": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t3-s2-c1",
-        "challenge_id": "healthquest-t3-s2-c1",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    },
-    "healthquest-t3-s2-c2": {
-      "response_template": {
-        "attempt_id": "attempt-healthquest-t3-s2-c2",
-        "challenge_id": "healthquest-t3-s2-c2",
-        "status": "accepted",
-        "accepted": true,
-        "correct": true,
-        "review_status": "auto_accepted",
-        "feedback": {
-          "is_correct": true,
-          "message": "Correct! Great thinking.",
-          "explanation": "You used the clues in the world to reach a good answer.",
-          "encouraging_message": "You're doing great!",
-          "retry_allowed": false
-        },
-        "score_awarded": 10.0,
-        "rewards_granted": [
-          {
-            "reward_code": "coin",
-            "reward_type": "coin",
-            "display_name": "Coin",
-            "quantity": 5
-          }
-        ],
-        "progress_updated": true
-      },
-      "safe_mistake": {
-        "is_correct": false,
-        "message": "Not quite — let's try once more.",
-        "misconception_message": "Think about the clue again.",
-        "encouraging_message": "Mistakes help us learn!",
-        "retry_action": "retry",
-        "retry_allowed": true,
-        "current_hint_tier": 1,
-        "next_hint_tier": 2,
-        "hint_text": "Look closely at the first part."
-      }
-    }
-  },
-  "completion_result_by_station_id": {
-    "literaquest-t1-s1": {
-      "station_id": "literaquest-t1-s1",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_vocabulary_clue_trail",
-        "restored": true
-      }
-    },
-    "literaquest-t1-s2": {
-      "station_id": "literaquest-t1-s2",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_synonym_bridge",
-        "restored": true
-      }
-    },
-    "literaquest-t2-s1": {
-      "station_id": "literaquest-t2-s1",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_context_clue_cove",
-        "restored": true
-      }
-    },
-    "literaquest-t2-s2": {
-      "station_id": "literaquest-t2-s2",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_main_idea_lighthouse",
-        "restored": true
-      }
-    },
-    "literaquest-t3-s1": {
-      "station_id": "literaquest-t3-s1",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_inference_summit",
-        "restored": true
-      }
-    },
-    "literaquest-t3-s2": {
-      "station_id": "literaquest-t3-s2",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_figurative_peak",
-        "restored": true
-      }
-    },
-    "healthquest-t1-s1": {
-      "station_id": "healthquest-t1-s1",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_warmup_rhythm",
-        "restored": true
-      }
-    },
-    "healthquest-t1-s2": {
-      "station_id": "healthquest-t1-s2",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_hydration_station",
-        "restored": true
-      }
-    },
-    "healthquest-t2-s1": {
-      "station_id": "healthquest-t2-s1",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_food_group_market",
-        "restored": true
-      }
-    },
-    "healthquest-t2-s2": {
-      "station_id": "healthquest-t2-s2",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_balance_beam",
-        "restored": true
-      }
-    },
-    "healthquest-t3-s1": {
-      "station_id": "healthquest-t3-s1",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_endurance_climb",
-        "restored": true
-      }
-    },
-    "healthquest-t3-s2": {
-      "station_id": "healthquest-t3-s2",
-      "status": "completed",
-      "completed": true,
-      "score_total": 20.0,
-      "portal_state": "completed",
-      "rewards_granted": [
-        {
-          "reward_code": "coin",
-          "reward_type": "coin",
-          "display_name": "Coin",
-          "quantity": 5
-        }
-      ],
-      "world_restoration_result": {
-        "state_key": "restored_teamwork_relay",
-        "restored": true
-      }
-    }
-  },
+  "quiz_result_by_attempt_id": {},
   "demo_only_evaluation": {
-    "literaquest-t1-s1-c1": {
+    "literaquest-t1-q1-item1": {
       "expected_answer": "b"
     },
-    "literaquest-t1-s1-c2": {
+    "literaquest-t1-q1-item2": {
       "expected_answer": "noun"
     },
-    "literaquest-t1-s2-c1": {
+    "literaquest-t1-q2-item1": {
       "expected_answer": {
         "a": "x",
         "b": "y",
         "c": "z"
       }
     },
-    "literaquest-t1-s2-c2": {
+    "literaquest-t1-q2-item2": {
       "expected_answer": "b"
     },
-    "literaquest-t2-s1-c1": {
+    "literaquest-t2-q1-item1": {
       "expected_answer": "b"
     },
-    "literaquest-t2-s1-c2": {
+    "literaquest-t2-q1-item2": {
       "expected_answer": "true"
     },
-    "literaquest-t2-s2-c1": {
+    "literaquest-t2-q2-item1": {
       "expected_answer": "a"
     },
-    "literaquest-t2-s2-c2": {
+    "literaquest-t2-q2-item2": {
       "expected_answer": "b"
     },
-    "literaquest-t3-s1-c1": {
+    "literaquest-t3-q1-item1": {
       "expected_answer": "b"
     },
-    "literaquest-t3-s1-c2": {
+    "literaquest-t3-q1-item2": {
       "expected_answer": [
         "i1",
         "i2",
         "i3"
       ]
     },
-    "literaquest-t3-s2-c1": {
+    "literaquest-t3-q2-item1": {
       "expected_answer": {
         "a": "x",
         "b": "y",
         "c": "z"
       }
     },
-    "literaquest-t3-s2-c2": {
+    "literaquest-t3-q2-item2": {
       "expected_answer": "noun"
     },
-    "healthquest-t1-s1-c1": {
+    "healthquest-t1-q1-item1": {
       "expected_answer": [
         "i1",
         "i2",
         "i3"
       ]
     },
-    "healthquest-t1-s1-c2": {
+    "healthquest-t1-q1-item2": {
       "expected_answer": "b"
     },
-    "healthquest-t1-s2-c1": {
+    "healthquest-t1-q2-item1": {
       "expected_answer": "true"
     },
-    "healthquest-t1-s2-c2": {
+    "healthquest-t1-q2-item2": {
       "expected_answer": "b"
     },
-    "healthquest-t2-s1-c1": {
+    "healthquest-t2-q1-item1": {
       "expected_answer": {
         "a": "x",
         "b": "y",
         "c": "z"
       }
     },
-    "healthquest-t2-s1-c2": {
+    "healthquest-t2-q1-item2": {
       "expected_answer": "b"
     },
-    "healthquest-t2-s2-c1": {
+    "healthquest-t2-q2-item1": {
       "expected_answer": "b"
     },
-    "healthquest-t2-s2-c2": {
+    "healthquest-t2-q2-item2": {
       "expected_answer": "true"
     },
-    "healthquest-t3-s1-c1": {
+    "healthquest-t3-q1-item1": {
       "expected_answer": [
         "i1",
         "i2",
         "i3"
       ]
     },
-    "healthquest-t3-s1-c2": {
+    "healthquest-t3-q1-item2": {
       "expected_answer": "a"
     },
-    "healthquest-t3-s2-c1": {
+    "healthquest-t3-q2-item1": {
       "expected_answer": "a"
     },
-    "healthquest-t3-s2-c2": {
+    "healthquest-t3-q2-item2": {
       "expected_answer": "noun"
     }
   },
   "error_fixtures": {
-    "station_locked": {
-      "code": "STATION_LOCKED",
-      "message": "This station is still locked. Finish the earlier station first.",
+    "quiz_locked": {
+      "code": "QUIZ_LOCKED",
+      "message": "This quiz is still locked. Finish the earlier quiz first.",
       "retryable": false,
       "action": "return_to_menu",
       "ResolvedAction": "return_to_menu",
       "IsRetryable": false
     },
-    "validation_error": {
-      "code": "VALIDATION_ERROR",
-      "message": "Please check your answer and try again.",
-      "retryable": false,
-      "field_errors": {
-        "answer": "This field is required."
-      },
-      "action": "retry",
-      "ResolvedAction": "retry",
-      "IsRetryable": false
-    },
-    "rate_limited": {
-      "code": "RATE_LIMITED",
-      "message": "You're going a bit fast. Please wait a moment.",
-      "retryable": true,
-      "retry_after_seconds": 5,
-      "action": "wait_then_retry",
-      "ResolvedAction": "wait_then_retry",
-      "IsRetryable": true
-    },
-    "unauthenticated": {
+    "invalid_session": {
       "code": "UNAUTHENTICATED",
       "message": "Your session ended. Please log in again.",
       "retryable": false,
       "action": "login_again",
       "ResolvedAction": "login_again",
-      "IsRetryable": false
-    },
-    "session_not_found": {
-      "code": "SESSION_NOT_FOUND",
-      "message": "We couldn't find that activity session.",
-      "retryable": false,
-      "action": "return_to_menu",
-      "ResolvedAction": "return_to_menu",
-      "IsRetryable": false
-    },
-    "content_not_published": {
-      "code": "CONTENT_NOT_PUBLISHED",
-      "message": "This activity isn't ready yet.",
-      "retryable": false,
-      "action": "return_to_menu",
-      "ResolvedAction": "return_to_menu",
       "IsRetryable": false
     }
   }

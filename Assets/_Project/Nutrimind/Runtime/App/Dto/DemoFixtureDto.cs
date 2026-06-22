@@ -43,25 +43,21 @@ namespace NutriMind.Runtime.App.Dto
         [JsonProperty("terms_by_subject")]
         public Dictionary<string, List<TermDto>>? TermsBySubject { get; set; }
 
-        /// <summary>"subject:grade:term" → station list (same shape as the HTTP stations endpoint).</summary>
-        [JsonProperty("stations_by_scope")]
-        public Dictionary<string, StationListDto>? StationsByScope { get; set; }
+        /// <summary>"subject:grade:term" → quiz list (same shape as the HTTP quizzes endpoint).</summary>
+        [JsonProperty("quizzes_by_scope")]
+        public Dictionary<string, QuizListDto>? QuizzesByScope { get; set; }
 
-        /// <summary>station_id → station content (same shape as the HTTP station-content endpoint).</summary>
-        [JsonProperty("station_content_by_id")]
-        public Dictionary<string, StationContentDto>? StationContentById { get; set; }
+        /// <summary>quiz_id → quiz detail (same shape as the HTTP quiz detail endpoint).</summary>
+        [JsonProperty("quiz_detail_by_id")]
+        public Dictionary<string, QuizDetailDto>? QuizDetailById { get; set; }
 
-        /// <summary>station_id → start/resume response (same shape as the HTTP start endpoint).</summary>
-        [JsonProperty("station_start_by_id")]
-        public Dictionary<string, StationStartResponseDto>? StationStartById { get; set; }
+        /// <summary>quiz_id → simulated attempt result template + safe mistake feedback.</summary>
+        [JsonProperty("attempt_result_by_quiz_id")]
+        public Dictionary<string, DemoQuizAttemptFixtureDto>? AttemptResultByQuizId { get; set; }
 
-        /// <summary>challenge_id → simulated attempt-result template + safe-mistake feedback.</summary>
-        [JsonProperty("attempt_result_by_challenge_id")]
-        public Dictionary<string, DemoAttemptFixtureDto>? AttemptResultByChallengeId { get; set; }
-
-        /// <summary>station_id → simulated completion result (same shape as the HTTP complete endpoint).</summary>
-        [JsonProperty("completion_result_by_station_id")]
-        public Dictionary<string, StationCompleteResponseDto>? CompletionResultByStationId { get; set; }
+        /// <summary>attempt_id → simulated quiz result (same shape as the HTTP quiz result endpoint).</summary>
+        [JsonProperty("quiz_result_by_attempt_id")]
+        public Dictionary<string, QuizResultDto>? QuizResultByAttemptId { get; set; }
 
         /// <summary>
         /// Fixture-only fabricated expected answers used by the local evaluator.
@@ -139,18 +135,18 @@ namespace NutriMind.Runtime.App.Dto
     }
 
     /// <summary>
-    /// A simulated attempt result template for one challenge. <see cref="ResponseTemplate"/>
+    /// A simulated attempt result template for one quiz. <see cref="ResponseTemplate"/>
     /// is the accepted/correct result (its <c>client_attempt_uuid</c> is filled from the
-    /// request at runtime). <see cref="SafeMistake"/> is the encouraging, tiered-hint
-    /// feedback returned when the submitted answer does not match the fixture's
-    /// fabricated expected answer.
+    /// request at runtime). <see cref="SafeMistakes"/> are the encouraging, tiered-hint
+    /// feedback returned when the submitted answers do not match the fixture's
+    /// fabricated expected answers.
     /// </summary>
-    public class DemoAttemptFixtureDto
+    public class DemoQuizAttemptFixtureDto
     {
         [JsonProperty("response_template")]
-        public AttemptResponseDto? ResponseTemplate { get; set; }
+        public QuizAttemptResponseDto? ResponseTemplate { get; set; }
 
-        [JsonProperty("safe_mistake")]
-        public AttemptFeedbackDto? SafeMistake { get; set; }
+        [JsonProperty("safe_mistakes")]
+        public Dictionary<string, QuizItemFeedbackDto>? SafeMistakes { get; set; }
     }
 }

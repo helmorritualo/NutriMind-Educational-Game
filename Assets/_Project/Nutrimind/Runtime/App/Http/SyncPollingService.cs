@@ -183,7 +183,7 @@ namespace NutriMind.Runtime.App.Http
 
             return _lastKnown.StudentProgressRevision != current.StudentProgressRevision
                 || _lastKnown.StudentSettingsRevision != current.StudentSettingsRevision
-                || _lastKnown.StationUnlockRevision != current.StationUnlockRevision
+                || _lastKnown.QuizRevision != current.QuizRevision
                 || _lastKnown.PublishedContentRevision != current.PublishedContentRevision
                 || _lastKnown.RewardWalletRevision != current.RewardWalletRevision;
         }
