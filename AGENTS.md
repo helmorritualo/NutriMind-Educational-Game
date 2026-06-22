@@ -11,6 +11,7 @@ The current Unity milestone is quiz-first. The Unity project should be completed
 Before making changes, read these files if they exist in this repository:
 
 `README.md`
+`UNITY_AI_ASSISTANT_CUSTOM_INSTRUCTIONS.txt`
 `docs/UNITY_REQUIREMENTS.md`
 `docs/unity/01_FOUNDATION_AND_DELIVERY_ORDER.md`
 `docs/unity/02_GAME_FLOW_AND_STATE_MODEL.md`
