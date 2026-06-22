@@ -60,6 +60,21 @@ namespace NutriMind.Runtime.App
         /// <summary>Typed interaction state store.</summary>
         public InteractionStateStore? InteractionStateStore { get; set; }
 
+        /// <summary>Typed quiz availability store.</summary>
+        public QuizAvailabilityStore? QuizAvailabilityStore { get; set; }
+
+        /// <summary>Typed quiz detail store.</summary>
+        public QuizDetailStore? QuizDetailStore { get; set; }
+
+        /// <summary>Typed quiz session store.</summary>
+        public QuizSessionStore? QuizSessionStore { get; set; }
+
+        /// <summary>Typed quiz answer draft store.</summary>
+        public QuizAnswerDraftStore? QuizAnswerDraftStore { get; set; }
+
+        /// <summary>Typed quiz result store.</summary>
+        public QuizResultStore? QuizResultStore { get; set; }
+
         /// <summary>
         /// Resets all session-owned state to defaults.
         /// Called on logout and session expiry.
@@ -84,6 +99,11 @@ namespace NutriMind.Runtime.App
             SubjectTermStore = null;
             ProgressRewardStore = null;
             InteractionStateStore = null;
+            QuizAvailabilityStore = null;
+            QuizDetailStore = null;
+            QuizSessionStore = null;
+            QuizAnswerDraftStore = null;
+            QuizResultStore = null;
         }
     }
 }

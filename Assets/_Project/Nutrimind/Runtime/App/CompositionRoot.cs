@@ -113,6 +113,15 @@ namespace NutriMind.Runtime.App
         /// <summary>Main-thread callback dispatcher.</summary>
         public MainThreadDispatcher Dispatcher { get; }
 
+        /// <summary>Quiz validation service.</summary>
+        public QuizValidationService QuizValidationService { get; }
+
+        /// <summary>Quiz item presenter registry.</summary>
+        public QuizItemPresenterRegistry QuizItemPresenterRegistry { get; }
+
+        /// <summary>Safe diagnostic and error service.</summary>
+        public SafeErrorService SafeErrorService { get; }
+
         /// <summary>
         /// Configures the canonical composition root for the requested mode.
         /// This method always returns the same canonical singleton that
@@ -176,6 +185,9 @@ namespace NutriMind.Runtime.App
             AssetCatalog = new AssetCatalogValidator();
             AttemptCoordinator = new AttemptCoordinator();
             Dispatcher = new MainThreadDispatcher();
+            QuizValidationService = new QuizValidationService();
+            QuizItemPresenterRegistry = new QuizItemPresenterRegistry();
+            SafeErrorService = new SafeErrorService();
 
             // Choose the data provider based on the requested mode.
             if (mode == DataProviderMode.Http)

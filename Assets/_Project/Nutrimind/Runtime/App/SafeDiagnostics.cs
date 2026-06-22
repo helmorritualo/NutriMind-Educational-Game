@@ -27,18 +27,14 @@ namespace NutriMind.Runtime.App
         // associated value, handling quoted multi-word strings or unquoted
         // scalars (e.g. "correct_answer":"New York", answer_key = "Fact or Opinion",
         // or correct_answer = 42).
-        private static readonly Regex s_answerPattern = new(
-            @"""?\b(?:answer_key|correct_answer)\b""?(?:\s*[:=]\s*(?:""[^""]*""|[^\s,""}]+))?",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex s_answerPattern = new("\"?\\b(answer_key|correct_answer)\\b\"?(\\s*[:=]\\s*(\"[^\"]*\"|'[^']*'|[^\\r\\n,;}]+))?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         // Stack-trace file-path snippet matching Windows absolute paths with
         // spaces, hyphens, or other path characters (e.g.
         //   "in C:\Dev-Env\Module.cs:line 42"
         //   "in C:\NutriMind Game\Runner.cs"
         //   "in C:/Dev-Environment/SomeDir/file.cs")
-        private static readonly Regex s_stackPathPattern = new(
-            @"in\s+[A-Za-z]:(?:\\|/)[^\r\n]*?\.cs(?::line\s+\d+)?",
-            RegexOptions.Compiled);
+        private static readonly Regex s_stackPathPattern = new("in\\s+[A-Za-z]:[^\\r\\n]*?\\.cs(?::line\\s+\\d+)?", RegexOptions.Compiled);
 
         // .NET/Java stack-trace method-frame pattern matching lines like
         // "at NutriMind.Runtime.App.HttpProvider.SendWithRetryAsync(...)"
