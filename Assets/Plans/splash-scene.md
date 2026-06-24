@@ -40,13 +40,17 @@ The following files are the primary focus of this unit:
     - On Maintenance Mode: Transition state machine to `AppState.MaintenanceBlocked` and display a clean "Maintenance Mode" error message on the Canvas.
     - On Unsupported Client Version: Transition to `AppState.UpdateRequired` and display an "Update Required" notification.
     - On Network/Connection Failure: Display a friendly "Connection Failed" prompt with a "Retry" button that re-fires the config check.
-  - If the config check is successful and the video finishes (or is skipped), navigate to the `Login` scene using `AppNavigation.LoadScene("Login")`.
+  - If the config check is successful and the video finishes (or is skipped), start background preloading of the `Login` scene using `SceneManager.LoadSceneAsync(result.ScenePath)` with `allowSceneActivation = false`.
+  - While the Login scene is loading in the background, keep the Splash screen fully visible and active (`_canvasGroup.alpha = 1f`).
+  - Once background preloading reaches completion (`progress >= 0.9f`), execute a smooth fade-out of `_canvasGroup.alpha` to `0f`.
+  - Instantly set `allowSceneActivation = true` on the next frame to activate the fully loaded Login scene with zero delay, entirely bypassing any "empty scene" flash or background exposure.
 - **Assigned role**: developer
 - **Dependencies**: None
 - **Parallelizable**: Yes
 
 ### Step 2: Set Up and Align the Splash Scene UI
 - **Description**: Open `SplashScreen.unity`. Align and configure the UI:
+  - Configure the `Main Camera`'s `clearFlags` to `SolidColor` and its `backgroundColor` to solid black (or a dark theme matching color). This guarantees that the transient frame of transition is visually clean and free of default skybox/blue screen colors.
   - Add the `SplashController` script to the `splash` GameObject.
   - Bind references to the `VideoPlayer`, `RawImage`, and add a `CanvasScaler` configured for `Scale With Screen Size` (Reference Resolution: 1920x1080, Match: 0.5) to ensure responsive layout on diverse Android landscape ratios.
   - Add an AspectRatioFitter to the `RawImage` or implement simple scale adjustments in `SplashController` to prevent video stretching.
@@ -75,5 +79,6 @@ The following files are the primary focus of this unit:
 1. **Compilation Check**: Verify zero compiler warnings or errors.
 2. **State Transition Tests**: Verify via `SplashControllerTests` that the state machine behaves exactly as expected in all API conditions.
 3. **Responsive Android Landscape Review**: Check the UI scaling in the Unity Game View across multiple landscape resolutions (e.g. 1920x1080, 2160x1080, 2400x1080) and confirm the video area scales correctly without cropping critical content or stretching.
-4. **Interactive Skip Check**: Play the scene in Editor Playmode. Tap/click anywhere while the video is playing and verify immediate transition to the `Login` scene (or a log stating transition is called if the Login scene is empty).
-5. **Simulated Server Error Validation**: Force the fake local provider (or use a mock) to return maintenance mode or network failure. Play the scene and verify that the video pauses or completes and the friendly error overlay is displayed with a functional "Retry" button.
+4. **Interactive Skip Check**: Play the scene in Editor Playmode. Tap/click anywhere while the video is playing and verify immediate, seamless transition to the `Login` scene without any transient blue/skybox screen showing.
+5. **Zero Empty-Scene Flash Verification**: Play the scene in Playmode and observe the transition closely. Verify that the video/splash screen is visible during background loading, and once fully loaded, transitions instantly and cleanly to the Login scene with no intermediate empty-scene state visible.
+6. **Simulated Server Error Validation**: Force the fake local provider (or use a mock) to return maintenance mode or network failure. Play the scene and verify that the video pauses or completes and the friendly error overlay is displayed with a functional "Retry" button.

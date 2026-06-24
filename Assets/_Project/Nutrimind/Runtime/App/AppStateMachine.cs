@@ -43,6 +43,7 @@ namespace NutriMind.Runtime.App
             // Authenticating
             (AppState.Authenticating, AppState.Authenticating),
             (AppState.Authenticating, AppState.Bootstrapping),
+            (AppState.Authenticating, AppState.LoggedOut),
 
             // Bootstrapping
             (AppState.Bootstrapping, AppState.Bootstrapping),

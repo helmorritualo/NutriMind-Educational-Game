@@ -19,6 +19,7 @@ namespace NutriMind.Runtime.App
         [SerializeField] private GameObject _errorOverlay;
         [SerializeField] private TextMeshProUGUI _errorText;
         [SerializeField] private Button _retryButton;
+        [SerializeField] private CanvasGroup _canvasGroup;
 
         private CancellationTokenSource _cts;
         private bool _serverCheckCompleted;
@@ -67,8 +68,27 @@ namespace NutriMind.Runtime.App
                 _videoFinished = true;
             }
 
+            // Start safety timeout to prevent getting stuck if VideoPlayer fails to prepare or fire loopPointReached
+            StartCoroutine(SafetyTimeoutRoutine());
+
             // Start configuration check in parallel
             StartServerCheck();
+        }
+
+        private System.Collections.IEnumerator SafetyTimeoutRoutine()
+        {
+            // Safety timeout is slightly longer than the video length (e.g., 6 seconds)
+            yield return new WaitForSeconds(6f);
+            if (!_videoFinished)
+            {
+                Debug.LogWarning("[SplashController] Safety timeout reached before video finished. Bypassing video player.");
+                _videoFinished = true;
+                if (_videoPlayer != null && _videoPlayer.isPlaying)
+                {
+                    _videoPlayer.Stop();
+                }
+                TryExitSplash();
+            }
         }
 
         private void OnVideoPrepared(VideoPlayer vp)
@@ -92,6 +112,18 @@ namespace NutriMind.Runtime.App
                 {
                     _aspectRatioFitter.aspectRatio = videoAspect;
                 }
+            }
+
+            // Detect skip trigger (mouse click or touch tap anywhere)
+            if (!_videoFinished && (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)))
+            {
+                Debug.Log("[SplashController] Skip triggered by user click/tap.");
+                _videoFinished = true;
+                if (_videoPlayer != null && _videoPlayer.isPlaying)
+                {
+                    _videoPlayer.Stop();
+                }
+                TryExitSplash();
             }
         }
 
@@ -254,12 +286,91 @@ namespace NutriMind.Runtime.App
             if (_serverCheckCompleted && _serverCheckSuccessful)
             {
                 Debug.Log("[SplashController] Transitioning to Login screen.");
-                AppNavigation.LoadScene("Login");
+                StartCoroutine(FadeAndLoadRoutine());
             }
             else if (_serverCheckCompleted && !_serverCheckSuccessful)
             {
                 // Wait for the player to resolve the error (e.g. click Retry)
                 Debug.Log("[SplashController] Server check failed or still in error. Blocking transition.");
+            }
+        }
+
+        private System.Collections.IEnumerator FadeAndLoadRoutine()
+        {
+            // 1. Resolve path for Login scene and begin asynchronous preloading in the background
+            var root = CompositionRoot.Instance;
+            string scenePath = null;
+            if (root != null && root.NavigationService != null)
+            {
+                var navResult = root.NavigationService.Navigate("Login");
+                if (navResult.IsAvailable)
+                {
+                    scenePath = navResult.ScenePath;
+                }
+            }
+
+            AsyncOperation op = null;
+            if (!string.IsNullOrEmpty(scenePath))
+            {
+                Debug.Log($"[SplashController] Pre-loading Login scene asynchronously in background: {scenePath}");
+                op = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(scenePath);
+                if (op != null)
+                {
+                    op.allowSceneActivation = false;
+                }
+            }
+
+            // 2. Keep the Splash screen fully visible while the Login scene is loading in the background
+            if (op != null)
+            {
+                while (op.progress < 0.9f)
+                {
+                    yield return null;
+                }
+                Debug.Log("[SplashController] Login scene is fully loaded and ready. Starting fade out.");
+            }
+
+            // 3. Smooth Fade Out (0.5s)
+            if (_canvasGroup != null)
+            {
+                float elapsed = 0f;
+                float duration = 0.5f;
+                while (elapsed < duration)
+                {
+                    elapsed += Time.deltaTime;
+                    _canvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
+                    yield return null;
+                }
+                _canvasGroup.alpha = 0f;
+            }
+
+            // 4. Pre-warm TMPro font loading to avoid frame drops on rendering the input text inside Login scene
+            try
+            {
+                var settings = TMP_Settings.defaultFontAsset;
+                if (settings != null)
+                {
+                    Debug.Log("[SplashController] Pre-warmed default TMP Font Asset: " + settings.name);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning("[SplashController] Pre-warming TMP Font Asset failed: " + ex.Message);
+            }
+
+            // 5. Defer major GC call to the exact transition frame
+            System.GC.Collect();
+            Debug.Log("[SplashController] Triggered garbage collection transition sweep.");
+
+            // 6. Activate the pre-loaded Login scene instantly!
+            if (op != null)
+            {
+                op.allowSceneActivation = true;
+            }
+            else
+            {
+                // Fallback standard load if scene preloading wasn't started
+                AppNavigation.LoadScene("Login");
             }
         }
     }
