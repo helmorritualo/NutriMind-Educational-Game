@@ -1,4 +1,8 @@
-Test Run Started...
+Test Run Started: 24/06/2026 8:32:38 AM
+Total test cases to run: 547
+[Passed] NutriMind.Tests.EditMode.App.AppBootstrapTests.AppBootstrap_RegistersAllActiveAppScenes
+[Passed] NutriMind.Tests.EditMode.App.AppBootstrapTests.AppNavigation_LoadsScenesThroughNavigationService
+[Passed] NutriMind.Tests.EditMode.App.AppBootstrapTests
 [Passed] NutriMind.Tests.EditMode.App.AssetCatalogValidatorTests.AssetCatalogEntry_TypeExists
 [Passed] NutriMind.Tests.EditMode.App.AssetCatalogValidatorTests.AssetCatalogValidator_DetectsDuplicateAssetKey
 [Passed] NutriMind.Tests.EditMode.App.AssetCatalogValidatorTests.AssetCatalogValidator_DetectsMissingMapping
@@ -11,21 +15,25 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.AssetCatalogValidatorTests.RegisterDuplicate_DoesNotOverrideExistingEntry
 [Passed] NutriMind.Tests.EditMode.App.AssetCatalogValidatorTests.RegisterDuplicate_DoesNotThrow
 [Passed] NutriMind.Tests.EditMode.App.AssetCatalogValidatorTests.Validate_ReportsDuplicateKeyInIssues
+[Passed] NutriMind.Tests.EditMode.App.AssetCatalogValidatorTests
 [Passed] NutriMind.Tests.EditMode.App.AttemptCoordinatorTests.AttemptCoordinator_EmbedsAttemptScope
 [Passed] NutriMind.Tests.EditMode.App.AttemptCoordinatorTests.AttemptCoordinator_HasRetryMethod
 [Passed] NutriMind.Tests.EditMode.App.AttemptCoordinatorTests.AttemptCoordinator_HasSubmitMethod
 [Passed] NutriMind.Tests.EditMode.App.AttemptCoordinatorTests.AttemptCoordinator_SubmitAttempt_RejectsSecondCall
 [Passed] NutriMind.Tests.EditMode.App.AttemptCoordinatorTests.AttemptCoordinator_TypeExists
 [Passed] NutriMind.Tests.EditMode.App.AttemptCoordinatorTests.AttemptScope_ClientAttemptUuid_IsStableAcrossRetry
+[Passed] NutriMind.Tests.EditMode.App.AttemptCoordinatorTests
 [Passed] NutriMind.Tests.EditMode.App.AuthSessionStateTests.AuthSessionState_ApplyLogin_Authenticated
 [Passed] NutriMind.Tests.EditMode.App.AuthSessionStateTests.AuthSessionState_DefaultsUnauthenticated
 [Passed] NutriMind.Tests.EditMode.App.AuthSessionStateTests.AuthSessionState_Reset_ClearsAuth
+[Passed] NutriMind.Tests.EditMode.App.AuthSessionStateTests
 [Passed] NutriMind.Tests.EditMode.App.CancellationDispatcherTests.AppStateMachine_HasInvalidateInFlightOperations
 [Passed] NutriMind.Tests.EditMode.App.CancellationDispatcherTests.MainThreadDispatcher_CanPostAndExecute
 [Passed] NutriMind.Tests.EditMode.App.CancellationDispatcherTests.MainThreadDispatcher_HasCancelOrInvalidateMethod
 [Passed] NutriMind.Tests.EditMode.App.CancellationDispatcherTests.MainThreadDispatcher_HasExecutePendingMethod
 [Passed] NutriMind.Tests.EditMode.App.CancellationDispatcherTests.MainThreadDispatcher_HasPostMethod
 [Passed] NutriMind.Tests.EditMode.App.CancellationDispatcherTests.MainThreadDispatcher_TypeExists
+[Passed] NutriMind.Tests.EditMode.App.CancellationDispatcherTests
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootModeConfigTests.CompositionRoot_HasCreateForModeFactory
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootModeConfigTests.CompositionRoot_HasDisposeMethod
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootModeConfigTests.CompositionRoot_ImplementsIDisposable
@@ -41,6 +49,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootModeConfigTests.CreateForMode_WhenModeChanges_DisposesOldHttpProvider
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootModeConfigTests.DefaultInstance_UsesLocalDemoJsonProvider
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootModeConfigTests.ReleaseBuildGuard_Documented
+[Passed] NutriMind.Tests.EditMode.App.CompositionRootModeConfigTests
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootTests.CompositionRoot_ExposesAppStateMachine
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootTests.CompositionRoot_ExposesDataProvider
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootTests.CompositionRoot_ExposesSessionScope
@@ -50,6 +59,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootTests.CompositionRoot_Services_AreNotNull
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootTests.CompositionRoot_Services_AreSharedInstances
 [Passed] NutriMind.Tests.EditMode.App.CompositionRootTests.CompositionRoot_TypeExists
+[Passed] NutriMind.Tests.EditMode.App.CompositionRootTests
 [Passed] NutriMind.Tests.EditMode.App.DataResultStructuredErrorTests.DataProviderError_HasStableCode
 [Passed] NutriMind.Tests.EditMode.App.DataResultStructuredErrorTests.DataProviderError_HasStableMessage
 [Passed] NutriMind.Tests.EditMode.App.DataResultStructuredErrorTests.DataResult_Fail_WithDataProviderError_PreservesCode
@@ -61,6 +71,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.DataResultStructuredErrorTests.HttpProvider_ServerError_MapsToStructuredError
 [Passed] NutriMind.Tests.EditMode.App.DataResultStructuredErrorTests.LocalDemoJsonProvider_NeverReportsNotImplemented
 [Passed] NutriMind.Tests.EditMode.App.DataResultStructuredErrorTests.LocalDemoJsonProvider_UnauthenticatedCall_HasNonNullStructuredError
+[Passed] NutriMind.Tests.EditMode.App.DataResultStructuredErrorTests
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_GetQuizzes_UsesCorrectQueryParams
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_GetRetriesOnNetworkError
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_HttpBaseUrl_RejectedAsConfigurationError
@@ -81,6 +92,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_KnownSafeCode_PreservesServerMessage_RedactsSensitiveContent("CLIENT_VERSION_UNSUPPORTED")
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_KnownSafeCode_PreservesServerMessage_RedactsSensitiveContent("CONFIG_VERSION_UNSUPPORTED")
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_KnownSafeCode_PreservesServerMessage_RedactsSensitiveContent("NOT_FOUND")
+[Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_KnownSafeCode_PreservesServerMessage_RedactsSensitiveContent
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_ParsesServerErrorEnvelope
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_PatchDoesNotRetryOnTransientError
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProvider_QuizAttemptRetriesAndReusesClientAttemptUuid
@@ -92,6 +104,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.HttpProviderConfig_BuildUrl_TrimsSlashes
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.JsonSettings_SnakeCaseRoundTrip
 [Passed] NutriMind.Tests.EditMode.App.HttpProviderTests.JsonSettings_UnknownFieldsIgnored
+[Passed] NutriMind.Tests.EditMode.App.HttpProviderTests
 [Passed] NutriMind.Tests.EditMode.App.InteractionStateStoreExtendedResetTests.CurrentPhase_DefaultsToDiscover
 [Passed] NutriMind.Tests.EditMode.App.InteractionStateStoreExtendedResetTests.CurrentStationNarrative_DefaultsToNull
 [Passed] NutriMind.Tests.EditMode.App.InteractionStateStoreExtendedResetTests.LastFeedback_DefaultsToNull
@@ -100,6 +113,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.InteractionStateStoreExtendedResetTests.Reset_ResetsCurrentPhaseToDiscover
 [Passed] NutriMind.Tests.EditMode.App.InteractionStateStoreExtendedResetTests.Reset_StillClearsContextData
 [Passed] NutriMind.Tests.EditMode.App.InteractionStateStoreExtendedResetTests.Reset_StillClearsCurrentPrompt
+[Passed] NutriMind.Tests.EditMode.App.InteractionStateStoreExtendedResetTests
 [Passed] NutriMind.Tests.EditMode.App.LocalDemoJsonProviderTests.CompletingQuiz_UnlocksNextQuiz
 [Passed] NutriMind.Tests.EditMode.App.LocalDemoJsonProviderTests.CorrectAnswer_IsAcceptedAndPassesQuiz
 [Passed] NutriMind.Tests.EditMode.App.LocalDemoJsonProviderTests.DevelopmentGuard_EditorAllowsLocalDemoProvider
@@ -121,14 +135,17 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.LocalDemoJsonProviderTests.Subjects_ReturnsThree_WithScienceExplorationPreview
 [Passed] NutriMind.Tests.EditMode.App.LocalDemoJsonProviderTests.UnauthenticatedCall_ReturnsUnauthenticated
 [Passed] NutriMind.Tests.EditMode.App.LocalDemoJsonProviderTests.WrongAnswer_ReturnsEncouragingSafeMistakeHint
+[Passed] NutriMind.Tests.EditMode.App.LocalDemoJsonProviderTests
 [Passed] NutriMind.Tests.EditMode.App.MainThreadDispatcherThreadingTests.ConcurrentPostAndFlush_DoesNotLoseCallbacks
 [Passed] NutriMind.Tests.EditMode.App.MainThreadDispatcherThreadingTests.Post_FromMultipleBackgroundThreads_AllCallbacksExecuteExactlyOnce
 [Passed] NutriMind.Tests.EditMode.App.MainThreadDispatcherThreadingTests.PostWithGeneration_StaleCallbacksDoNotExecute
+[Passed] NutriMind.Tests.EditMode.App.MainThreadDispatcherThreadingTests
 [Passed] NutriMind.Tests.EditMode.App.NavigationServiceTests.NavigationService_DoesNotAcceptRawScenePath
 [Passed] NutriMind.Tests.EditMode.App.NavigationServiceTests.NavigationService_MissingKey_ReturnsSafeUnavailable
 [Passed] NutriMind.Tests.EditMode.App.NavigationServiceTests.NavigationService_PrimaryApiTakesKey_NotRawPath
 [Passed] NutriMind.Tests.EditMode.App.NavigationServiceTests.NavigationService_TypeExists
 [Passed] NutriMind.Tests.EditMode.App.NavigationServiceTests.NavigationService_UsesSceneRegistryByKey
+[Passed] NutriMind.Tests.EditMode.App.NavigationServiceTests
 [Passed] NutriMind.Tests.EditMode.App.NutriMindGameFlowStateTests.AppState_AllExpectedValuesDefined
 [Passed] NutriMind.Tests.EditMode.App.NutriMindGameFlowStateTests.AppState_TypeExists
 [Passed] NutriMind.Tests.EditMode.App.NutriMindGameFlowStateTests.AppStateMachine_HasCurrentStateProperty
@@ -174,6 +191,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.NutriMindGameFlowStateTests.TrySelectSubject_RejectedAfterInWorld
 [Passed] NutriMind.Tests.EditMode.App.NutriMindGameFlowStateTests.TrySelectSubject_RejectedAfterSelectingTerm
 [Passed] NutriMind.Tests.EditMode.App.NutriMindGameFlowStateTests.UnsupportedSubject_UndefinedValue_MustNotUnlockStationEntry
+[Passed] NutriMind.Tests.EditMode.App.NutriMindGameFlowStateTests
 [Passed] NutriMind.Tests.EditMode.App.NutriMindPhase04AStateFlowTests.AppState_ContainsAtLeastBaseline25Values
 [Passed] NutriMind.Tests.EditMode.App.NutriMindPhase04AStateFlowTests.AppState_HasFourNewValues
 [Passed] NutriMind.Tests.EditMode.App.NutriMindPhase04AStateFlowTests.AppState_NewValuesExistAndHaveUniqueOrdinals
@@ -209,6 +227,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.NutriMindPhase04AStateFlowTests.RewardPresentationPath_SelfLoopIsValid
 [Passed] NutriMind.Tests.EditMode.App.NutriMindPhase04AStateFlowTests.ScienceQuest_CannotEnterShowingMissionBrief
 [Passed] NutriMind.Tests.EditMode.App.NutriMindPhase04AStateFlowTests.ScienceQuest_StillCannotEnterStartingStation
+[Passed] NutriMind.Tests.EditMode.App.NutriMindPhase04AStateFlowTests
 [Passed] NutriMind.Tests.EditMode.App.ProgressRewardStoreExtendedResetTests.Reset_ClearsRestorationState
 [Passed] NutriMind.Tests.EditMode.App.ProgressRewardStoreExtendedResetTests.Reset_ClearsRewardPreviews
 [Passed] NutriMind.Tests.EditMode.App.ProgressRewardStoreExtendedResetTests.Reset_StillClearsProgressData
@@ -216,10 +235,12 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.ProgressRewardStoreExtendedResetTests.RestorationState_DefaultsToNull
 [Passed] NutriMind.Tests.EditMode.App.ProgressRewardStoreExtendedResetTests.RewardPreviews_DefaultsToEmpty
 [Passed] NutriMind.Tests.EditMode.App.ProgressRewardStoreExtendedResetTests.RewardPreviews_Mutable
+[Passed] NutriMind.Tests.EditMode.App.ProgressRewardStoreExtendedResetTests
 [Passed] NutriMind.Tests.EditMode.App.QuizAnswerDraftStoreTests.DefaultState_IsEmpty
 [Passed] NutriMind.Tests.EditMode.App.QuizAnswerDraftStoreTests.RemoveAnswer_RemovesCorrectly
 [Passed] NutriMind.Tests.EditMode.App.QuizAnswerDraftStoreTests.Reset_ClearsAllAnswers
 [Passed] NutriMind.Tests.EditMode.App.QuizAnswerDraftStoreTests.SetAndGetAnswer_WorksCorrectly
+[Passed] NutriMind.Tests.EditMode.App.QuizAnswerDraftStoreTests
 [Passed] NutriMind.Tests.EditMode.App.QuizItemPresenterRegistryTests.Clear_RemovesAllFactories
 [Passed] NutriMind.Tests.EditMode.App.QuizItemPresenterRegistryTests.CreatePresenter_NullOrEmptyItemType_ThrowsArgumentException
 [Passed] NutriMind.Tests.EditMode.App.QuizItemPresenterRegistryTests.CreatePresenter_RegisteredType_ReturnsNewInstanceViaFactory
@@ -230,10 +251,12 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.QuizItemPresenterRegistryTests.RegisterAndHasPresenter_WorksCaseInsensitively
 [Passed] NutriMind.Tests.EditMode.App.QuizItemPresenterRegistryTests.Unregister_NullOrEmpty_ReturnsFalse
 [Passed] NutriMind.Tests.EditMode.App.QuizItemPresenterRegistryTests.Unregister_RegisteredType_RemovesAndReturnsTrue
+[Passed] NutriMind.Tests.EditMode.App.QuizItemPresenterRegistryTests
 [Passed] NutriMind.Tests.EditMode.App.QuizStoresTests.QuizAvailabilityStore_DefaultAndReset
 [Passed] NutriMind.Tests.EditMode.App.QuizStoresTests.QuizDetailStore_DefaultAndReset
 [Passed] NutriMind.Tests.EditMode.App.QuizStoresTests.QuizResultStore_DefaultAndReset
 [Passed] NutriMind.Tests.EditMode.App.QuizStoresTests.QuizSessionStore_DefaultAndReset
+[Passed] NutriMind.Tests.EditMode.App.QuizStoresTests
 [Passed] NutriMind.Tests.EditMode.App.QuizValidationServiceTests.ValidateDraft_AllValidAnswers_ReturnsTrue
 [Passed] NutriMind.Tests.EditMode.App.QuizValidationServiceTests.ValidateDraft_EmptyItemsList_ReturnsTrue
 [Passed] NutriMind.Tests.EditMode.App.QuizValidationServiceTests.ValidateDraft_InvalidAnswers_AreConsideredUnanswered
@@ -242,6 +265,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.QuizValidationServiceTests.ValidateDraft_NullOrEmptyItemIds_AreSkipped
 [Passed] NutriMind.Tests.EditMode.App.QuizValidationServiceTests.ValidateDraft_NullQuizDetail_ReturnsFalse
 [Passed] NutriMind.Tests.EditMode.App.QuizValidationServiceTests.ValidateDraft_UnansweredItems_ReturnsFalseAndListsIds
+[Passed] NutriMind.Tests.EditMode.App.QuizValidationServiceTests
 [Passed] NutriMind.Tests.EditMode.App.SafeDiagnosticsTests.RedactAll_RedactsAnswerKeyLabel
 [Passed] NutriMind.Tests.EditMode.App.SafeDiagnosticsTests.RedactAll_RedactsAnswerKeyValue_AlphanumericExample
 [Passed] NutriMind.Tests.EditMode.App.SafeDiagnosticsTests.RedactAll_RedactsCorrectAnswerLabel
@@ -270,6 +294,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.SafeDiagnosticsTests.SanitizeDiagnostics_RedactsCorrectAnswerValue_JsonExample
 [Passed] NutriMind.Tests.EditMode.App.SafeDiagnosticsTests.SanitizeDiagnostics_RedactsMultiWordQuotedAnswer_JsonStyle
 [Passed] NutriMind.Tests.EditMode.App.SafeDiagnosticsTests.SanitizeDiagnostics_RedactsStackTraceSnippet
+[Passed] NutriMind.Tests.EditMode.App.SafeDiagnosticsTests
 [Passed] NutriMind.Tests.EditMode.App.SafeErrorServiceTests.LogMethods_DoNotThrow
 [Passed] NutriMind.Tests.EditMode.App.SafeErrorServiceTests.RedactAll_WithAnswerKeys_RedactsAnswers
 [Passed] NutriMind.Tests.EditMode.App.SafeErrorServiceTests.RedactAll_WithSqlContent_RedactsSql
@@ -280,6 +305,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.SafeErrorServiceTests.RedactToken_WithJwtLikeToken_RedactsToken
 [Passed] NutriMind.Tests.EditMode.App.SafeErrorServiceTests.RedactToken_WithNull_ReturnsEmptyString
 [Passed] NutriMind.Tests.EditMode.App.SafeErrorServiceTests.SanitizeDiagnostics_DelegatesToRedactAll
+[Passed] NutriMind.Tests.EditMode.App.SafeErrorServiceTests
 [Passed] NutriMind.Tests.EditMode.App.SceneRegistryTests.SceneRegistry_ExposesRegisteredCount
 [Passed] NutriMind.Tests.EditMode.App.SceneRegistryTests.SceneRegistry_GetScene_ReturnsRegisteredPath
 [Passed] NutriMind.Tests.EditMode.App.SceneRegistryTests.SceneRegistry_GetScene_ReturnsUnavailableForBadKey
@@ -290,6 +316,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.SceneRegistryTests.SceneRegistry_TryGetScene_NullKeyReturnsFalse
 [Passed] NutriMind.Tests.EditMode.App.SceneRegistryTests.SceneRegistry_TypeExists
 [Passed] NutriMind.Tests.EditMode.App.SceneRegistryTests.SceneRegistry_ValidatesSceneInBuildSettings
+[Passed] NutriMind.Tests.EditMode.App.SceneRegistryTests
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeClearTests.Clear_DoesNotThrow
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeClearTests.Clear_IsIdempotent
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeClearTests.Clear_ResetsAllSessionOwnedStateToDefault
@@ -302,9 +329,12 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeClearTests.SessionScope_HasAuthTokenProperty("ProgressData")
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeClearTests.SessionScope_HasAuthTokenProperty("RewardState")
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeClearTests.SessionScope_HasAuthTokenProperty("InteractionState")
+[Passed] NutriMind.Tests.EditMode.App.SessionScopeClearTests.SessionScope_HasAuthTokenProperty
+[Passed] NutriMind.Tests.EditMode.App.SessionScopeClearTests
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeQuizStoresTests.SessionScope_CanAssignAndRetrieveQuizStores
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeQuizStoresTests.SessionScope_Clear_ResetsAllQuizStoresToNull
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeQuizStoresTests.SessionScope_HasQuizStoresProperties
+[Passed] NutriMind.Tests.EditMode.App.SessionScopeQuizStoresTests
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeTypedStoresTests.AuthSessionState_TypeExists
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeTypedStoresTests.Clear_PreservesMode_WhenStoresAreTyped
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeTypedStoresTests.Clear_ResetsAllTypedStoresToDefaults
@@ -319,6 +349,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeTypedStoresTests.SettingsStore_TypeExists
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeTypedStoresTests.StudentProfileStore_TypeExists
 [Passed] NutriMind.Tests.EditMode.App.SessionScopeTypedStoresTests.SubjectTermStore_TypeExists
+[Passed] NutriMind.Tests.EditMode.App.SessionScopeTypedStoresTests
 [Passed] NutriMind.Tests.EditMode.App.SharedClient.GameDataProviderContractTests.DataProviderError_HasSnakeCaseJsonProperties
 [Passed] NutriMind.Tests.EditMode.App.SharedClient.GameDataProviderContractTests.IGameDataProvider_HasTaskAndCancellationTokenCorrectlyTyped
 [Passed] NutriMind.Tests.EditMode.App.SharedClient.GameDataProviderContractTests.LoginResponseDto_OptionalFieldsAreNullByDefault
@@ -332,6 +363,8 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.SharedClient.GameDataProviderContractTests.QuizListDto_HasSnakeCaseJsonProperties
 [Passed] NutriMind.Tests.EditMode.App.SharedClient.GameDataProviderContractTests.SyncStatusDto_HasSnakeCaseJsonProperties
 [Passed] NutriMind.Tests.EditMode.App.SharedClient.GameDataProviderContractTests.SyncStatusDto_OptionalFieldsAreNullByDefault
+[Passed] NutriMind.Tests.EditMode.App.SharedClient.GameDataProviderContractTests
+[Passed] NutriMind.Tests.EditMode.App.SharedClient
 [Passed] NutriMind.Tests.EditMode.App.StationNarrativeDtoTests.DiscoveryEntry_DefaultsAreNull
 [Passed] NutriMind.Tests.EditMode.App.StationNarrativeDtoTests.DiscoveryEntry_HasNullableStringProperties
 [Passed] NutriMind.Tests.EditMode.App.StationNarrativeDtoTests.DiscoveryEntry_TypeExists
@@ -366,10 +399,17 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.App.StationNarrativeDtoTests.SuccessFeedback_TypeExists
 [Passed] NutriMind.Tests.EditMode.App.StationNarrativeDtoTests.WorldRestorationState_HasStateKeyAndStateData
 [Passed] NutriMind.Tests.EditMode.App.StationNarrativeDtoTests.WorldRestorationState_TypeExists
+[Passed] NutriMind.Tests.EditMode.App.StationNarrativeDtoTests
 [Passed] NutriMind.Tests.EditMode.App.SyncPollingServiceTests.SyncPollingService_ChangedEvent_FiresOnRevisionChange
 [Passed] NutriMind.Tests.EditMode.App.SyncPollingServiceTests.SyncPollingService_NoChange_NoChangedEvent
 [Passed] NutriMind.Tests.EditMode.App.SyncPollingServiceTests.SyncPollingService_StartStopStart_WorksWithoutError
 [Passed] NutriMind.Tests.EditMode.App.SyncPollingServiceTests.SyncPollingService_Stop_DoesNotThrow
+[Passed] NutriMind.Tests.EditMode.App.SyncPollingServiceTests
+[Passed] NutriMind.Tests.EditMode.App
+[Passed] NutriMind.Tests.EditMode
+[Passed] NutriMind.Tests
+[Passed] NutriMind
+[Passed] C:/Users/Kingk/Dev-Environment/Capstone-Project/NutriMind Educational Game/Library/ScriptAssemblies/NutriMind.Tests.EditMode.App.dll
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAccessibilityStyleTests.AccessibilityUss_HasFocusRingClass
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAccessibilityStyleTests.AccessibilityUss_HasHighContrastClass
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAccessibilityStyleTests.AccessibilityUss_HasLargeTextClass
@@ -401,6 +441,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAccessibilityStyleTests.LargeText_OverridesSettingsRowLabel
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAccessibilityStyleTests.LargeText_OverridesSettingsRowValue
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAccessibilityStyleTests.LargeTextMode_PreservesTypographicHierarchy
+[Passed] NutriMind.Tests.EditMode.UI.NutriMindAccessibilityStyleTests
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAppShellLayerTests.AppShell_HasAccessibilityAnnouncer
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAppShellLayerTests.AppShell_HasBackgroundLayer
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAppShellLayerTests.AppShell_HasBlockingLayer
@@ -408,6 +449,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAppShellLayerTests.AppShell_HasScreenLayer
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAppShellLayerTests.AppShell_HasToastLayer
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAppShellLayerTests.AppShell_HasWorldHudLayer
+[Passed] NutriMind.Tests.EditMode.UI.NutriMindAppShellLayerTests
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAssetPathTests.AccessibilityStyleSheet_LoadsAtExpectedPath
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAssetPathTests.AllPathConstants_AreNonEmpty
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAssetPathTests.AppShellUxml_DoesNotContainWebAriaAttributes
@@ -429,6 +471,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAssetPathTests.RuntimePanelSettings_LoadsAtExpectedPath
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAssetPathTests.ScreenFrameComponent_LoadsAtExpectedPath
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindAssetPathTests.ScreensStyleSheet_LoadsAtExpectedPath
+[Passed] NutriMind.Tests.EditMode.UI.NutriMindAssetPathTests
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentStyleTests.ComponentsUss_HasAllStateClasses
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentStyleTests.ComponentsUss_HasBackButtonClass
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentStyleTests.ComponentsUss_HasBaseButtonClass
@@ -460,6 +503,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentStyleTests.ComponentsUss_HasSubjectCardClass
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentStyleTests.ComponentsUss_HasTermCardClass
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentStyleTests.ComponentsUss_HasTouchJoystickClass
+[Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentStyleTests
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentTemplateTests.BottomNavTemplate_LoadsAtComponentsFolder
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentTemplateTests.ConnectionBadgeTemplate_LoadsAtComponentsFolder
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentTemplateTests.DialogOverlayTemplate_LoadsAtOverlaysFolder
@@ -497,6 +541,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentTemplateTests.TermCardTemplate_HasButtonRoot
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentTemplateTests.TermCardTemplate_HasFocusableRoot
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentTemplateTests.TermCardTemplate_LoadsAtComponentsFolder
+[Passed] NutriMind.Tests.EditMode.UI.NutriMindComponentTemplateTests
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindSafeAreaUtilityTests.CalculatePadding_ReturnsNewInstanceEachCall
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindSafeAreaUtilityTests.CalculatePadding_WhenSafeAreaExceedsScreenBounds_ClampsToZero
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindSafeAreaUtilityTests.CalculatePadding_WithBottomNotch_ReturnsPositiveBottomPadding
@@ -517,6 +562,7 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindSafeAreaUtilityTests.GetPanelPadding_WithThreeArg_ZeroPanelResolution_DoesNotThrow
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindSafeAreaUtilityTests.GetPanelPadding_WithThreeArg_ZeroScreenResolution_DoesNotThrow
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindSafeAreaUtilityTests.IsAndroidLandscape_IsReadable
+[Passed] NutriMind.Tests.EditMode.UI.NutriMindSafeAreaUtilityTests
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindUiStateTests.ApplyState_WhenTransitioningFromDisabledToNormal_ReenablesElement
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindUiStateTests.ApplyState_WhenTransitioningFromErrorToNormal_RemovesErrorClass
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindUiStateTests.ApplyState_WhenTransitioningFromLoadingToSuccess_RemovesLoadingClass
@@ -544,10 +590,14 @@ Test Run Started...
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindUiStateTests.SetLoading_WithFalse_RemovesLoadingClass
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindUiStateTests.SetLoading_WithNullElement_DoesNotThrow
 [Passed] NutriMind.Tests.EditMode.UI.NutriMindUiStateTests.SetLoading_WithTrue_AddsLoadingClassAndClearsOtherState
-
-=== RUN FINISHED ===
-ResultState: Passed
-Total: 545
-Passed: 545
+[Passed] NutriMind.Tests.EditMode.UI.NutriMindUiStateTests
+[Passed] NutriMind.Tests.EditMode.UI
+[Passed] NutriMind.Tests.EditMode
+[Passed] NutriMind.Tests
+[Passed] NutriMind
+[Passed] C:/Users/Kingk/Dev-Environment/Capstone-Project/NutriMind Educational Game/Library/ScriptAssemblies/NutriMind.Tests.EditMode.UI.dll
+[Passed] NutriMind Educational Game
+Test Run Finished. Status: Passed
+Passed: 547
 Failed: 0
 Skipped: 0

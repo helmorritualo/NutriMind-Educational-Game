@@ -5,9 +5,30 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/Bootstrap.unity
+    guid: c591c8c729a9cce45ba2f6981e5e0a66
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/SplashScreen.unity
+    guid: 29cb35feffb225f46912391acfa75c82
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/Login.unity
+    guid: 0bee2a99421bd9940bf083402e031e44
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/MainMenu.unity
+    guid: 2f6fd5943a3a8954bbaaf18b2236a9b1
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/Profile.unity
+    guid: cbf18c730c955cc4c8762c696173f24b
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/Settings.unity
+    guid: 6a5865bd03530de4aa0b3c9f400ada28
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/Worldhub.unity
+    guid: 8a185754bd8cd8444ac0caf4685253f2
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/_Project/Nutrimind/Scenes/Worlds/LiteraQuest/test/lets go.unity
     guid: e247853401c78e649ad5213014c7fce1
