@@ -366,10 +366,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProfileVariant
       objectReference: {fileID: 0}
-    - target: {fileID: 6389899194007195981, guid: 8d59270348fb33042b592cec5abd02d6, type: 3}
-      propertyPath: m_Name
-      value: BackgroundImage
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
