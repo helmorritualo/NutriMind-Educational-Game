@@ -27,42 +27,32 @@ The following files are the primary focus of this unit:
 
 # Implementation Steps
 
-### Step 1: Create the `AppBootstrap.cs` Script
-- **Description**: Implement `AppBootstrap.cs` inside `Assets/_Project/Nutrimind/Runtime/App/` namespace. This script should initialize the `CompositionRoot`, populate the `SceneRegistry` with active application scenes, transition the `AppStateMachine` from `Starting` to `CheckingServer`, and asynchronously load the `SplashScreen` scene.
+### Step 1: Verify Existing Scripts
+- **Description**: Verify that `AppBootstrap.cs` and `AppNavigation.cs` are present, complete, and free of compile errors.
 - **Assigned role**: developer
 - **Dependencies**: None
 - **Parallelizable**: Yes
 
-### Step 2: Create the `AppNavigation.cs` Script
-- **Description**: Implement a static navigation utility class `AppNavigation.cs` inside `Assets/_Project/Nutrimind/Runtime/App/` or `Assets/_Project/Nutrimind/Runtime/UI/` to allow unified scene transitions across the project by resolving keys from `NavigationService`.
-- **Assigned role**: developer
-- **Dependencies**: None
-- **Parallelizable**: Yes
-
-### Step 3: Create the Bootstrap Scene
-- **Description**: Create a new scene `Assets/_Project/Nutrimind/Scenes/App/Bootstrap.unity`. In the scene, add:
-  - A standard `Main Camera` with black background.
-  - A GameObject `NutriMind-AppRoot` carrying the `AppBootstrap` script.
-  - A `UIDocument` component using `RuntimePanelSettings.asset` and a simple local UXML containing a loading label (`status-label`) centered on a theme-colored background.
+### Step 2: Recreate and Set Up the Bootstrap Scene
+- **Description**: Create the missing scene `Assets/_Project/Nutrimind/Scenes/App/Bootstrap.unity`. Add:
+  - A `Main Camera` configured with a solid black background.
+  - A GameObject `NutriMind-AppRoot` with `AppBootstrap` attached.
+  - A `UIDocument` component with Panel Settings set to `RuntimePanelSettings.asset` and Source Asset set to `AppShell.uxml`.
+  - Assign the `UIDocument` to the `_uiDocument` reference on the `AppBootstrap` component.
 - **Assigned role**: developer
 - **Dependencies**: Step 1
-
-### Step 4: Configure Editor Build Settings
-- **Description**: Add the Application Scenes to the Unity Build Settings, ensuring `Bootstrap.unity` has index 0 (first scene), followed by `SplashScreen.unity`, `Login.unity`, `MainMenu.unity`, `Profile.unity`, `Settings.unity`, and `Worldhub.unity`.
-- **Assigned role**: developer
-- **Dependencies**: Step 3
 - **Parallelizable**: No
 
-### Step 5: Implement unit tests in `AppBootstrapTests.cs`
-- **Description**: Create a unit test suite under `Assets/_Project/Nutrimind/Tests/EditMode/App/SharedClient/` to verify that `AppBootstrap` successfully registers all application scene paths and transitions the state machine correctly.
+### Step 3: Enable Scene in Build Settings
+- **Description**: Configure the Editor Build Settings to ensure `Assets/_Project/Nutrimind/Scenes/App/Bootstrap.unity` is included and enabled at Build Index 0.
 - **Assigned role**: developer
-- **Dependencies**: Step 1
-- **Parallelizable**: Yes
+- **Dependencies**: Step 2
+- **Parallelizable**: No
 
-### Step 6: Compile and execute unit tests
-- **Description**: Recompile the project and run EditMode tests using Unity Test Runner API to ensure zero compiler warnings/errors and that the new tests pass.
+### Step 4: Execute Unit and Integration Verification
+- **Description**: Run the `AppBootstrapTests` suite to verify correct scene registration and navigation transitions, followed by an interactive Playmode check to ensure smooth startup.
 - **Assigned role**: developer
-- **Dependencies**: Step 5
+- **Dependencies**: Step 3
 - **Parallelizable**: No
 
 # Verification & Testing

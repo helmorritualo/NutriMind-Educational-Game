@@ -27,6 +27,12 @@ namespace NutriMind.Runtime.App
             // Dynamically build a beautifully centered loading UI inside AppShell's screen-container
             if (_uiDocument != null && _uiDocument.rootVisualElement != null)
             {
+                var backgroundLayer = _uiDocument.rootVisualElement.Q<VisualElement>("background-layer");
+                if (backgroundLayer != null)
+                {
+                    backgroundLayer.style.backgroundColor = Color.black;
+                }
+
                 var screenContainer = _uiDocument.rootVisualElement.Q<VisualElement>("screen-container");
                 if (screenContainer != null)
                 {
@@ -45,7 +51,7 @@ namespace NutriMind.Runtime.App
 
                     _statusLabel = new Label("Initializing...");
                     _statusLabel.style.fontSize = 18;
-                    _statusLabel.style.color = new Color(0.38f, 0.38f, 0.38f); // Theme gray: var(--nm-color-text-secondary)
+                    _statusLabel.style.color = new Color(0.75f, 0.75f, 0.75f); // Light gray for readability on black background
                     centerContainer.Add(_statusLabel);
 
                     screenContainer.Add(centerContainer);
