@@ -4,7 +4,9 @@ using UnityEngine.EventSystems;
 
 public class SubjectCardEffect : MonoBehaviour,
     IPointerEnterHandler,
-    IPointerExitHandler
+    IPointerExitHandler,
+    IPointerDownHandler,
+    IPointerUpHandler
 {
     [Header("Glow")]
     public Outline outline;
@@ -12,6 +14,7 @@ public class SubjectCardEffect : MonoBehaviour,
 
     [Header("Scale")]
     public float hoverScale = 1.08f;
+    public float clickScale = 0.95f;
     public float scaleSpeed = 8f;
 
     [Header("Breathing")]
@@ -25,6 +28,7 @@ public class SubjectCardEffect : MonoBehaviour,
     private Vector3 originalScale;
     private Vector3 targetScale;
     private bool hovering;
+    private bool pressing;
 
     void Start()
     {
@@ -49,7 +53,7 @@ public class SubjectCardEffect : MonoBehaviour,
 
             if (hovering)
             {
-                glowSize = hoverGlow;
+                glowSize = pressing ? hoverGlow * 1.2f : hoverGlow;
             }
             else
             {
@@ -74,6 +78,19 @@ public class SubjectCardEffect : MonoBehaviour,
     public void OnPointerExit(PointerEventData eventData)
     {
         hovering = false;
+        pressing = false;
         targetScale = originalScale;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        pressing = true;
+        targetScale = originalScale * clickScale;
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        pressing = false;
+        targetScale = hovering ? originalScale * hoverScale : originalScale;
     }
 }
