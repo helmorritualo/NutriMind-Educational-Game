@@ -36,6 +36,12 @@ EditorBuildSettings:
     path: Assets/_Project/Nutrimind/Scenes/Worlds/LiteraQuest/test/Nature Demo Scene
       Refreshed.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuestTerms.unity
+    guid: efb854d789e72ce45a7e0897212e6ad2
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/Health Quest_Term/HealthQuestTerms.unity
+    guid: f554dab3c8ddf574f8d293d0477ee96a
   m_configObjects:
     com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 9fe1e706f8260214e90044d8b64be8ec, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 672a5f7cc7210e044ba69478eaf3007d, type: 2}

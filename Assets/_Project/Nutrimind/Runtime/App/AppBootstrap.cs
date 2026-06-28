@@ -108,6 +108,8 @@ namespace NutriMind.Runtime.App
             registry.RegisterScene("Profile", "Assets/_Project/Nutrimind/Scenes/App/Profile.unity");
             registry.RegisterScene("Settings", "Assets/_Project/Nutrimind/Scenes/App/Settings.unity");
             registry.RegisterScene("Worldhub", "Assets/_Project/Nutrimind/Scenes/App/Worldhub.unity");
+            registry.RegisterScene("LiteraQuestTerms", "Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuestTerms.unity");
+            registry.RegisterScene("HealthQuestTerms", "Assets/_Project/Nutrimind/Scenes/App/Health Quest_Term/HealthQuestTerms.unity");
         }
 
         private void NavigateToSplash()

@@ -58,10 +58,12 @@ namespace NutriMind.Runtime.App
             // Subject selection
             (AppState.SelectingSubject, AppState.SelectingSubject),
             (AppState.SelectingSubject, AppState.SelectingTerm),
+            (AppState.SelectingSubject, AppState.MainMenu),
 
             // Term selection
             (AppState.SelectingTerm, AppState.SelectingTerm),
             (AppState.SelectingTerm, AppState.LoadingWorld),
+            (AppState.SelectingTerm, AppState.SelectingSubject),
 
             // World loading → entry or error
             (AppState.LoadingWorld, AppState.LoadingWorld),
