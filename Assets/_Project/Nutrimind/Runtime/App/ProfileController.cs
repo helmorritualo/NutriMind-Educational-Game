@@ -87,20 +87,51 @@ namespace NutriMind.Runtime.App
 
         private void ApplySafeArea()
         {
-            if (_safeAreaPanel != null)
+            if (_mainCanvasGroup == null) return;
+
+            // Create a runtime safe area panel to avoid editor prefab variant lock constraints
+            GameObject saObj = new GameObject("RuntimeSafeAreaPanel", typeof(RectTransform));
+            saObj.transform.SetParent(_mainCanvasGroup.transform, false);
+
+            RectTransform saRect = saObj.GetComponent<RectTransform>();
+            saRect.anchorMin = Vector2.zero;
+            saRect.anchorMax = Vector2.one;
+            saRect.offsetMin = Vector2.zero;
+            saRect.offsetMax = Vector2.zero;
+
+            // Move all Canvas children except the background video/image and the panel itself
+            int childCount = _mainCanvasGroup.transform.childCount;
+            var childrenToMove = new System.Collections.Generic.List<Transform>();
+            for (int i = 0; i < childCount; i++)
             {
-                Rect safeArea = Screen.safeArea;
-                Vector2 anchorMin = safeArea.position;
-                Vector2 anchorMax = safeArea.position + safeArea.size;
-
-                anchorMin.x /= Screen.width;
-                anchorMin.y /= Screen.height;
-                anchorMax.x /= Screen.width;
-                anchorMax.y /= Screen.height;
-
-                _safeAreaPanel.anchorMin = anchorMin;
-                _safeAreaPanel.anchorMax = anchorMax;
+                Transform child = _mainCanvasGroup.transform.GetChild(i);
+                if (child != saObj.transform && !child.name.ToLower().Contains("bg") && !child.name.ToLower().Contains("background"))
+                {
+                    childrenToMove.Add(child);
+                }
             }
+
+            foreach (var child in childrenToMove)
+            {
+                child.SetParent(saRect, true);
+            }
+
+            // Apply safe area anchors to the runtime panel
+            Rect safeArea = Screen.safeArea;
+            Vector2 anchorMin = safeArea.position;
+            Vector2 anchorMax = safeArea.position + safeArea.size;
+
+            anchorMin.x /= Screen.width;
+            anchorMin.y /= Screen.height;
+            anchorMax.x /= Screen.width;
+            anchorMax.y /= Screen.height;
+
+            saRect.anchorMin = anchorMin;
+            saRect.anchorMax = anchorMax;
+            saRect.offsetMin = Vector2.zero;
+            saRect.offsetMax = Vector2.zero;
+
+            _safeAreaPanel = saRect;
         }
 
         private void ApplyPerformanceOptimizations()
