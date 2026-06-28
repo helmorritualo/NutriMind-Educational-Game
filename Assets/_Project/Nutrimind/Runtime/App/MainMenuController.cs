@@ -265,26 +265,13 @@ namespace NutriMind.Runtime.App
                 Debug.Log("[MainMenuController] Stopped background VideoPlayer to optimize transition resources.");
             }
 
-            // 3. Smooth Fade Out (0.4s)
-            if (_mainCanvasGroup != null)
-            {
-                float elapsed = 0f;
-                float duration = 0.4f;
-                while (elapsed < duration)
-                {
-                    elapsed += Time.deltaTime;
-                    _mainCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-                    yield return null;
-                }
-                _mainCanvasGroup.alpha = 0f;
-            }
-
             // 4. Perform garbage collection sweeps on transition frame
             System.GC.Collect();
 
             // 5. Load target scene asynchronously
             Debug.Log($"[MainMenuController] Smooth transition loading scene key: '{sceneKey}'");
             AppNavigation.LoadScene(sceneKey);
+            yield break;
         }
     }
 }

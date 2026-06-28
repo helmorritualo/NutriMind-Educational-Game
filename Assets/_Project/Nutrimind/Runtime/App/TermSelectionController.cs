@@ -249,20 +249,6 @@ namespace NutriMind.Runtime.App
 
         private IEnumerator FadeAndLoadRoutine(string fallbackSceneKey, AppState targetState)
         {
-            // Smooth fade out
-            if (_mainCanvasGroup != null)
-            {
-                float elapsed = 0f;
-                float duration = 0.3f;
-                while (elapsed < duration)
-                {
-                    elapsed += Time.deltaTime;
-                    _mainCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-                    yield return null;
-                }
-                _mainCanvasGroup.alpha = 0f;
-            }
-
             // Update State Machine
             var root = CompositionRoot.Instance;
             if (root != null && root.StateMachine != null)
@@ -273,20 +259,16 @@ namespace NutriMind.Runtime.App
             System.GC.Collect();
 
             // Under quiz-first milestone, gameplay missions are deferred.
-            // If the state is LoadingWorld, we would load the Quiz Portal / Quiz List for that term.
-            // Since the Quiz Portal is built in Phase 8B, we safely fall back to MainMenu or stay in state.
+            // If the state is LoadingWorld, we load the transitional Loading screen.
             if (targetState == AppState.LoadingWorld)
             {
-                // In actual milestone, Phase 8B will register "QuizPortal" scene.
-                // We attempt to load "QuizPortal". If unregistered, we log gracefully and load MainMenu.
-                string targetKey = "QuizPortal";
-                if (root != null && root.SceneRegistry != null && root.SceneRegistry.GetScene(targetKey) != null)
+                if (root != null && root.SceneRegistry != null && root.SceneRegistry.GetScene("Loading") != null)
                 {
-                    AppNavigation.LoadScene(targetKey);
+                    AppNavigation.LoadScene("Loading");
                 }
                 else
                 {
-                    Debug.LogWarning($"[TermSelectionController] QuizPortal scene is not registered yet. Falling back to MainMenu.");
+                    Debug.LogWarning("[TermSelectionController] Loading scene is not registered. Falling back to MainMenu.");
                     AppNavigation.LoadScene("MainMenu");
                 }
             }
@@ -294,6 +276,7 @@ namespace NutriMind.Runtime.App
             {
                 AppNavigation.LoadScene(fallbackSceneKey);
             }
+            yield break;
         }
 
         private void ApplySafeArea()

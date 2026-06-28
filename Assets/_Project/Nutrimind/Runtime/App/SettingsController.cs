@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using TMPro;
 
 namespace NutriMind.Runtime.App
@@ -28,6 +29,7 @@ namespace NutriMind.Runtime.App
         [SerializeField] private Button _saveButton;
         [SerializeField] private CanvasGroup _mainCanvasGroup;
         [SerializeField] private GraphicRaycaster _graphicRaycaster;
+        [SerializeField] private VideoPlayer _bgVideoPlayer;
 
         [Header("Layout Optimization")]
         [SerializeField] private RectTransform _safeAreaPanel;
@@ -47,6 +49,7 @@ namespace NutriMind.Runtime.App
         public void SetSaveButton(Button val) => _saveButton = val;
         public void SetMainCanvasGroup(CanvasGroup val) => _mainCanvasGroup = val;
         public void SetGraphicRaycaster(GraphicRaycaster val) => _graphicRaycaster = val;
+        public void SetBgVideoPlayer(VideoPlayer val) => _bgVideoPlayer = val;
         public void SetSafeAreaPanel(RectTransform val) => _safeAreaPanel = val;
 
         private void Awake()
@@ -148,6 +151,12 @@ namespace NutriMind.Runtime.App
         {
             // Optimize raycast target on dropdown sub-labels or backgrounds if necessary
             // In the settings panel, we keep labels static (raycastTarget = false)
+
+            // Pre-warm VideoPlayer if it exists and hasn't played yet
+            if (_bgVideoPlayer != null && !_bgVideoPlayer.isPrepared)
+            {
+                _bgVideoPlayer.Prepare();
+            }
         }
 
         private IEnumerator LoadSettingsRoutine()
@@ -308,6 +317,12 @@ namespace NutriMind.Runtime.App
 
         private IEnumerator SaveAndExitRoutine()
         {
+            if (_bgVideoPlayer != null && _bgVideoPlayer.isPlaying)
+            {
+                _bgVideoPlayer.Stop();
+                Debug.Log("[SettingsController] Stopped background VideoPlayer to optimize transition resources.");
+            }
+
             SetControlsInteractable(false);
 
             var root = CompositionRoot.Instance;
@@ -372,20 +387,6 @@ namespace NutriMind.Runtime.App
                 }
             }
 
-            // Smooth Fade Out
-            if (_mainCanvasGroup != null)
-            {
-                float elapsed = 0f;
-                float duration = 0.3f;
-                while (elapsed < duration)
-                {
-                    elapsed += Time.deltaTime;
-                    _mainCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-                    yield return null;
-                }
-                _mainCanvasGroup.alpha = 0f;
-            }
-
             System.GC.Collect();
             AppNavigation.LoadScene("MainMenu");
         }
@@ -420,6 +421,12 @@ namespace NutriMind.Runtime.App
 
         private IEnumerator LogoutAndExitRoutine()
         {
+            if (_bgVideoPlayer != null && _bgVideoPlayer.isPlaying)
+            {
+                _bgVideoPlayer.Stop();
+                Debug.Log("[SettingsController] Stopped background VideoPlayer to optimize transition resources.");
+            }
+
             SetControlsInteractable(false);
 
             var root = CompositionRoot.Instance;

@@ -42,6 +42,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Nutrimind/Scenes/App/Health Quest_Term/HealthQuestTerms.unity
     guid: f554dab3c8ddf574f8d293d0477ee96a
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/LoadingTransition.unity
+    guid: 7e2fd048627e6f9419049b9d0e974453
   m_configObjects:
     com.unity.adaptivePerformance.basic.provider_settings: {fileID: 11400000, guid: 9fe1e706f8260214e90044d8b64be8ec, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 672a5f7cc7210e044ba69478eaf3007d, type: 2}

@@ -254,20 +254,6 @@ namespace NutriMind.Runtime.App
 
         private IEnumerator FadeAndLoadRoutine(string sceneKey, AppState targetState)
         {
-            // Smooth Fade Out
-            if (_mainCanvasGroup != null)
-            {
-                float elapsed = 0f;
-                float duration = 0.3f;
-                while (elapsed < duration)
-                {
-                    elapsed += Time.deltaTime;
-                    _mainCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-                    yield return null;
-                }
-                _mainCanvasGroup.alpha = 0f;
-            }
-
             // Update State Machine
             var root = CompositionRoot.Instance;
             if (root != null && root.StateMachine != null)
@@ -277,6 +263,7 @@ namespace NutriMind.Runtime.App
 
             System.GC.Collect();
             AppNavigation.LoadScene(sceneKey);
+            yield break;
         }
     }
 }

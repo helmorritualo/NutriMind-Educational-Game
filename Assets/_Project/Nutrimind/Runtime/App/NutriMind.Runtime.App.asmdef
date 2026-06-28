@@ -2,7 +2,8 @@
   "name": "NutriMind.Runtime.App",
   "rootNamespace": "NutriMind.Runtime.App",
   "references": [
-    "Unity.TextMeshPro"
+    "Unity.TextMeshPro",
+    "NutriMind.Runtime.UI"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

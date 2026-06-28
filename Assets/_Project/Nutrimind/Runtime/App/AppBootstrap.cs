@@ -110,21 +110,12 @@ namespace NutriMind.Runtime.App
             registry.RegisterScene("Worldhub", "Assets/_Project/Nutrimind/Scenes/App/Worldhub.unity");
             registry.RegisterScene("LiteraQuestTerms", "Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuestTerms.unity");
             registry.RegisterScene("HealthQuestTerms", "Assets/_Project/Nutrimind/Scenes/App/Health Quest_Term/HealthQuestTerms.unity");
+            registry.RegisterScene("Loading", "Assets/_Project/Nutrimind/Scenes/App/LoadingTransition.unity");
         }
 
         private void NavigateToSplash()
         {
-            var navService = CompositionRoot.Instance.NavigationService;
-            var result = navService.Navigate("SplashScreen");
-
-            if (result.IsAvailable && !string.IsNullOrEmpty(result.ScenePath))
-            {
-                SceneManager.LoadSceneAsync(result.ScenePath);
-            }
-            else
-            {
-                Debug.LogError("[AppBootstrap] SplashScreen scene is not registered in SceneRegistry!");
-            }
+            AppNavigation.LoadScene("SplashScreen");
         }
 
         private void UpdateStatus(string status)

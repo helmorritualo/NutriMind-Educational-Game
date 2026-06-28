@@ -51,5 +51,9 @@ namespace NutriMind.Runtime.UI
 
         public const string ComponentFeedbackPanel =
             "Assets/_Project/Nutrimind/UI/Documents/Components/FeedbackPanel.uxml";
+
+        // Phase 08 — Loading/Transition screen
+        public const string ScreenLoadingTransition =
+            "Assets/_Project/Nutrimind/UI/Documents/Screens/LoadingTransition.uxml";
     }
 }

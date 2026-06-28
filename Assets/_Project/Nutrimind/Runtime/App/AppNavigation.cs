@@ -40,7 +40,14 @@ namespace NutriMind.Runtime.App
             if (result.IsAvailable && !string.IsNullOrEmpty(result.ScenePath))
             {
                 Debug.Log($"[AppNavigation] Transitioning from '{SceneManager.GetActiveScene().name}' to '{sceneKey}' ({result.ScenePath}).");
-                SceneManager.LoadSceneAsync(result.ScenePath);
+                if (Application.isPlaying)
+                {
+                    SceneTransitionManager.Instance.TransitionToScene(result.ScenePath);
+                }
+                else
+                {
+                    SceneManager.LoadSceneAsync(result.ScenePath);
+                }
             }
             else
             {

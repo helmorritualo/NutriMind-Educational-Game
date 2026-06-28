@@ -3,6 +3,7 @@ using System.Collections;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 using TMPro;
 
 namespace NutriMind.Runtime.App
@@ -27,6 +28,7 @@ namespace NutriMind.Runtime.App
         [SerializeField] private Button _backButton;
         [SerializeField] private CanvasGroup _mainCanvasGroup;
         [SerializeField] private GraphicRaycaster _graphicRaycaster;
+        [SerializeField] private VideoPlayer _bgVideoPlayer;
 
         [Header("Layout Optimization")]
         [SerializeField] private RectTransform _safeAreaPanel;
@@ -47,6 +49,7 @@ namespace NutriMind.Runtime.App
         public void SetBackButton(Button val) => _backButton = val;
         public void SetMainCanvasGroup(CanvasGroup val) => _mainCanvasGroup = val;
         public void SetGraphicRaycaster(GraphicRaycaster val) => _graphicRaycaster = val;
+        public void SetBgVideoPlayer(VideoPlayer val) => _bgVideoPlayer = val;
         public void SetSafeAreaPanel(RectTransform val) => _safeAreaPanel = val;
 
         private void Awake()
@@ -144,6 +147,12 @@ namespace NutriMind.Runtime.App
             if (_levelNumberText != null) _levelNumberText.raycastTarget = false;
             if (_coinsText != null) _coinsText.raycastTarget = false;
             if (_badgesText != null) _badgesText.raycastTarget = false;
+
+            // Pre-warm VideoPlayer if it exists and hasn't played yet
+            if (_bgVideoPlayer != null && !_bgVideoPlayer.isPrepared)
+            {
+                _bgVideoPlayer.Prepare();
+            }
         }
 
         private IEnumerator LoadProfileRoutine()
@@ -266,22 +275,15 @@ namespace NutriMind.Runtime.App
 
         private IEnumerator FadeAndExitRoutine()
         {
-            // Smooth Fade Out
-            if (_mainCanvasGroup != null)
+            if (_bgVideoPlayer != null && _bgVideoPlayer.isPlaying)
             {
-                float elapsed = 0f;
-                float duration = 0.3f;
-                while (elapsed < duration)
-                {
-                    elapsed += Time.deltaTime;
-                    _mainCanvasGroup.alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-                    yield return null;
-                }
-                _mainCanvasGroup.alpha = 0f;
+                _bgVideoPlayer.Stop();
+                Debug.Log("[ProfileController] Stopped background VideoPlayer to optimize transition resources.");
             }
 
             System.GC.Collect();
             AppNavigation.LoadScene("MainMenu");
+            yield break;
         }
     }
 }

@@ -35,6 +35,17 @@ namespace NutriMind.Tests.EditMode.App
             _languageDropdown = new GameObject("lang").AddComponent<TMP_Dropdown>();
             _textSizeDropdown = new GameObject("size").AddComponent<TMP_Dropdown>();
             _accessibilityDropdown = new GameObject("acc").AddComponent<TMP_Dropdown>();
+            
+            _languageDropdown.options.Add(new TMP_Dropdown.OptionData("English"));
+            _languageDropdown.options.Add(new TMP_Dropdown.OptionData("Filipino"));
+            
+            _textSizeDropdown.options.Add(new TMP_Dropdown.OptionData("Small"));
+            _textSizeDropdown.options.Add(new TMP_Dropdown.OptionData("Medium"));
+            _textSizeDropdown.options.Add(new TMP_Dropdown.OptionData("Large"));
+            
+            _accessibilityDropdown.options.Add(new TMP_Dropdown.OptionData("Off"));
+            _accessibilityDropdown.options.Add(new TMP_Dropdown.OptionData("On"));
+
             _logoutButton = new GameObject("logout").AddComponent<Button>();
             _saveButton = new GameObject("save").AddComponent<Button>();
             _canvasGroup = _holder.AddComponent<CanvasGroup>();
