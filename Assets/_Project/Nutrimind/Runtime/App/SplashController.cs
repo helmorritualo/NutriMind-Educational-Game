@@ -45,6 +45,26 @@ namespace NutriMind.Runtime.App
             {
                 _rawImage.enabled = false;
             }
+
+            if (_videoPlayer == null)
+            {
+                _videoPlayer = GetComponent<VideoPlayer>();
+            }
+
+            // Clear the Render Texture to avoid showing a stale frame from the previous run
+            if (_videoPlayer != null && _videoPlayer.targetTexture != null)
+            {
+                ClearRenderTexture(_videoPlayer.targetTexture);
+            }
+        }
+
+        private void ClearRenderTexture(RenderTexture rt)
+        {
+            if (rt == null) return;
+            RenderTexture active = RenderTexture.active;
+            RenderTexture.active = rt;
+            GL.Clear(true, true, Color.black);
+            RenderTexture.active = active;
         }
 
         private void Start()
