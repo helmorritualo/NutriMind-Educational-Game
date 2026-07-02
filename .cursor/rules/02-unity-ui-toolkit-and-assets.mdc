@@ -1,0 +1,37 @@
+---
+description: UI Toolkit, UXML/USS, existing asset reuse, and presentation rules.
+globs: ["**/*.uxml", "**/*.uss", "**/*UI*.cs", "**/*View*.cs", "**/*Presenter*.cs", "**/*.unity", "**/*.prefab"]
+alwaysApply: false
+---
+
+# Unity UI Toolkit and Asset Rules
+
+For Phase 8B quiz UI, use UI Toolkit.
+
+Use UXML for structure, USS for presentation, and C# presenters/controllers for behavior.
+
+Use existing UI asset components first. Inspect existing UXML, USS, sprites, icons, fonts, UI references, panel backgrounds, style variables, prefabs, and project-owned variants before creating anything new.
+
+Do not destructively edit vendor or third-party assets. Create project-owned variants, wrappers, prefabs, templates, or USS files.
+
+Do not rebuild valid completed application scene UI only because the quiz phase uses UI Toolkit.
+
+Keep application-scene UI hybrid if it already uses Canvas. Phase 8B quiz UI can be UI Toolkit.
+
+Use clear backgrounds behind static UI. Avoid visually confusing backgrounds behind quiz questions, choices, buttons, and feedback.
+
+Use readable typography, large tap targets, safe contrast, and child-friendly spacing.
+
+Support Android landscape and safe area.
+
+Use ListView or equivalent virtualized list behavior for potentially long quiz lists.
+
+Cache VisualElement queries during initialization. Do not query the full tree repeatedly during updates.
+
+Register and unregister callbacks safely.
+
+If a screen uses both Canvas and UI Toolkit, document which layer owns input, focus, navigation, and blocking overlays.
+
+Do not put provider calls directly into UXML-bound view scripts. Views should call presenters/services.
+
+Quiz UI states must include loading, empty, locked, error/retry, active, submitting, and result states where relevant.

@@ -1,0 +1,28 @@
+---
+description: NutriMind project-wide scope, milestone, and deferred feature rules.
+alwaysApply: true
+---
+
+# NutriMind Project Scope Rules
+
+NutriMind is a Unity student learning game connected to a Laravel + React/Inertia + PostgreSQL server.
+
+The current Unity milestone is quiz-first. Finish only through the Quiz Portal / Assessment Room.
+
+Unity Phases 1 to 6 already exist. Do not restart the project. Preserve valid completed work.
+
+The active Unity phase is Phase 8B only when the user asks for Quiz Portal implementation.
+
+The current Phase 8B scope is Quiz Portal Home, Available Quiz List, Empty Quiz State, Locked Quiz State, Quiz Instructions, Quiz Session Shell, Multiple Choice Single Presenter, Multiple Choice Multiple Presenter, True/False Presenter, Unsupported Item State, Submit Confirmation, Quiz Result Screen, and Quiz Error/Retry State.
+
+Do not implement gameplay missions, rewards shop, inventory, pets, cosmetics, world restoration, mission progress, mission rewards, or the 90-mission Grade 5/6 catalog.
+
+Do not reintroduce the old station-as-quiz model.
+
+The current product model is student login, app flow, Quiz Portal, teacher-created quiz, quiz attempt, server score/report.
+
+The future product model is adventure world, static missions, mission progress, rewards/shop/unlocks. Treat that as deferred.
+
+Use contract version `quiz_first_laravel_1`.
+
+No WebSocket is required for the current milestone.

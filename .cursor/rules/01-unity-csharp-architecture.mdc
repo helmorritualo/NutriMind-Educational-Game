@@ -1,0 +1,43 @@
+---
+description: Unity C# architecture, naming, lifecycle, and code quality rules.
+globs: ["**/*.cs"]
+alwaysApply: false
+---
+
+# Unity C# Architecture Rules
+
+Keep MonoBehaviours thin. Use MonoBehaviours for Unity lifecycle, serialized references, scene binding, input wiring, and visual updates.
+
+Put deterministic logic into plain C# classes where practical.
+
+Use shared services and stores for session, profile, settings, subjects, terms, quiz availability, quiz details, quiz session, quiz answer drafts, quiz validation, quiz submission, quiz results, safe errors, and navigation.
+
+Do not put official scoring, answer keys, provider logic, or quiz business rules inside scene UI components.
+
+Do not hardcode quiz content in UI scripts.
+
+Do not hardcode future mission content.
+
+Do not add unnecessary global singletons, service locators, or static mutable state.
+
+Use explicit dependencies and small interfaces when they improve testing, provider swapping, or UI separation.
+
+Preserve assembly boundaries. Runtime assemblies must not reference Editor assemblies.
+
+Follow repository style first. Otherwise use PascalCase for types, methods, properties, and events; camelCase for locals and parameters; and _camelCase for private fields.
+
+Prefer private serialized fields over public mutable fields for Inspector references.
+
+Validate serialized references before use.
+
+Subscribe and unsubscribe callbacks symmetrically.
+
+Cancel async work when a screen closes, a scene unloads, a session ends, or a newer request replaces the old request.
+
+Do not mutate UnityEngine objects from background threads.
+
+Avoid scene-wide Find calls, repeated queries, avoidable allocations in hot paths, and unnecessary Update loops.
+
+Use guard clauses to reduce nesting.
+
+Do not silently swallow exceptions. Route safe user-facing errors through the safe error system and log developer details only where appropriate.

@@ -2,16 +2,15 @@
 
 ## Purpose
 
-This file is for AI coding agents working inside the Unity project repository.
+This file is for Cursor, OpenCode, Unity AI Assistant, and other AI coding agents working inside the NutriMind Unity project repository.
 
-The current Unity milestone is quiz-first. The Unity project should be completed only up to the Quiz Portal / Assessment Room for now. Do not start open-world gameplay missions, rewards shop, inventory, cosmetics, pets, world restoration, or mission progress tracking until the project owner gives a future go signal.
+NutriMind is a student learning game. The current milestone is quiz-first. Unity must finish the application flow and Quiz Portal / Assessment Room before any open-world gameplay missions are implemented.
 
 ## Required Reading
 
-Before making changes, read these files if they exist in this repository:
+Before making changes, read these files when they exist:
 
 `README.md`
-`UNITY_AI_ASSISTANT_CUSTOM_INSTRUCTIONS.txt`
 `docs/UNITY_REQUIREMENTS.md`
 `docs/unity/01_FOUNDATION_AND_DELIVERY_ORDER.md`
 `docs/unity/02_GAME_FLOW_AND_STATE_MODEL.md`
@@ -20,50 +19,68 @@ Before making changes, read these files if they exist in this repository:
 `docs/unity/04B_QUIZ_PORTAL_AND_ASSESSMENT_SYSTEM.md`
 `docs/unity/04C_REWARDS_SHOP_DEFERRED.md`
 `docs/unity/05_APPLICATION_SCENES_AND_HYBRID_UI.md`
+`docs/unity/09_UI_CONTROLS_ACCESSIBILITY_AND_PRESENTATION.md`
 `docs/unity/10_TESTING_INTEGRATION_AND_RELEASE.md`
 `docs/unity/11_DEMO_DATA_AND_LOCAL_PROVIDER.md`
-`agent-prompts/unity/00_MASTER_ORCHESTRATOR.md`
-`agent-prompts/unity/UNITY_QUIZ_FIRST_PHASE_PROMPTS.md`
+`agent-prompts/unity/UNITY_PHASE_8B_QUIZ_PORTAL_SCOPE_PROMPT.md`
 
-If a fresh AI session starts, ask for or locate the latest phase completion report before continuing.
+If a fresh session starts, locate or ask for the latest Phase 6C, Phase 7, and Phase 8 completion reports before modifying Phase 8B.
 
 ## Current Project State
 
 Unity Phases 1 to 6 were already completed under older documentation. Do not restart the Unity project from scratch.
 
-Preserve valid completed work, including project structure, assemblies, asset folders, imported third-party assets, existing application scene UI designs, existing Canvas UI, existing UI Toolkit UI, app flow, session logic, provider abstraction, profile/settings/logout flow, LocalDemoJson infrastructure, fake login, resettable demo state, and useful tests.
+Phase 6C aligns completed provider/data work to the quiz-first Laravel contract.
 
-The required next alignment step is Phase 6C if it has not already been completed.
+Phase 7 builds shared app and quiz framework.
 
-Phase 6C means aligning the completed Unity work to the current quiz-first Laravel REST contract version `quiz_first_laravel_1`.
+Phase 8 completes existing and missing application scenes.
 
-## Current Unity Scope
+Phase 8B builds the Quiz Portal / Assessment Room.
 
-Implement and validate only:
+## Current Phase 8B Scope
 
-application bootstrap
-splash screen
-login
-main interface
-profile
-settings
-subject selection
-term selection or quiz filter
-loading/transition screen
-Quiz Portal / Assessment Room
-available quiz list
-quiz instructions
-quiz session shell
-quiz item presenters
-submit confirmation
-quiz result screen
-safe unsupported item state
-LocalDemoJson quiz-first provider behavior
-HTTP-compatible DTOs for the Laravel server
+For the current Phase 8B implementation, build only these quiz units:
 
-## Deferred Unity Scope
+Quiz Portal Home
+Available Quiz List
+Empty Quiz State
+Locked Quiz State
+Quiz Instructions
+Quiz Session Shell
+Multiple Choice Single Presenter
+Multiple Choice Multiple Presenter
+True/False Presenter
+Unsupported Item State
+Submit Confirmation
+Quiz Result Screen
+Quiz Error/Retry State
 
-Do not implement these yet:
+Do not implement Matching, Ordering, Fill Blank, Short Answer, Categorization, Drag/Drop, Image Hotspot, Labeling, Reading Passage, Cloze, Numeric, or Reflection presenters unless the project owner explicitly adds them to the current phase.
+
+## UI Direction
+
+Use UI Toolkit for the Phase 8B quiz UI.
+
+Use existing UI asset components, references, sprites, icons, panels, fonts, USS variables, UXML templates, and project-owned variants before creating new assets.
+
+Use UXML for structure, USS for styling, and C# presenters/controllers for behavior.
+
+The rest of the project can remain hybrid Canvas + UI Toolkit. Do not rebuild valid application scenes just because Phase 8B uses UI Toolkit.
+
+## Backend Contract
+
+The server is Laravel + React/Inertia + PostgreSQL.
+
+Unity communicates with the server through HTTPS REST JSON APIs.
+
+No WebSocket is required for the current milestone.
+
+Use contract version `quiz_first_laravel_1`.
+
+## Deferred Features
+
+Do not implement:
 
 LiteraQuest mission gameplay
 PE/Health mission gameplay
@@ -80,165 +97,28 @@ pets
 cosmetics
 titles
 equipment
-server-driven mission progress
 90-mission Grade 5 and Grade 6 catalog
 
-If these systems already exist from older work, do not expand them. Disable, isolate, or mark them deferred unless needed only as harmless placeholders.
+If older code exists for deferred systems, do not expand it. Disable, isolate, or mark it deferred.
 
-## Server Contract
+## Architecture Rules
 
-The backend is now Laravel + React/Inertia + PostgreSQL.
+Keep MonoBehaviours thin.
 
-Unity communicates with the server through HTTPS REST JSON APIs. No WebSocket is required for the current milestone.
+Do not put quiz business logic inside UI components.
 
-Use contract version `quiz_first_laravel_1`.
+Use shared stores, services, presenters, DTOs, and provider interfaces.
 
-Active Unity API behavior covers config, login, logout, refresh, bootstrap, profile, settings, subjects, terms, quizzes, quiz detail, quiz attempts, quiz results, and sync status.
+Do not hardcode quiz content in UI scripts.
 
-Mission, reward shop, inventory, and world restoration APIs are deferred.
+Do not hardcode mission content.
 
-## UI System
-
-The Unity UI system is hybrid Canvas + UI Toolkit.
-
-Existing application-scene UI designs must be inspected and reused before creating new UI. Do not rebuild valid completed screens from scratch only to change the UI technology.
-
-Canvas/uGUI is allowed for existing application scenes and already-made designs.
-
-UI Toolkit is allowed for new structured screens, quiz lists, quiz panels, menus, and forms where it fits.
-
-A screen may be Canvas, UI Toolkit, or hybrid. Choose the simplest reliable approach that matches existing project style.
-
-Do not duplicate business logic between Canvas and UI Toolkit. Both UI systems must call shared stores, presenters, services, and DTOs.
-
-Keep backgrounds clear behind static UI. Avoid confusing decorative backgrounds that make buttons or labels hard to read.
-
-## Asset-First Rule
-
-Before creating scripts, prefabs, UI, sprites, icons, panels, models, materials, or scenes, inspect:
-
-existing application scenes
-existing Canvas prefabs
-existing UI Toolkit assets
-owner-provided image references
-`Assets/_Project/Nutrimind/ThirdParty/`
-existing project-owned variants
-existing scripts and assemblies
-
-Use this priority:
-
-owner-provided asset
-third-party asset
-existing project variant
-new project-owned variant or adapter
-new generated asset
-placeholder
-
-Never destructively edit vendor or third-party source assets. Create project-owned variants, adapters, prefabs, materials, or wrappers.
-
-## Code Architecture
-
-Keep MonoBehaviours thin. Put deterministic logic in plain C# classes when practical.
-
-Use shared services and stores for session, profile, settings, subjects, terms, quiz availability, quiz details, quiz session, quiz answers, validation, submission, results, safe errors, and navigation.
-
-Do not put official scoring, answer-key logic, server authority, or persistent economy logic inside scene MonoBehaviours.
-
-Do not hardcode quiz content in UI scripts. Quiz content must come from LocalDemoJson or HTTP provider DTOs.
-
-Do not hardcode final mission content. Mission content is deferred.
-
-Use focused interfaces only when they improve testing, provider swapping, or UI separation. Do not add unnecessary design patterns.
-
-Avoid new global singletons or service locators.
+Do not add unnecessary global singletons or service locators.
 
 Preserve assembly boundaries. Runtime assemblies must not reference Editor assemblies.
 
-## Quiz System Rules
+## Validation Rule
 
-The quiz system must support the contract for these item types:
+Run relevant Unity checks before reporting completion. Do not claim tests passed unless they actually ran.
 
-multiple_choice_single
-multiple_choice_multiple
-true_false
-matching
-ordering
-fill_blank
-short_answer
-categorization
-drag_drop
-image_hotspot
-labeling
-scenario_choice
-reading_passage
-cloze
-numeric
-likert_reflection
-
-The first Unity implementation should prioritize:
-
-multiple choice single
-multiple choice multiple
-true/false
-matching
-ordering
-fill blank
-short answer
-safe unsupported item fallback
-
-Unsupported item types must not crash. They must show a safe unsupported state and prevent invalid submission when required.
-
-Quiz submission must use `client_attempt_uuid`.
-
-Same UUID and same payload should replay the previous result when provider behavior is simulated.
-
-Same UUID and different payload should produce a conflict error when provider behavior is simulated.
-
-## Rewards and Shop
-
-Rewards and item shop are deferred.
-
-Do not implement spendable coins, EXP economy, item shop, inventory, pets, cosmetics, titles, equipment, purchases, or equipped items.
-
-Quiz result UI may show score, feedback, pass/fail, and optional display-only stars or badges. These must not create a spendable economy.
-
-## Unity Lifecycle and Async Rules
-
-Validate serialized references.
-
-Subscribe and unsubscribe callbacks symmetrically.
-
-Cancel async work when a screen closes, a scene unloads, a session ends, or a newer request replaces it.
-
-Do not mutate Unity objects from background threads.
-
-Avoid `Find`, scene-wide searches, repeated VisualElement queries, heavy allocations, or unnecessary work in Update loops.
-
-Use guarded error handling. Do not swallow exceptions silently.
-
-## Testing and Validation
-
-Run the most relevant checks available in the project. Use Unity Test Runner, Edit Mode tests, Play Mode tests, JSON validation, scene validation, and Console review as applicable.
-
-For every phase report:
-
-what existing work was preserved
-what changed
-what was removed or deferred
-files and assets changed
-tests run
-Console errors or warnings
-remaining gaps
-whether the current phase is complete
-
-## Phase Order
-
-Use this order for the current milestone:
-
-Phase 6C — align completed provider/data work to quiz-first Laravel contract
-Phase 7 — shared app and quiz framework
-Phase 8 — existing and missing application scenes, one scene at a time
-Phase 8B — Quiz Portal / Assessment Room, one quiz unit at a time
-Phase 12A — quiz-first milestone validation
-
-Do not start Phase 9, Phase 10, or Phase 11 gameplay mission work.
+Every report must include files changed, assets changed, UI assets reused, tests/checks run, Console errors/warnings, remaining gaps, and the next recommended step.

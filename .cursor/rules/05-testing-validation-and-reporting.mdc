@@ -1,0 +1,48 @@
+---
+description: Testing, validation, and completion reporting rules.
+alwaysApply: true
+---
+
+# Testing, Validation, and Reporting Rules
+
+Do not claim a check passed unless it actually ran.
+
+Run the most relevant available checks for the changed area.
+
+For Unity Phase 8B quiz UI, run or perform:
+
+Unity compilation
+Console review
+scene reference checks
+UI Toolkit UIDocument checks
+PanelSettings checks
+USS/UXML reference checks
+safe area checks
+Android landscape layout checks
+touch target checks
+quiz navigation checks
+answer draft checks
+submit confirmation checks
+result screen checks
+unsupported item fallback checks
+error/retry checks
+LocalDemoJson checks
+provider DTO checks
+
+Run Edit Mode or Play Mode tests when they exist or when the change introduces testable logic.
+
+Every completion report must include:
+
+selected phase or unit
+files changed
+assets changed
+existing UI/assets reused
+new UI/assets created
+tests/checks run
+exact results
+Console warnings/errors
+deferred items
+remaining gaps
+next recommended unit
+
+Stop after the selected scope. Do not continue into unrequested quiz units, gameplay missions, rewards shop, or inventory.

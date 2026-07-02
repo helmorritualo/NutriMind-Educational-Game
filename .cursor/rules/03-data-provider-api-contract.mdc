@@ -1,0 +1,33 @@
+---
+description: LocalDemoJson, HTTP provider, DTO, and Laravel REST API contract rules.
+globs: ["**/*.cs", "**/*.json"]
+alwaysApply: false
+---
+
+# Data Provider and API Contract Rules
+
+The backend is Laravel + React/Inertia + PostgreSQL.
+
+Unity uses HTTPS REST JSON APIs. No WebSocket is required.
+
+Use contract version `quiz_first_laravel_1`.
+
+LocalDemoJson and HTTP provider must use the same DTOs.
+
+LocalDemoJson may simulate only login, logout, refresh/bootstrap, profile, settings, subjects, terms, quiz list, quiz detail, quiz attempt submission, quiz result, sync status, reset, and safe errors.
+
+LocalDemoJson must not simulate mission progress, rewards shop, inventory, spendable rewards, or world restoration.
+
+Production builds must reject LocalDemoJson and must never silently fall back from HTTP.
+
+Quiz submission must use `client_attempt_uuid`.
+
+Same UUID and same payload must replay the original result when simulated.
+
+Same UUID and different payload must return a conflict error when simulated.
+
+Do not expose answer keys before allowed by result visibility.
+
+Do not store server secrets, teacher-only data, admin data, or other students' data in Unity client files.
+
+Unknown optional fields and enum values must not crash the client. Use safe fallback behavior.

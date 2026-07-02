@@ -1,0 +1,55 @@
+---
+description: Current Phase 8B Quiz Portal scope and quiz implementation rules.
+globs: ["**/*Quiz*.cs", "**/*Quiz*.uxml", "**/*Quiz*.uss", "**/*Assessment*.cs", "**/*Assessment*.uxml", "**/*Assessment*.uss"]
+alwaysApply: false
+---
+
+# Quiz System Current Milestone Rules
+
+Current Phase 8B scope includes only these units:
+
+Quiz Portal Home
+Available Quiz List
+Empty Quiz State
+Locked Quiz State
+Quiz Instructions
+Quiz Session Shell
+Multiple Choice Single Presenter
+Multiple Choice Multiple Presenter
+True/False Presenter
+Unsupported Item State
+Submit Confirmation
+Quiz Result Screen
+Quiz Error/Retry State
+
+Do not implement other quiz item presenters unless explicitly approved.
+
+Use UI Toolkit for the Phase 8B quiz UI.
+
+Use existing UI assets and components first.
+
+Do not hardcode quiz content in UI scripts.
+
+Quiz UI must use shared stores, services, presenters, DTOs, and provider interfaces.
+
+The Quiz Portal must be separate from future adventure missions.
+
+Quiz completion must not update mission progress.
+
+Quiz result display may show score, feedback, pass/fail, and optional display-only stars or badges. It must not grant spendable coins, inventory items, EXP, cosmetics, or shop currency.
+
+Required quiz states include loading, available, empty, locked, instructions, answering, validation error, submit confirmation, submitting, result, unsupported item, and error/retry.
+
+Unsupported item types must show a safe state and must not crash.
+
+For multiple choice single, allow one selected option.
+
+For multiple choice multiple, allow multiple selected options and clear selected state correctly.
+
+For true/false, use two clear answer options.
+
+Submit Confirmation must summarize unanswered/invalid items without showing answer keys.
+
+Quiz Result Screen must respect provider/server result visibility.
+
+Quiz Error/Retry State must provide safe retry, return to quiz portal, and return to menu behavior where applicable.
