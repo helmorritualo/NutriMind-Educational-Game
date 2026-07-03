@@ -7,16 +7,22 @@ alwaysApply: true
 
 Do not claim a check passed unless it actually ran.
 
-Run the most relevant available checks for the changed area.
-
-For Unity Phase 8B quiz UI, run or perform:
+For Unity Phase 8B Canvas quiz UI, run or perform:
 
 Unity compilation
 Console review
 scene reference checks
-UI Toolkit UIDocument checks
-PanelSettings checks
-USS/UXML reference checks
+Canvas root checks
+Canvas Scaler checks
+Graphic Raycaster checks
+EventSystem checks
+RectTransform anchor and pivot checks
+Image sprite reference checks
+TextMeshPro reference checks
+Button callback checks
+Toggle/custom selection checks
+ScrollRect checks
+modal blocking checks
 safe area checks
 Android landscape layout checks
 touch target checks
@@ -28,8 +34,6 @@ unsupported item fallback checks
 error/retry checks
 LocalDemoJson checks
 provider DTO checks
-
-Run Edit Mode or Play Mode tests when they exist or when the change introduces testable logic.
 
 Every completion report must include:
 

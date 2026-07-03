@@ -1,21 +1,14 @@
-# Shared Client Systems
+# Shared Client Systems — v6 Quiz-First
 
-## UI-Agnostic Architecture
+## UI-agnostic architecture
 
-Because the project uses hybrid Canvas + UI Toolkit, shared logic must not depend on one UI system.
+The overall project is hybrid Canvas + UI Toolkit, but Phase 8B quiz UI should use UI Toolkit.
 
-Use:
+Shared logic must not depend on one UI system.
 
-- stores;
-- services;
-- presenters;
-- UI adapters;
-- DTOs;
-- provider interfaces.
+Use stores, services, presenters, DTOs, provider interfaces, and view adapters.
 
-Canvas views and UI Toolkit views should call the same presenter/service layer.
-
-## Active Systems
+## Active systems
 
 - SessionStore
 - ProfileStore
@@ -32,7 +25,28 @@ Canvas views and UI Toolkit views should call the same presenter/service layer.
 - SafeErrorService
 - NavigationService
 
-## Deferred Systems
+## Current presenter registry
+
+Register active presenters for:
+
+- `multiple_choice_single`
+- `multiple_choice_multiple`
+- `true_false`
+
+Register safe fallback handling for all unsupported item types.
+
+## Separation rules
+
+- UI views must not call HTTP directly.
+- UI views must not read JSON files directly.
+- UI views must not contain official scoring logic.
+- Item presenters update answer-draft state.
+- Submit coordinator handles submission.
+- Result store controls result display data.
+
+## Deferred systems
+
+Do not implement yet:
 
 - MissionProgressStore
 - RewardWalletStore for spendable rewards

@@ -1,38 +1,33 @@
-# Application Scenes and Hybrid UI
+# Application Scenes and UI Technology — v8
 
-## Existing Designs
+## Overall project UI
 
-Agents must inspect existing scene designs before creating new UI.
+The project may remain hybrid Canvas + UI Toolkit because some application scenes were created before the quiz UI decision changed.
 
-Expected existing or partially existing designs may include:
+Do not rebuild valid existing application scenes only to change UI technology.
 
-- Splash
-- Login
-- Main Interface
-- Profile
-- Settings
-- Subject Selection
-- Term Selection
-- Loading/Transition
+## Quiz system UI
 
-The exact repository contents must be inspected before changes.
+The Quiz Portal / Assessment Room must use Canvas/uGUI for Phase 8B.
 
-## Missing Scenes
+This includes:
 
-If an application scene is missing, create it using the same visual language and UI system as the existing app scenes unless the docs say otherwise.
+- Quiz Portal Home
+- Available Quiz List
+- Empty Quiz State
+- Locked/Unavailable View modal
+- Quiz Instructions
+- Quiz Session Shell
+- Multiple Choice Single
+- Multiple Choice Multiple
+- True/False
+- Unsupported Item State
+- Submit Confirmation
+- Quiz Result Screen
+- Error/Retry State
 
-## Hybrid Rules
+## Shared logic rule
 
-- Canvas is allowed for existing app-scene designs.
-- UI Toolkit is allowed for new structured screens.
-- Avoid duplicate UI logic.
-- Use shared presenters/services.
-- Keep scene-specific view scripts thin.
-- Do not create confusing backgrounds behind static UI.
-- Preserve Android landscape and safe-area behavior.
+Even when using Canvas, business logic must remain UI-agnostic.
 
-## Quiz UI
-
-Quiz UI may use Canvas, UI Toolkit, or hybrid based on what integrates best with existing app scenes.
-
-The agent must choose one primary UI system per quiz screen and document the choice.
+Canvas views should call shared presenters/services/stores. Do not put provider calls, scoring, or state-machine decisions directly inside UI button handlers except simple forwarding.

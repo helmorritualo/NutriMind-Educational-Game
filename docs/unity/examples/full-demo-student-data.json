@@ -17,7 +17,7 @@
     },
     {
       "subject_slug": "science",
-      "display_name": "Science Quest"
+      "display_name": "Science"
     }
   ],
   "terms": [
@@ -36,58 +36,87 @@
   ],
   "quizzes": [
     {
-      "quiz_id": "quiz_demo_litera_vocab",
-      "title": "Vocabulary Check",
+      "quiz_id": "quiz_build_better_paragraph",
+      "title": "Build a Better Paragraph",
       "subject_slug": "literaquest",
       "term_key": "term_1",
       "grade_level": 5,
+      "item_count": 3,
       "status": "available",
+      "attempt_limit": 2,
+      "time_limit_seconds": 1800,
+      "result_visibility": "summary_and_feedback",
+      "unity_compatible": true,
       "items": [
         {
           "item_id": "q1",
           "item_type": "multiple_choice_single",
-          "prompt": "Which meaning best matches 'enormous'?",
+          "prompt": "Which sentence is written correctly?",
           "choices": [
             {
               "choice_id": "a",
-              "text": "very small"
+              "text": "we went to the store yesterday."
             },
             {
               "choice_id": "b",
-              "text": "very large"
+              "text": "We went to the store Yesterday."
             },
             {
               "choice_id": "c",
-              "text": "very fast"
+              "text": "We went to the store yesterday."
+            },
+            {
+              "choice_id": "d",
+              "text": "WE WENT TO THE STORE YESTERDAY."
             }
           ],
           "points": 1
         },
         {
           "item_id": "q2",
-          "item_type": "matching",
-          "prompt": "Match the words to their meanings.",
-          "pairs": [
+          "item_type": "multiple_choice_multiple",
+          "prompt": "Select all complete sentences.",
+          "choices": [
             {
-              "left": "tiny",
-              "right": "very small"
+              "choice_id": "a",
+              "text": "The child reads a book."
             },
             {
-              "left": "silent",
-              "right": "quiet"
+              "choice_id": "b",
+              "text": "Because it was raining."
+            },
+            {
+              "choice_id": "c",
+              "text": "My teacher smiled."
+            },
+            {
+              "choice_id": "d",
+              "text": "Under the table."
             }
           ],
           "points": 2
+        },
+        {
+          "item_id": "q3",
+          "item_type": "true_false",
+          "prompt": "A paragraph can have more than one sentence.",
+          "points": 1
         }
-      ]
+      ],
+      "action_type": "start"
     },
     {
-      "quiz_id": "quiz_demo_health_habits",
-      "title": "Healthy Habits Check",
+      "quiz_id": "quiz_healthy_habits",
+      "title": "Healthy Habits",
       "subject_slug": "health",
       "term_key": "term_1",
       "grade_level": 5,
+      "item_count": 2,
       "status": "available",
+      "attempt_limit": 1,
+      "time_limit_seconds": null,
+      "result_visibility": "summary_only",
+      "unity_compatible": true,
       "items": [
         {
           "item_id": "h1",
@@ -97,42 +126,88 @@
         },
         {
           "item_id": "h2",
-          "item_type": "ordering",
-          "prompt": "Order the morning preparation steps.",
-          "sequence_items": [
-            "Wake up",
-            "Eat breakfast",
-            "Prepare school bag",
-            "Go to school"
+          "item_type": "multiple_choice_single",
+          "prompt": "Which habit supports wellness?",
+          "choices": [
+            {
+              "choice_id": "a",
+              "text": "Skipping sleep"
+            },
+            {
+              "choice_id": "b",
+              "text": "Washing hands"
+            },
+            {
+              "choice_id": "c",
+              "text": "Avoiding water"
+            },
+            {
+              "choice_id": "d",
+              "text": "Ignoring meals"
+            }
           ],
-          "points": 4
+          "points": 1
         }
-      ]
+      ],
+      "action_type": "start"
     },
     {
-      "quiz_id": "quiz_demo_science_tools",
-      "title": "Science Tools Check",
-      "subject_slug": "science",
-      "term_key": "term_1",
+      "quiz_id": "quiz_parts_of_speech",
+      "title": "Parts of Speech",
+      "subject_slug": "literaquest",
+      "term_key": "term_2",
       "grade_level": 5,
-      "status": "available",
+      "item_count": 25,
+      "status": "locked",
+      "locked_reason": "Available after teacher opens this quiz.",
+      "attempt_limit": 1,
+      "time_limit_seconds": null,
+      "result_visibility": "hidden_until_release",
+      "unity_compatible": true,
+      "items": [],
+      "action_type": "view_locked"
+    },
+    {
+      "quiz_id": "quiz_future_matching_demo",
+      "title": "Future Matching Demo",
+      "subject_slug": "science",
+      "term_key": "term_2",
+      "grade_level": 5,
+      "item_count": 1,
+      "status": "locked",
+      "locked_reason": "This quiz uses a question type not supported in this version yet.",
+      "unity_compatible": false,
       "items": [
         {
-          "item_id": "s1",
-          "item_type": "fill_blank",
-          "prompt": "A thermometer is used to measure ____.",
+          "item_id": "u1",
+          "item_type": "matching",
+          "prompt": "Unsupported in current Unity milestone.",
           "points": 1
-        },
-        {
-          "item_id": "s2",
-          "item_type": "short_answer",
-          "prompt": "Why should science tools be handled carefully?",
-          "points": 2
         }
-      ]
+      ],
+      "action_type": "view_unavailable",
+      "unavailable_reason": "This quiz uses a question type not supported in this version yet."
+    },
+    {
+      "quiz_id": "quiz_completed_result_demo",
+      "title": "Completed Quiz Result Demo",
+      "subject_slug": "health",
+      "term_key": "term_1",
+      "grade_level": 5,
+      "item_count": 10,
+      "status": "completed",
+      "action_type": "view_result",
+      "unity_compatible": true,
+      "result_visibility": "summary_and_feedback",
+      "result_summary": {
+        "score_awarded": 8,
+        "score_possible": 10,
+        "percentage": 80,
+        "passed": true
+      },
+      "items": []
     }
   ],
-  "quiz_attempts": [],
   "settings": {
     "music_volume": 0.8,
     "sfx_volume": 0.8,
@@ -143,5 +218,30 @@
     "rewards_shop",
     "inventory",
     "world_restoration"
-  ]
+  ],
+  "ui_config": {
+    "available_quiz_filters": [
+      {
+        "filter_key": "all",
+        "label": "All",
+        "type": "subject"
+      },
+      {
+        "filter_key": "literaquest",
+        "label": "LiteraQuest",
+        "type": "subject"
+      },
+      {
+        "filter_key": "health",
+        "label": "PE/Health",
+        "type": "subject"
+      },
+      {
+        "filter_key": "science",
+        "label": "Science",
+        "type": "subject"
+      }
+    ],
+    "term_filter_visible": false
+  }
 }

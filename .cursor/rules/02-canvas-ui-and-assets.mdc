@@ -1,0 +1,27 @@
+---
+description: Canvas/uGUI, sprite asset, prefab, and presentation rules for NutriMind Unity.
+globs: ["**/*.cs", "**/*.prefab", "**/*.unity", "**/*.png", "**/*.spriteatlas"]
+alwaysApply: false
+---
+
+# Canvas UI and Asset Rules
+
+For Phase 8B quiz UI, use Canvas/uGUI.
+
+Do not use UI Toolkit for Quiz Portal, Available Quiz List, Quiz Instructions, Quiz Session Shell, item presenters, Submit Confirmation, Result Screen, Error/Retry, or Unsupported Item unless the project owner explicitly changes the requirement.
+
+Use generated UI assets as sprites or sprite sheets.
+
+Use sliced sprites for scalable panels and buttons.
+
+Use Canvas, Canvas Scaler, Graphic Raycaster, EventSystem, RectTransform, Image, Button, Toggle/custom selection, ScrollRect, TextMeshPro, prefabs, and prefab variants.
+
+Do not implement generated storyboard images as flat screenshots. Build structured UI from reusable sprite pieces.
+
+Important text and quiz data must be dynamic TextMeshPro labels unless the asset is a deliberately static button with fixed text.
+
+Use subject filters only in Available Quiz List: All, LiteraQuest, PE/Health, Science.
+
+Do not build Term 1–3 as primary student filter chips. Term is row/detail metadata.
+
+Modal/panel states should block background interaction and preserve list state when closed.

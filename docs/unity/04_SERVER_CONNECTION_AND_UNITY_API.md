@@ -1,12 +1,20 @@
-# Unity API Contract — Laravel Quiz-First Server
+# Unity Server Connection and API Contract — v6
 
 ## Backend
 
-The backend is Laravel + PostgreSQL and exposes REST JSON endpoints.
+The backend is Laravel + React/Inertia + PostgreSQL.
 
-No WebSocket is required.
+Unity uses HTTPS REST JSON APIs.
 
-## Active Endpoints
+No WebSocket is required for the current milestone.
+
+## Contract version
+
+```text
+quiz_first_laravel_1
+```
+
+## Active endpoints
 
 ```http
 GET /api/v1/student/config
@@ -26,24 +34,47 @@ GET /api/v1/student/quiz-results/{attempt_id}
 GET /api/v1/student/sync-status
 ```
 
-## Deferred Endpoints
+## Quiz list query behavior
 
-- mission endpoints
-- rewards/shop endpoints
-- inventory endpoints
+`GET /api/v1/student/quizzes` should support optional filters:
 
-## Contract Version
+- subject
+- term
+- status
+- completed
+- locked
 
-Use:
+The default response should return all quizzes assigned to the student.
 
-```text
-quiz_first_laravel_1
-```
+## Quiz summary fields
 
-## Quiz Attempt Idempotency
+Each quiz summary should include:
 
-Use `client_attempt_uuid`.
+- quiz id
+- title
+- subject
+- term
+- grade level
+- item count
+- status
+- locked reason if any
+- action availability
+- time limit if any
+- attempt status if any
+- result summary if completed and visible
 
-Same UUID + same payload = replay result.
+## Compatibility field
 
-Same UUID + different payload = conflict.
+The server should provide item/presenter compatibility metadata so Unity can avoid starting quizzes that require unsupported item types unless safe fallback is intentionally allowed.
+
+## Active Unity-supported item types
+
+- `multiple_choice_single`
+- `multiple_choice_multiple`
+- `true_false`
+
+Unsupported types must render safe fallback and must not crash.
+
+## Deferred endpoints
+
+Mission, reward shop, inventory, and world restoration endpoints are deferred.

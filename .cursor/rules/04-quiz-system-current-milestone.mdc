@@ -1,6 +1,6 @@
 ---
-description: Current Phase 8B Quiz Portal scope and quiz implementation rules.
-globs: ["**/*Quiz*.cs", "**/*Quiz*.uxml", "**/*Quiz*.uss", "**/*Assessment*.cs", "**/*Assessment*.uxml", "**/*Assessment*.uss"]
+description: Current Phase 8B Quiz Portal scope and Canvas quiz implementation rules.
+globs: ["**/*Quiz*.cs", "**/*Assessment*.cs", "**/*.prefab", "**/*.unity"]
 alwaysApply: false
 ---
 
@@ -11,7 +11,7 @@ Current Phase 8B scope includes only these units:
 Quiz Portal Home
 Available Quiz List
 Empty Quiz State
-Locked Quiz State
+Locked Quiz State as Available Quiz List Canvas modal/panel
 Quiz Instructions
 Quiz Session Shell
 Multiple Choice Single Presenter
@@ -24,9 +24,13 @@ Quiz Error/Retry State
 
 Do not implement other quiz item presenters unless explicitly approved.
 
-Use UI Toolkit for the Phase 8B quiz UI.
+Use Canvas/uGUI for the Phase 8B quiz UI.
 
-Use existing UI assets and components first.
+The Available Quiz List `View` action must open an in-screen Canvas modal/panel, not a separate scene.
+
+The modal must preserve subject filter, scroll position, selected row, and loaded list data.
+
+Use existing generated UI sprites and components first.
 
 Do not hardcode quiz content in UI scripts.
 
@@ -37,19 +41,3 @@ The Quiz Portal must be separate from future adventure missions.
 Quiz completion must not update mission progress.
 
 Quiz result display may show score, feedback, pass/fail, and optional display-only stars or badges. It must not grant spendable coins, inventory items, EXP, cosmetics, or shop currency.
-
-Required quiz states include loading, available, empty, locked, instructions, answering, validation error, submit confirmation, submitting, result, unsupported item, and error/retry.
-
-Unsupported item types must show a safe state and must not crash.
-
-For multiple choice single, allow one selected option.
-
-For multiple choice multiple, allow multiple selected options and clear selected state correctly.
-
-For true/false, use two clear answer options.
-
-Submit Confirmation must summarize unanswered/invalid items without showing answer keys.
-
-Quiz Result Screen must respect provider/server result visibility.
-
-Quiz Error/Retry State must provide safe retry, return to quiz portal, and return to menu behavior where applicable.
