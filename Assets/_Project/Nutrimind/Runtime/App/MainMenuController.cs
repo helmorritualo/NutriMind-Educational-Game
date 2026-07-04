@@ -212,8 +212,13 @@ namespace NutriMind.Runtime.App
 
         private void OnQuizClicked()
         {
-            // Quiz button loads the Assessment Room / Quiz Portal (registered as "Worldhub")
-            NavigateToScene("Worldhub");
+            var root = CompositionRoot.Instance;
+            if (root?.StateMachine != null)
+            {
+                root.StateMachine.TryTransition(AppState.LoadingWorld);
+            }
+
+            NavigateToScene("Loading");
         }
 
         private void OnPlayClicked()

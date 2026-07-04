@@ -14,12 +14,21 @@ namespace NutriMind.Tests.EditMode.App
             var store = new QuizAvailabilityStore();
             Assert.That(store.Quizzes, Is.Not.Null);
             Assert.That(store.Quizzes, Is.Empty);
+            Assert.That(store.SelectedSubjectFilter, Is.EqualTo(QuizSubjectFilters.All));
+            Assert.That(store.CurrentPage, Is.EqualTo(1));
+            Assert.That(store.IsLoaded, Is.False);
 
             store.Quizzes.Add(new QuizDto { Id = "q1", Title = "Quiz 1" });
+            store.SelectedSubjectFilter = QuizSubjectFilters.LiteraQuest;
+            store.CurrentPage = 2;
+            store.IsLoaded = true;
             Assert.That(store.Quizzes, Has.Count.EqualTo(1));
 
             store.Reset();
             Assert.That(store.Quizzes, Is.Empty);
+            Assert.That(store.SelectedSubjectFilter, Is.EqualTo(QuizSubjectFilters.All));
+            Assert.That(store.CurrentPage, Is.EqualTo(1));
+            Assert.That(store.IsLoaded, Is.False);
         }
 
         [Test]

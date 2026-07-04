@@ -2,7 +2,8 @@
   "name": "NutriMind.Editor",
   "rootNamespace": "NutriMind.Editor",
   "references": [
-    "GUID:03b7b7d7ae6dc2548a5306f1fa543da1"
+    "GUID:03b7b7d7ae6dc2548a5306f1fa543da1",
+    "Unity.TextMeshPro"
   ],
   "includePlatforms": [
     "Editor"

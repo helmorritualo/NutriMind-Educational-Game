@@ -30,9 +30,9 @@ namespace NutriMind.Tests.EditMode.App
         {
             _bootstrap.RegisterScenes(_testRegistry);
 
-            Assert.That(_testRegistry.Count, Is.EqualTo(10), "Expected exactly 10 registered scene keys.");
+            Assert.That(_testRegistry.Count, Is.EqualTo(11), "Expected exactly 11 registered scene keys.");
 
-            string[] expectedKeys = { "Bootstrap", "SplashScreen", "Login", "MainMenu", "Profile", "Settings", "Worldhub", "LiteraQuestTerms", "HealthQuestTerms", "Loading" };
+            string[] expectedKeys = { "Bootstrap", "SplashScreen", "Login", "MainMenu", "Profile", "Settings", "Worldhub", "LiteraQuestTerms", "HealthQuestTerms", "Loading", "QuizPortal" };
             foreach (string key in expectedKeys)
             {
                 Assert.That(_testRegistry.GetScene(key), Is.Not.Null, $"Expected key '{key}' to be registered.");
@@ -43,6 +43,7 @@ namespace NutriMind.Tests.EditMode.App
             Assert.That(_testRegistry.GetScene("SplashScreen"), Is.EqualTo("Assets/_Project/Nutrimind/Scenes/App/SplashScreen.unity"));
             Assert.That(_testRegistry.GetScene("Login"), Is.EqualTo("Assets/_Project/Nutrimind/Scenes/App/Login.unity"));
             Assert.That(_testRegistry.GetScene("MainMenu"), Is.EqualTo("Assets/_Project/Nutrimind/Scenes/App/MainMenu.unity"));
+            Assert.That(_testRegistry.GetScene("QuizPortal"), Is.EqualTo("Assets/_Project/Nutrimind/Scenes/App/QuizPortalScene.unity"));
         }
 
         [Test]

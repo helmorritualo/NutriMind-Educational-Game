@@ -52,6 +52,7 @@ namespace NutriMind.Runtime.App
             // Main menu
             (AppState.MainMenu, AppState.MainMenu),
             (AppState.MainMenu, AppState.SelectingSubject),
+            (AppState.MainMenu, AppState.LoadingWorld),
             (AppState.MainMenu, AppState.LoggedOut),
             (AppState.MainMenu, AppState.SessionExpired),
 
@@ -73,6 +74,7 @@ namespace NutriMind.Runtime.App
 
             // In world
             (AppState.InWorld, AppState.InWorld),
+            (AppState.InWorld, AppState.MainMenu),
             (AppState.InWorld, AppState.StartingStation),
             (AppState.InWorld, AppState.ConnectionUnavailable),
             (AppState.InWorld, AppState.SessionExpired),
