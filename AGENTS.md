@@ -53,6 +53,9 @@ Use contract version `quiz_first_laravel_1`.
 - For hand-alignment of scene-template rows, strip Layout Groups and LayoutElements from the row and its children (and disable `Content`'s child control) so RectTransform Pos/Size fields are editable in the Inspector; use **NutriMind → Quiz Portal → Unlock Quiz List Row For Manual Edit** to remove layout drivers. Re-enable layout on the prefab only if runtime auto-layout is desired.
 - Keep Empty Quiz State copy baked in `QuizStates_0`; wire show/hide and Refresh/Back only—no dynamic TMP message labels.
 - Prefer Unity's native MCP server in Cursor (`user-unity-mcp`) for Editor wiring, console checks, and scene saves when Unity is open and connected.
+- For LiteraQuest Mission 1 gameplay HUD/modals, build Canvas at 1920×1080 with QuizAssets sliced sprites and LiberationSans TMP (same typography as Quiz Portal); use **NutriMind → LiteraQuest Mission 1 → Setup Mission Canvas UI** for one-shot scene setup.
+- When mission gameplay UI looks broken, use Unity MCP scene/game capture (`Unity_Camera_Capture`) to verify layout before iterating.
+- Use `CharacterController` (not Rigidbody) for LiteraQuest player movement; attach `PlayerMovementController` on scene `Player`.
 
 ## Learned Workspace Facts
 
@@ -65,3 +68,7 @@ Use contract version `quiz_first_laravel_1`.
 - Empty Quiz State is an `AvailableQuizListController` sub-state; `EmptyQuizStatePanel` (Canvas sibling) uses `QuizStates_0` (baked art), `QuizStates_2` (Refresh / scene object `RefeshButton`), and `QuizStates_3` (Back).
 - Demo data (`Resources/DemoData/full-demo-student-data.json`) contains mixed `unlocked` and `locked` quiz states, so the dynamic list shows both Available and Locked rows.
 - Unity Editor MCP is Unity's built-in server (Cursor: `user-unity-mcp`); do not use or document `com.anklebreaker.unity-mcp`—that package is legacy and will be removed from `Packages/manifest.json`.
+- LiteraQuest Mission 1 scene: `Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuest_Term1_Mission1.unity`; canvas setup via `LiteraQuestMission1CanvasSetupEditor.cs` (`NutriMind/LiteraQuest Mission 1/Setup Mission Canvas UI`).
+- Player movement: `Assets/_Project/Nutrimind/Runtime/Gameplay/PlayerMovementController.cs` on `Player`; disable `PlayerModel` `CapsuleCollider` when using `CharacterController`.
+- Joystick Pack: `Assets/_Project/Nutrimind/ThirdParty/Joystick Pack/`; HUD uses `Fixed Joystick` prefab (may not be named `MovementJoystick`); scene `JumpButton ` has a trailing space.
+- Imported Built-in pipeline third-party materials render pink in URP—convert to `Universal Render Pipeline/Lit` (e.g. Skyden Games `Colors_Mat.mat`, `Colors Water_Mat.mat`).

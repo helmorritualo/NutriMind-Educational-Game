@@ -1,0 +1,31 @@
+{
+    "asset": "18968c1b1985d3e4d88d8f1fa052a60d",
+    "fileName": "019f37f6-be34-78ac-8056-93d134c2f583.png",
+    "prompt": "circle mobile joystick ui, transparent background, flat design, outer ring and inner thumbstick, gaming interface elements",
+    "negativePrompt": "",
+    "model": "card-frames",
+    "modelName": "Card Frames",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0,
+    "dynamicParams": {
+        "serializedData": []
+    }
+}

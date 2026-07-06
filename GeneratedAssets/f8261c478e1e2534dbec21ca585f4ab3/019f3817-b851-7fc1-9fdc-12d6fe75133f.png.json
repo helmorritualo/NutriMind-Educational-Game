@@ -1,0 +1,31 @@
+{
+    "asset": "f8261c478e1e2534dbec21ca585f4ab3",
+    "fileName": "019f3817-b851-7fc1-9fdc-12d6fe75133f.png",
+    "prompt": "\"A circular mobile game UI jump button with a white upward-pointing arrow in the center. Glossy and polished UI style, glowing neon blue border, dark transparent background, clean vector art, 2D game asset.\"",
+    "negativePrompt": "",
+    "model": "game-ui-essentials-2",
+    "modelName": "Game UI Essentials 2.0",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0,
+    "dynamicParams": {
+        "serializedData": []
+    }
+}
