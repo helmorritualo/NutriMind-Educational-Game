@@ -45,13 +45,13 @@ namespace NutriMind.Editor
             var existingCanvas = GameObject.Find("Canvas");
             if (existingCanvas != null)
             {
-                Object.DestroyImmediate(existingCanvas);
+                UnityEngine.Object.DestroyImmediate(existingCanvas);
             }
 
             var existingEventSystem = GameObject.Find("EventSystem");
             if (existingEventSystem != null)
             {
-                Object.DestroyImmediate(existingEventSystem);
+                UnityEngine.Object.DestroyImmediate(existingEventSystem);
             }
 
             var font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(TmpFontPath);
@@ -73,6 +73,232 @@ namespace NutriMind.Editor
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log("[LiteraQuestMission1CanvasSetup] Mission Canvas UI created and scene saved.");
+        }
+
+        [MenuItem("NutriMind/LiteraQuest Mission 1/Wire G5 Area01 Mission Controller")]
+        public static void WireG5Area01MissionController()
+        {
+            var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
+
+            Transform missionArea = FindRootTransform("MissionArea01");
+            if (missionArea == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] MissionArea01 not found.");
+                return;
+            }
+
+            Transform gateRoot = FindDescendantTransform(missionArea, "GateToNextArea");
+            if (gateRoot == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] GateToNextArea not found.");
+                return;
+            }
+
+            EnsureGateBlocker(gateRoot);
+
+            Transform systemsRoot = FindRootTransform("Systems");
+            if (systemsRoot == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] Systems not found.");
+                return;
+            }
+
+            Transform controllerRoot = FindDescendantTransform(systemsRoot, "G5Area01MissionController");
+            if (controllerRoot == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] G5Area01MissionController not found under Systems.");
+                return;
+            }
+
+            // ponytail: G5Area01MissionController lives in Assembly-CSharp; NutriMind.Editor asmdef cannot reference it directly.
+            Component controller = GetOrAddMissionController(controllerRoot.gameObject);
+            if (controller == null)
+            {
+                return;
+            }
+
+            Transform canvas = FindRootTransform("Canvas");
+            if (canvas == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] Canvas not found.");
+                return;
+            }
+
+            var serialized = new SerializedObject(controller);
+            SetObjectRef(serialized, "_storyMapFragment", FindDescendantTransform(missionArea, "StoryMapFragment"));
+            SetObjectRef(serialized, "_closedGate", FindDescendantTransform(gateRoot, "ClosedGate"));
+            SetObjectRef(serialized, "_openGate", FindDescendantTransform(gateRoot, "OpenGate"));
+            SetColliderRef(serialized, "_gateBlocker", FindDescendantTransform(gateRoot, "GateBlocker"));
+
+            Transform hud = FindDescendantTransform(canvas, "HUDPanel");
+            Transform interactPrompt = FindDescendantTransform(hud, "InteractPrompt");
+            SetTmpRef(serialized, "_missionTitleText", FindDescendantComponent<TextMeshProUGUI>(hud, "MissionTitleText"));
+            SetTmpRef(serialized, "_gradeSubjectTermText", null);
+            SetTmpRef(serialized, "_objectiveText", FindDescendantComponent<TextMeshProUGUI>(hud, "ObjectiveText"));
+            SetTmpRef(serialized, "_itemCounterText", FindDescendantComponent<TextMeshProUGUI>(hud, "ItemCounterText"));
+            SetObjectRef(serialized, "_interactPrompt", interactPrompt);
+            SetButtonRef(serialized, "_interactButton", FindDescendantComponent<Button>(interactPrompt, "InteractButton"));
+            SetTmpRef(serialized, "_interactPromptLabel", FindDescendantComponent<TextMeshProUGUI>(interactPrompt, "InteractText"));
+
+            Transform playerRoot = FindRootTransform("Player");
+            if (playerRoot == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] Player not found.");
+                return;
+            }
+
+            EnsurePlayerInteractionTrigger(playerRoot);
+            EnsureFarmerLiraInteractionTarget(missionArea, controller);
+            EnsureStoryMapFragmentPickup(missionArea, controller);
+
+            Transform dialoguePanel = FindDescendantTransform(canvas, "DialoguePanel");
+            SetObjectRef(serialized, "_dialoguePanel", dialoguePanel);
+            SetTmpRef(serialized, "_npcNameText", FindDescendantComponent<TextMeshProUGUI>(dialoguePanel, "NPCNameText"));
+            SetTmpRef(serialized, "_dialogueText", FindDescendantComponent<TextMeshProUGUI>(dialoguePanel, "DialogueText"));
+            SetButtonRef(serialized, "_dialogueContinueButton", FindDescendantComponent<Button>(dialoguePanel, "ContinueButton"));
+
+            Transform questionPanel = FindDescendantTransform(canvas, "QuestionPanel");
+            SetObjectRef(serialized, "_questionPanel", questionPanel);
+            SetTmpRef(serialized, "_questionProgressText", FindDescendantComponent<TextMeshProUGUI>(questionPanel, "QuestionProgressText"));
+            SetTmpRef(serialized, "_questionText", FindDescendantComponent<TextMeshProUGUI>(questionPanel, "QuestionText"));
+            SetButtonArrayRefs(serialized, "_answerButtons", questionPanel,
+                "AnswerButtonA", "AnswerButtonB", "AnswerButtonC", "AnswerButtonD");
+            SetTmpArrayRefs(serialized, "_answerLabels", questionPanel,
+                "AnswerButtonA", "AnswerButtonB", "AnswerButtonC", "AnswerButtonD");
+
+            Transform feedbackPanel = FindDescendantTransform(canvas, "FeedbackPanel");
+            SetObjectRef(serialized, "_feedbackPanel", feedbackPanel);
+            SetTmpRef(serialized, "_feedbackText", FindDescendantComponent<TextMeshProUGUI>(feedbackPanel, "FeedbackText"));
+            SetButtonRef(serialized, "_feedbackContinueButton", FindDescendantComponent<Button>(feedbackPanel, "ContinueButton"));
+
+            Transform areaCompletePanel = FindDescendantTransform(canvas, "AreaCompletePanel");
+            SetObjectRef(serialized, "_areaCompletePanel", areaCompletePanel);
+            SetTmpRef(serialized, "_areaCompleteTitleText", FindDescendantComponent<TextMeshProUGUI>(areaCompletePanel, "CompleteTitleText"));
+            SetTmpRef(serialized, "_areaCompleteMessageText", FindDescendantComponent<TextMeshProUGUI>(areaCompletePanel, "CompleteMessageText"));
+            SetButtonRef(serialized, "_areaCompleteContinueButton", FindDescendantComponent<Button>(areaCompletePanel, "ContinueButton"));
+
+            SetStringProperty(serialized, "_pickupObjective", "Pick up the Story Map Fragment.");
+            SetStringProperty(serialized, "_areaCompleteObjective", "Area 1 complete.");
+            SetStringProperty(serialized, "_collectedItemCounter", "1/1");
+            SetStringProperty(serialized, "_areaCompleteTitle", "Area Complete!");
+            SetStringProperty(serialized, "_areaCompleteBody",
+                "You restored the first story clue. The path to the next area is now open.");
+
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+
+            Debug.Log("[LiteraQuestMission1CanvasSetup] G5Area01MissionController wired and scene saved. " +
+                      "Farmer Lira interaction + PlayerInteractionTrigger ready. " +
+                      "_gradeSubjectTermText left unassigned (no HUD TMP in scene yet).");
+        }
+
+        private static void EnsurePlayerInteractionTrigger(Transform playerRoot)
+        {
+            Transform markerRoot = FindDescendantTransform(playerRoot, "PlayerInteractionTrigger");
+            if (markerRoot == null)
+            {
+                var marker = new GameObject("PlayerInteractionTrigger");
+                marker.transform.SetParent(playerRoot, false);
+                marker.transform.localPosition = Vector3.zero;
+                marker.transform.localRotation = Quaternion.identity;
+                marker.transform.localScale = Vector3.one;
+                markerRoot = marker.transform;
+            }
+
+            GetOrAddAssemblyComponent(markerRoot.gameObject, "PlayerInteractionTrigger");
+        }
+
+        private static void EnsureFarmerLiraInteractionTarget(Transform missionArea, Component missionController)
+        {
+            Transform farmerRoot = FindDescendantTransform(missionArea, "FarmerLira_NPC");
+            if (farmerRoot == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] FarmerLira_NPC not found under MissionArea01.");
+                return;
+            }
+
+            Transform markerRoot = FindDescendantTransform(farmerRoot, "NPC_InteractionMarker");
+            if (markerRoot == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] NPC_InteractionMarker not found under FarmerLira_NPC.");
+                return;
+            }
+
+            Transform npcModel = FindDescendantTransform(farmerRoot, "NPC_Model");
+            if (npcModel != null)
+            {
+                markerRoot.localPosition = npcModel.localPosition;
+            }
+
+            SphereCollider sphere = markerRoot.GetComponent<SphereCollider>();
+            if (sphere == null)
+            {
+                sphere = markerRoot.gameObject.AddComponent<SphereCollider>();
+            }
+
+            sphere.isTrigger = true;
+            sphere.radius = 2f;
+            sphere.center = Vector3.zero;
+
+            Component target = GetOrAddAssemblyComponent(markerRoot.gameObject, "G5Area01InteractionTarget");
+            if (target == null)
+            {
+                return;
+            }
+
+            var serialized = new SerializedObject(target);
+            serialized.FindProperty("_mission").objectReferenceValue = missionController;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private static void EnsureStoryMapFragmentPickup(Transform missionArea, Component missionController)
+        {
+            Transform fragmentRoot = FindDescendantTransform(missionArea, "StoryMapFragment");
+            if (fragmentRoot == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] StoryMapFragment not found under MissionArea01.");
+                return;
+            }
+
+            SphereCollider pickupTrigger = fragmentRoot.GetComponent<SphereCollider>();
+            if (pickupTrigger == null)
+            {
+                pickupTrigger = fragmentRoot.gameObject.AddComponent<SphereCollider>();
+            }
+
+            pickupTrigger.isTrigger = true;
+            pickupTrigger.radius = 2f;
+            pickupTrigger.center = Vector3.zero;
+
+            Component target = GetOrAddAssemblyComponent(fragmentRoot.gameObject, "G5Area01InteractionTarget");
+            if (target == null)
+            {
+                return;
+            }
+
+            var serialized = new SerializedObject(target);
+            serialized.FindProperty("_mission").objectReferenceValue = missionController;
+            serialized.FindProperty("_kind").enumValueIndex = 1;
+            serialized.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private static Component GetOrAddAssemblyComponent(GameObject host, string typeName)
+        {
+            System.Type componentType = System.Type.GetType(typeName + ", Assembly-CSharp");
+            if (componentType == null)
+            {
+                Debug.LogError($"[LiteraQuestMission1CanvasSetup] {typeName} type not found. Wait for script compile and retry.");
+                return null;
+            }
+
+            Component existing = host.GetComponent(componentType);
+            if (existing == null)
+            {
+                existing = host.AddComponent(componentType);
+            }
+
+            return existing;
         }
 
         [MenuItem("NutriMind/LiteraQuest Mission 1/Preview Mission UI Panels")]
@@ -432,6 +658,132 @@ namespace NutriMind.Editor
             }
 
             return null;
+        }
+
+        private static Component GetOrAddMissionController(GameObject host)
+        {
+            System.Type controllerType = System.Type.GetType("G5Area01MissionController, Assembly-CSharp");
+            if (controllerType == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] G5Area01MissionController type not found. Wait for script compile and retry.");
+                return null;
+            }
+
+            Component existing = host.GetComponent(controllerType);
+            if (existing == null)
+            {
+                existing = host.AddComponent(controllerType);
+            }
+
+            return existing;
+        }
+
+        private static Transform FindRootTransform(string objectName)
+        {
+            foreach (var root in UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects())
+            {
+                if (root.name.Trim() == objectName)
+                {
+                    return root.transform;
+                }
+            }
+
+            return null;
+        }
+
+        private static Transform FindDescendantTransform(Transform root, string objectName)
+        {
+            if (root == null)
+            {
+                return null;
+            }
+
+            foreach (var transform in root.GetComponentsInChildren<Transform>(true))
+            {
+                if (transform.name.Trim() == objectName)
+                {
+                    return transform;
+                }
+            }
+
+            return null;
+        }
+
+        private static T FindDescendantComponent<T>(Transform root, string objectName) where T : Component
+        {
+            var target = FindDescendantTransform(root, objectName);
+            return target != null ? target.GetComponent<T>() : null;
+        }
+
+        private static void EnsureGateBlocker(Transform gateRoot)
+        {
+            var existing = FindDescendantTransform(gateRoot, "GateBlocker");
+            if (existing != null)
+            {
+                return;
+            }
+
+            var blocker = new GameObject("GateBlocker");
+            blocker.transform.SetParent(gateRoot, false);
+            blocker.transform.localPosition = new Vector3(-1131.5577f, 7f, 1349.6f);
+            blocker.transform.localRotation = Quaternion.identity;
+            blocker.transform.localScale = Vector3.one;
+
+            var box = blocker.AddComponent<BoxCollider>();
+            box.isTrigger = false;
+            box.center = Vector3.zero;
+            box.size = new Vector3(8f, 6f, 2f);
+        }
+
+        private static void SetObjectRef(SerializedObject serialized, string propertyName, Transform target)
+        {
+            serialized.FindProperty(propertyName).objectReferenceValue = target != null ? target.gameObject : null;
+        }
+
+        private static void SetColliderRef(SerializedObject serialized, string propertyName, Transform target)
+        {
+            serialized.FindProperty(propertyName).objectReferenceValue =
+                target != null ? target.GetComponent<Collider>() : null;
+        }
+
+        private static void SetTmpRef(SerializedObject serialized, string propertyName, TextMeshProUGUI target)
+        {
+            serialized.FindProperty(propertyName).objectReferenceValue = target;
+        }
+
+        private static void SetButtonRef(SerializedObject serialized, string propertyName, Button target)
+        {
+            serialized.FindProperty(propertyName).objectReferenceValue = target;
+        }
+
+        private static void SetStringProperty(SerializedObject serialized, string propertyName, string value)
+        {
+            serialized.FindProperty(propertyName).stringValue = value;
+        }
+
+        private static void SetButtonArrayRefs(SerializedObject serialized, string propertyName, Transform root,
+            params string[] buttonNames)
+        {
+            var array = serialized.FindProperty(propertyName);
+            array.arraySize = buttonNames.Length;
+            for (int i = 0; i < buttonNames.Length; i++)
+            {
+                array.GetArrayElementAtIndex(i).objectReferenceValue =
+                    FindDescendantComponent<Button>(root, buttonNames[i]);
+            }
+        }
+
+        private static void SetTmpArrayRefs(SerializedObject serialized, string propertyName, Transform root,
+            params string[] buttonNames)
+        {
+            var array = serialized.FindProperty(propertyName);
+            array.arraySize = buttonNames.Length;
+            for (int i = 0; i < buttonNames.Length; i++)
+            {
+                var button = FindDescendantTransform(root, buttonNames[i]);
+                array.GetArrayElementAtIndex(i).objectReferenceValue =
+                    button != null ? button.Find("Text")?.GetComponent<TextMeshProUGUI>() : null;
+            }
         }
     }
 }

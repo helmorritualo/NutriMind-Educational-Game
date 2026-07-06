@@ -7,9 +7,9 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovementController : MonoBehaviour
 {
-    [SerializeField] private float walkSpeed = 2.2f;
-    [SerializeField] private float runSpeed = 4.5f;
-    [SerializeField] private float acceleration = 10f;
+    [SerializeField] private float walkSpeed = 3.5f;
+    [SerializeField] private float runSpeed = 7f;
+    [SerializeField] private float acceleration = 14f;
     [SerializeField] private float rotationSpeed = 12f;
     [SerializeField] private float gravity = -20f;
     [SerializeField] private float jumpHeight = 1.4f;

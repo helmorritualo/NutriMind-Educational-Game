@@ -55,20 +55,23 @@ Use contract version `quiz_first_laravel_1`.
 - Prefer Unity's native MCP server in Cursor (`user-unity-mcp`) for Editor wiring, console checks, and scene saves when Unity is open and connected.
 - For LiteraQuest Mission 1 gameplay HUD/modals, build Canvas at 1920×1080 with QuizAssets sliced sprites and LiberationSans TMP (same typography as Quiz Portal); use **NutriMind → LiteraQuest Mission 1 → Setup Mission Canvas UI** for one-shot scene setup.
 - When mission gameplay UI looks broken, use Unity MCP scene/game capture (`Unity_Camera_Capture`) to verify layout before iterating.
+- Current gameplay focus is Grade 5 LiteraQuest Mission 1 Area 1 only; Phase 8B quiz is on hold until Area 1 MVP lands.
+- Do not redesign owner-placed LiteraQuest Mission 1 scenes; implement logic, data binding, and Inspector wiring only.
+- Use serialized scene references in mission gameplay controllers; avoid runtime `Find` except a one-time fallback with clear warnings.
 - Use `CharacterController` (not Rigidbody) for LiteraQuest player movement; attach `PlayerMovementController` on scene `Player`.
+- Prefer a low third-person camera behind the player (not ground-level/top-down) for LiteraQuest mission areas.
 
 ## Learned Workspace Facts
 
 - `QuizPortalSceneSetupEditor` must persist controller references with `SerializedObject.ApplyModifiedPropertiesWithoutUndo()`; setter-only wiring does not survive scene save.
-- Available Quiz List subject filter chips need per-subject unselected sprites from the `AvailableQuizzes` sheet (`AvailableQuizzes_7`, `_8`, `_9`); do not reuse the All unselected sprite (`AvailableQuizzes_6`) for LiteraQuest, PE/Health, or Science.
-- Phase 8B visual specs also live under `docs/unity/` (e.g. `04D_QUIZ_UI_STORYBOARD_REQUIREMENTS.md`, `04E_AVAILABLE_QUIZ_LIST_VIEW_OVERLAY.md`) and `docs/design-reference-quiz-system/`, in addition to `design-references/quiz-ui-storyboard-reference.png`.
-- Phase 8B quiz UI sprites live under `Assets/_Project/Nutrimind/Art/Sprite/QuizAssets/` (`AvailableQuizzes.png`, `QuizStates.png`, etc.).
-- `QuizListRow` prefab (`Assets/_Project/Nutrimind/Prefabs/UI/QuizListRow.prefab`, guid `0092d0593f7bee1418c83d525c985c90`) is wired to `AvailableQuizListController._rowPrefab`; `Content` starts empty and rows spawn dynamically from demo/server data via `RenderList`/`SpawnRow`.
-- Status badges are sprite-driven from data: `QuizStates_2` for `unlocked`/`completed`, `QuizStates_3` for `locked`. Action buttons: `AvailableQuizzes_16` (Start) for `unlocked`, `AvailableQuizzes_17` (View) for `locked`. TMP status/action labels are intentionally null because the sprites bake in the text.
-- Empty Quiz State is an `AvailableQuizListController` sub-state; `EmptyQuizStatePanel` (Canvas sibling) uses `QuizStates_0` (baked art), `QuizStates_2` (Refresh / scene object `RefeshButton`), and `QuizStates_3` (Back).
-- Demo data (`Resources/DemoData/full-demo-student-data.json`) contains mixed `unlocked` and `locked` quiz states, so the dynamic list shows both Available and Locked rows.
-- Unity Editor MCP is Unity's built-in server (Cursor: `user-unity-mcp`); do not use or document `com.anklebreaker.unity-mcp`—that package is legacy and will be removed from `Packages/manifest.json`.
+- Quiz list UI: subject chips use `AvailableQuizzes_7`/`_8`/`_9`; rows from `QuizListRow` prefab on `AvailableQuizListController`; status/action sprites `QuizStates_2`/`_3` and `AvailableQuizzes_16`/`_17`; `EmptyQuizStatePanel` uses `QuizStates_0`/`_2`/`_3`.
+- Phase 8B specs/sprites live under `docs/unity/`, `docs/design-reference-quiz-system/`, and `Assets/_Project/Nutrimind/Art/Sprite/QuizAssets/`.
+- Demo data `Resources/DemoData/full-demo-student-data.json` has mixed `unlocked` and `locked` quiz states.
+- Unity Editor MCP is `user-unity-mcp`; legacy `com.anklebreaker.unity-mcp` will be removed from `Packages/manifest.json`.
 - LiteraQuest Mission 1 scene: `Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuest_Term1_Mission1.unity`; canvas setup via `LiteraQuestMission1CanvasSetupEditor.cs` (`NutriMind/LiteraQuest Mission 1/Setup Mission Canvas UI`).
-- Player movement: `Assets/_Project/Nutrimind/Runtime/Gameplay/PlayerMovementController.cs` on `Player`; disable `PlayerModel` `CapsuleCollider` when using `CharacterController`.
-- Joystick Pack: `Assets/_Project/Nutrimind/ThirdParty/Joystick Pack/`; HUD uses `Fixed Joystick` prefab (may not be named `MovementJoystick`); scene `JumpButton ` has a trailing space.
+- `PlayerMovementController` on `Player`; disable `PlayerModel` `CapsuleCollider`; snaps to `PlayerSpawnPoint`, grounds feet via raycast; Joystick Pack `Fixed Joystick` + `JumpButton `; Input System + legacy keyboard fallback.
+- `SimpleCameraFollow` on `Main Camera` → `Player`; third-person offset `(0, 2.5, -5)`, `lookAtOffset` `(0, 1.3, 0)`.
+- `G5Area01MissionController` on `Systems/G5Area01MissionController `; mission scripts under `Runtime/Gameplay/Missions/`; `GateBlocker` is a `BoxCollider` child under `GateToNextArea ` (controller toggles it, not `ClosedGate` MeshCollider).
+- Mission 1 object names often have trailing spaces (`G5Area01MissionController`, `FarmerLira_NPC`, `GateToNextArea`, `ClosedGate`, `StoryMapFragment`, `JumpButton`).
+- Mission 1 specs: `docs/unity/06B_LITERAQUEST_MISSION1_SCENE_OBJECT_AND_ASSET_CHECKLIST.md` and `06C_LITERAQUEST_MISSION1_AI_AGENT_IMPLEMENTATION_PLAN.md`.
 - Imported Built-in pipeline third-party materials render pink in URP—convert to `Universal Render Pipeline/Lit` (e.g. Skyden Games `Colors_Mat.mat`, `Colors Water_Mat.mat`).

@@ -1096,6 +1096,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 343887168}
+  - component: {fileID: 343887170}
+  - component: {fileID: 343887169}
   m_Layer: 0
   m_Name: 'NPC_InteractionMarker  '
   m_TagString: Untagged
@@ -1112,12 +1114,47 @@ Transform:
   m_GameObject: {fileID: 343887167}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -3.2, y: 4.4, z: 19.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 566536753}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &343887169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343887167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f62af8be0773974ba90fce579b69822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::G5Area01InteractionTarget
+  _mission: {fileID: 2108764242}
+  _kind: 0
+--- !u!135 &343887170
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343887167}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &354824231
 GameObject:
   m_ObjectHideFlags: 0
@@ -1149,6 +1186,7 @@ Transform:
   m_Children:
   - {fileID: 1092522710}
   - {fileID: 1665957950}
+  - {fileID: 516421390}
   m_Father: {fileID: 679045497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &398462350
@@ -1592,7 +1630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 600, y: 0}
+  m_AnchoredPosition: {x: 568, y: 94.7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &499496734
@@ -1703,7 +1741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2782653772646134283, guid: db71dd62324fa3c409b7d4a19389a343, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 22
+      value: 19.2
       objectReference: {fileID: 0}
     - target: {fileID: 2782653772646134283, guid: db71dd62324fa3c409b7d4a19389a343, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1751,6 +1789,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2782653772646134283, guid: db71dd62324fa3c409b7d4a19389a343, type: 3}
   m_PrefabInstance: {fileID: 507857816}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &516421389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 516421390}
+  - component: {fileID: 516421391}
+  m_Layer: 0
+  m_Name: GateBlocker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &516421390
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516421389}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1131.5577, y: 7, z: 1349.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 354824232}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &516421391
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516421389}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 8, y: 6, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &528917791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1808,7 +1899,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: B. Mika
+  m_text: B. The parade continued.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2050,8 +2141,8 @@ Transform:
   m_GameObject: {fileID: 566536752}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1456, y: -1.5753, z: -6.8737}
-  m_LocalScale: {x: 1.357982, y: 1.357982, z: 1.357982}
+  m_LocalPosition: {x: 2.2211, y: -8.8, z: -13.327}
+  m_LocalScale: {x: 1.647373, y: 1.768949, z: 1.647373}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 398462351}
@@ -2086,13 +2177,14 @@ Transform:
   m_GameObject: {fileID: 601737338}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.04366834, z: 0, w: 0.9990461}
-  m_LocalPosition: {x: -127.017044, y: 19.851, z: -423.72098}
-  m_LocalScale: {x: 1.258113, y: 1.3509617, z: 1.258113}
+  m_LocalPosition: {x: -127.017044, y: 19.75, z: -423.72098}
+  m_LocalScale: {x: 1.195993, y: 1.284257, z: 1.195993}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 323588532}
   - {fileID: 1936655729}
   - {fileID: 1916283513}
+  - {fileID: 1017098503}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &601737340
@@ -2107,9 +2199,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5e80543286f0f41870d67e81cfac1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementController
-  walkSpeed: 2.2
-  runSpeed: 4.5
-  acceleration: 10
+  walkSpeed: 3.5
+  runSpeed: 7
+  acceleration: 14
   rotationSpeed: 12
   gravity: -20
   jumpHeight: 1.4
@@ -2201,7 +2293,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Story Map Fragment collected. Sign Repair Barn is locked for later.
+  m_text: You restored the first story clue. The path to the next area is now open.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2373,7 +2465,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Story Map Fragment: 0/1'
+  m_text: 1/1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2510,7 +2602,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A. The rain
+  m_text: A. The rain stopped.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2888,8 +2980,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleCameraFollow
   target: {fileID: 601737339}
-  offset: {x: 0, y: 2.5, z: -5}
-  lookAtOffset: {x: 0, y: 1.3, z: 0}
+  offset: {x: 0, y: 3, z: -6.5}
+  lookAtOffset: {x: 0, y: 1.4, z: 0}
   followSmoothTime: 0.2
   rotationSmoothTime: 0.15
 --- !u!134 &811085531
@@ -3211,7 +3303,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Question 1 of 3
+  m_text: Question 3 of 3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3291,6 +3383,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925954665}
   m_CullTransparentMesh: 1
+--- !u!1 &1017098502
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1017098503}
+  - component: {fileID: 1017098504}
+  m_Layer: 0
+  m_Name: PlayerInteractionTrigger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1017098503
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017098502}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 601737339}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1017098504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017098502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bfb04b33821e7843abc40af975d954e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractionTrigger
 --- !u!1 &1079560765
 GameObject:
   m_ObjectHideFlags: 0
@@ -3348,7 +3484,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mika joined the town parade and carried a flag. Who is the main character?
+  m_text: What happened first?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3525,7 +3661,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5436780351675265345, guid: ce5851c8855f6184698e684b11c52809, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3535,6 +3671,11 @@ PrefabInstance:
 --- !u!4 &1092522710 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4988630334648285065, guid: ce5851c8855f6184698e684b11c52809, type: 3}
+  m_PrefabInstance: {fileID: 1092522709}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1092522711 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5436780351675265345, guid: ce5851c8855f6184698e684b11c52809, type: 3}
   m_PrefabInstance: {fileID: 1092522709}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1113128139
@@ -3594,8 +3735,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Festival Storybook was damaged by the wind. Help us restore the missing
-    story pieces before the celebration begins.
+  m_text: These objects belong to the missing story, but I do not know which part
+    comes first. Help me understand the story before the parade begins.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4572,7 +4713,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press to Interact
+  m_text: Talk
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4957,7 +5098,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Talk to Farmer Lira.
+  m_text: Area 1 complete.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 436492519}
@@ -5130,7 +5271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4388706015582397040, guid: c1f349fbba3134c46807ca13bd968a5a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6026326186303650809, guid: c1f349fbba3134c46807ca13bd968a5a, type: 3}
       propertyPath: m_LocalScale.x
@@ -5194,6 +5335,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6026326186303650809, guid: c1f349fbba3134c46807ca13bd968a5a, type: 3}
   m_PrefabInstance: {fileID: 1665957949}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1665957951 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4388706015582397040, guid: c1f349fbba3134c46807ca13bd968a5a, type: 3}
+  m_PrefabInstance: {fileID: 1665957949}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1678009564
 GameObject:
   m_ObjectHideFlags: 0
@@ -5251,7 +5397,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: D. The decorations
+  m_text: D. The town prepared flags and decorations.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5576,13 +5722,15 @@ GameObject:
   - component: {fileID: 1719809139}
   - component: {fileID: 1719809138}
   - component: {fileID: 1719809137}
+  - component: {fileID: 1719809141}
+  - component: {fileID: 1719809140}
   m_Layer: 0
   m_Name: 'StoryMapFragment '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1719809136
 Transform:
   m_ObjectHideFlags: 0
@@ -5592,7 +5740,7 @@ Transform:
   m_GameObject: {fileID: 1719809135}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -411.1, y: 15, z: 238.7}
+  m_LocalPosition: {x: -411.1, y: -0.3, z: 322}
   m_LocalScale: {x: 3.2539, y: 3.2539, z: 3.2539}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5613,7 +5761,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -5676,6 +5824,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1719809135}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1719809140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719809135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f62af8be0773974ba90fce579b69822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::G5Area01InteractionTarget
+  _mission: {fileID: 2108764242}
+  _kind: 1
+--- !u!135 &1719809141
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1719809135}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1760562326
 GameObject:
   m_ObjectHideFlags: 0
@@ -5733,7 +5916,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: C. The festival field
+  m_text: C. Mika and her friends protected the decorations.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6243,7 +6426,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Parade Meadow Complete
+  m_text: Area Complete!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6332,6 +6515,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2108764241}
+  - component: {fileID: 2108764242}
   m_Layer: 0
   m_Name: 'G5Area01MissionController '
   m_TagString: Untagged
@@ -6354,6 +6538,95 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1915279094}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2108764242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108764240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a7d7081fdc1f24082c296b7b5299ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::G5Area01MissionController
+  _missionTitleText: {fileID: 82446009}
+  _gradeSubjectTermText: {fileID: 0}
+  _objectiveText: {fileID: 1502231327}
+  _itemCounterText: {fileID: 705184656}
+  _interactPrompt: {fileID: 1348060477}
+  _interactButton: {fileID: 499496734}
+  _interactPromptLabel: {fileID: 1432536576}
+  _dialoguePanel: {fileID: 1821633614}
+  _questionPanel: {fileID: 164902668}
+  _feedbackPanel: {fileID: 1417132722}
+  _areaCompletePanel: {fileID: 1289092659}
+  _npcNameText: {fileID: 1146609569}
+  _dialogueText: {fileID: 1113128141}
+  _dialogueContinueButton: {fileID: 1236143328}
+  _questionProgressText: {fileID: 925954667}
+  _questionText: {fileID: 1079560767}
+  _answerButtons:
+  - {fileID: 1792812070}
+  - {fileID: 1119973532}
+  - {fileID: 1491273821}
+  - {fileID: 29066299}
+  _answerLabels:
+  - {fileID: 708657386}
+  - {fileID: 528917793}
+  - {fileID: 1760562328}
+  - {fileID: 1678009566}
+  _feedbackText: {fileID: 547925589}
+  _feedbackContinueButton: {fileID: 98228134}
+  _feedbackContinueLabel: {fileID: 0}
+  _feedbackTryAgainLabel: Try Again
+  _areaCompleteTitleText: {fileID: 2058470225}
+  _areaCompleteMessageText: {fileID: 614477556}
+  _areaCompleteContinueButton: {fileID: 1681239677}
+  _storyMapFragment: {fileID: 1719809135}
+  _closedGate: {fileID: 1665957951}
+  _openGate: {fileID: 1092522711}
+  _gateBlocker: {fileID: 516421391}
+  _missionTitle: Festival Storybook Rescue
+  _gradeSubjectTerm: "Grade 5 \u2022 LiteraQuest \u2022 Term 1"
+  _initialObjective: Talk to Farmer Lira
+  _questioningObjective: Answer Farmer Lira's story questions.
+  _pickupObjective: Pick up the Story Map Fragment.
+  _areaCompleteObjective: Area 1 complete.
+  _initialItemCounter: 'Story Map Fragment: 0/1'
+  _collectedItemCounter: 1/1
+  _farmerLiraInteractLabel: Talk
+  _npcName: Farmer Lira
+  _dialogueBody: These objects belong to the missing story, but I do not know which
+    part comes first. Help me understand the story before the parade begins.
+  _areaCompleteTitle: Area Complete!
+  _areaCompleteBody: You restored the first story clue. The path to the next area
+    is now open.
+  _questions:
+  - text: Mika joined the town parade and carried a flag. Who is the main character?
+    optionA: A. The rain
+    optionB: B. Mika
+    optionC: C. The festival field
+    optionD: D. The decorations
+    correctIndex: 1
+    wrongClue: Look at the sentence again. Who is doing the action in the story?
+  - text: Dark clouds appeared, and rain began to fall on the decorations. What is
+      the problem?
+    optionA: A. Mika carried a flag.
+    optionB: B. The parade became successful.
+    optionC: C. Rain may ruin the decorations.
+    optionD: D. The town prepared early.
+    correctIndex: 2
+    wrongClue: A problem is what goes wrong in the story. What danger could stop
+      the parade?
+  - text: What happened first?
+    optionA: A. The rain stopped.
+    optionB: B. The parade continued.
+    optionC: C. Mika and her friends protected the decorations.
+    optionD: D. The town prepared flags and decorations.
+    correctIndex: 3
+    wrongClue: Think about the beginning of the story. What happened before the rain
+      and before the parade continued?
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
