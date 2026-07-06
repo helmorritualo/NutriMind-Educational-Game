@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public enum G5Area01MissionState
@@ -176,18 +177,11 @@ public class G5Area01MissionController : MonoBehaviour
 
     private void Update()
     {
-#if ENABLE_INPUT_SYSTEM
-        if (UnityEngine.InputSystem.Keyboard.current != null &&
-            UnityEngine.InputSystem.Keyboard.current.eKey.wasPressedThisFrame)
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard != null && keyboard.eKey.wasPressedThisFrame)
         {
             OnInteractPressed();
         }
-#else
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            OnInteractPressed();
-        }
-#endif
     }
 
     [ContextMenu("Re-initialize Mission")]

@@ -1,8 +1,6 @@
 using UnityEngine;
-using UnityEngine.UI;
-#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-#endif
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovementController : MonoBehaviour
@@ -121,23 +119,16 @@ public class PlayerMovementController : MonoBehaviour
     private Vector2 ReadKeyboardInput()
     {
         Vector2 input = Vector2.zero;
-
-#if ENABLE_INPUT_SYSTEM
         Keyboard keyboard = Keyboard.current;
-        if (keyboard != null)
+        if (keyboard == null)
         {
-            if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) input.x -= 1f;
-            if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) input.x += 1f;
-            if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) input.y -= 1f;
-            if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) input.y += 1f;
+            return input;
         }
-#endif
 
-        if (input.sqrMagnitude < 0.0001f)
-        {
-            input.x = Input.GetAxisRaw("Horizontal");
-            input.y = Input.GetAxisRaw("Vertical");
-        }
+        if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) input.x -= 1f;
+        if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) input.x += 1f;
+        if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) input.y -= 1f;
+        if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) input.y += 1f;
 
         return Vector2.ClampMagnitude(input, 1f);
     }
@@ -192,15 +183,8 @@ public class PlayerMovementController : MonoBehaviour
 
     private static bool ReadJumpPressed()
     {
-#if ENABLE_INPUT_SYSTEM
         Keyboard keyboard = Keyboard.current;
-        if (keyboard != null && keyboard.spaceKey.wasPressedThisFrame)
-        {
-            return true;
-        }
-#endif
-
-        return Input.GetButtonDown("Jump");
+        return keyboard != null && keyboard.spaceKey.wasPressedThisFrame;
     }
 
     private void AlignVisualModel()

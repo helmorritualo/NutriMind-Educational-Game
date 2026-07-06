@@ -4,6 +4,8 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 namespace NutriMind.Editor
@@ -395,9 +397,13 @@ namespace NutriMind.Editor
 
         private static void EnsureEventSystem(Transform canvas)
         {
-            var go = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
+            var go = new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
             go.transform.SetParent(canvas, false);
             go.layer = LayerMask.NameToLayer("UI");
+
+            var module = go.GetComponent<InputSystemUIInputModule>();
+            module.actionsAsset = AssetDatabase.LoadAssetAtPath<InputActionAsset>(
+                "Assets/InputSystem_Actions.inputactions");
         }
 
         private static void BuildHudPanel(Transform canvas, TMP_FontAsset font)

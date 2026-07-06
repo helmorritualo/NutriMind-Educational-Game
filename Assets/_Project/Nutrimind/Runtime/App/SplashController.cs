@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Video;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -151,7 +152,7 @@ namespace NutriMind.Runtime.App
 
         private void Update()
         {
-            if (!_videoFinished && (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)))
+            if (!_videoFinished && WasPointerPressedThisFrame())
             {
                 Debug.Log("[SplashController] Skip triggered by user click/tap.");
                 _videoFinished = true;
@@ -161,6 +162,18 @@ namespace NutriMind.Runtime.App
                 }
                 TryExitSplash();
             }
+        }
+
+        private static bool WasPointerPressedThisFrame()
+        {
+            Touchscreen touchscreen = Touchscreen.current;
+            if (touchscreen != null && touchscreen.primaryTouch.press.wasPressedThisFrame)
+            {
+                return true;
+            }
+
+            Mouse mouse = Mouse.current;
+            return mouse != null && mouse.leftButton.wasPressedThisFrame;
         }
 
         private void OnDestroy()

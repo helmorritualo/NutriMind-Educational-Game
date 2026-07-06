@@ -3,6 +3,7 @@
   "rootNamespace": "NutriMind.Runtime.App",
   "references": [
     "Unity.TextMeshPro",
+    "Unity.InputSystem",
     "NutriMind.Runtime.UI"
   ],
   "includePlatforms": [],
