@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 namespace NutriMind.Runtime.App
@@ -25,6 +26,8 @@ namespace NutriMind.Runtime.App
         private bool _serverCheckCompleted;
         private bool _serverCheckSuccessful;
         private bool _videoFinished;
+        private AsyncOperation _loginLoadOp;
+        private bool _aspectRatioApplied;
 
         private void Awake()
         {
@@ -40,9 +43,9 @@ namespace NutriMind.Runtime.App
                 _retryButton.onClick.AddListener(OnRetryClicked);
             }
 
-            // Initially hide the RawImage to prevent a "flash" of white or uninitialized texture
             if (_rawImage != null)
             {
+                _rawImage.raycastTarget = false;
                 _rawImage.enabled = false;
             }
 
@@ -51,7 +54,6 @@ namespace NutriMind.Runtime.App
                 _videoPlayer = GetComponent<VideoPlayer>();
             }
 
-            // Clear the Render Texture to avoid showing a stale frame from the previous run
             if (_videoPlayer != null && _videoPlayer.targetTexture != null)
             {
                 ClearRenderTexture(_videoPlayer.targetTexture);
@@ -74,12 +76,14 @@ namespace NutriMind.Runtime.App
                 _videoPlayer = GetComponent<VideoPlayer>();
             }
 
+            BeginLoginPreload();
+
             if (_videoPlayer != null)
             {
                 _videoPlayer.loopPointReached += OnVideoFinished;
                 _videoPlayer.errorReceived += OnVideoError;
                 _videoPlayer.prepareCompleted += OnVideoPrepared;
-                
+
                 Debug.Log("[SplashController] Starting asynchronous VideoPlayer preparation...");
                 _videoPlayer.Prepare();
             }
@@ -88,16 +92,28 @@ namespace NutriMind.Runtime.App
                 _videoFinished = true;
             }
 
-            // Start safety timeout to prevent getting stuck if VideoPlayer fails to prepare or fire loopPointReached
             StartCoroutine(SafetyTimeoutRoutine());
-
-            // Start configuration check in parallel
             StartServerCheck();
+        }
+
+        private void BeginLoginPreload()
+        {
+            var root = CompositionRoot.Instance;
+            if (root?.NavigationService == null) return;
+
+            var navResult = root.NavigationService.Navigate("Login");
+            if (!navResult.IsAvailable || string.IsNullOrEmpty(navResult.ScenePath)) return;
+
+            Debug.Log($"[SplashController] Pre-loading Login scene in background: {navResult.ScenePath}");
+            _loginLoadOp = SceneManager.LoadSceneAsync(navResult.ScenePath);
+            if (_loginLoadOp != null)
+            {
+                _loginLoadOp.allowSceneActivation = false;
+            }
         }
 
         private System.Collections.IEnumerator SafetyTimeoutRoutine()
         {
-            // Safety timeout is slightly longer than the video length (e.g., 6 seconds)
             yield return new WaitForSeconds(6f);
             if (!_videoFinished)
             {
@@ -119,22 +135,22 @@ namespace NutriMind.Runtime.App
                 _rawImage.texture = vp.texture;
                 _rawImage.enabled = true;
             }
+
+            ApplyVideoAspectRatio(vp);
             vp.Play();
+        }
+
+        private void ApplyVideoAspectRatio(VideoPlayer vp)
+        {
+            if (_aspectRatioApplied || _aspectRatioFitter == null || vp.texture == null) return;
+            if (vp.texture.height <= 0) return;
+
+            _aspectRatioFitter.aspectRatio = (float)vp.texture.width / vp.texture.height;
+            _aspectRatioApplied = true;
         }
 
         private void Update()
         {
-            // Dynamically fit RawImage aspect ratio to prevent stretching
-            if (_videoPlayer != null && _videoPlayer.isPlaying && _aspectRatioFitter != null && _videoPlayer.texture != null)
-            {
-                float videoAspect = (float)_videoPlayer.texture.width / _videoPlayer.texture.height;
-                if (Mathf.Abs(_aspectRatioFitter.aspectRatio - videoAspect) > 0.01f)
-                {
-                    _aspectRatioFitter.aspectRatio = videoAspect;
-                }
-            }
-
-            // Detect skip trigger (mouse click or touch tap anywhere)
             if (!_videoFinished && (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)))
             {
                 Debug.Log("[SplashController] Skip triggered by user click/tap.");
@@ -178,7 +194,6 @@ namespace NutriMind.Runtime.App
                 _errorOverlay.SetActive(false);
             }
 
-            // Perform config check async
             RunServerCheckAsync(_cts.Token);
         }
 
@@ -202,7 +217,6 @@ namespace NutriMind.Runtime.App
                     return;
                 }
 
-                // If state machine is still in Starting, transition to CheckingServer
                 if (stateMachine.CurrentState == AppState.Starting)
                 {
                     stateMachine.TryTransition(AppState.CheckingServer);
@@ -216,7 +230,6 @@ namespace NutriMind.Runtime.App
                 {
                     var config = configResult.Data;
 
-                    // 1. Check Maintenance Mode
                     if (config.MaintenanceMode == true)
                     {
                         stateMachine.TryTransition(AppState.MaintenanceBlocked);
@@ -224,15 +237,10 @@ namespace NutriMind.Runtime.App
                         return;
                     }
 
-                    // 2. Check Client Version compatibility if needed
-                    // (We can extend this if a specific version check is requested)
-
-                    // 3. Success! Transition state machine to LoggedOut
                     stateMachine.TryTransition(AppState.LoggedOut);
                     _serverCheckSuccessful = true;
                     _serverCheckCompleted = true;
 
-                    // If video was already finished, exit now
                     if (_videoFinished)
                     {
                         TryExitSplash();
@@ -302,7 +310,6 @@ namespace NutriMind.Runtime.App
 
         private void TryExitSplash()
         {
-            // Only transition if the server check completed successfully
             if (_serverCheckCompleted && _serverCheckSuccessful)
             {
                 Debug.Log("[SplashController] Transitioning to Login screen.");
@@ -310,47 +317,26 @@ namespace NutriMind.Runtime.App
             }
             else if (_serverCheckCompleted && !_serverCheckSuccessful)
             {
-                // Wait for the player to resolve the error (e.g. click Retry)
                 Debug.Log("[SplashController] Server check failed or still in error. Blocking transition.");
             }
         }
 
         private System.Collections.IEnumerator FadeAndLoadRoutine()
         {
-            // 1. Resolve path for Login scene and begin asynchronous preloading in the background
-            var root = CompositionRoot.Instance;
-            string scenePath = null;
-            if (root != null && root.NavigationService != null)
+            if (_loginLoadOp == null)
             {
-                var navResult = root.NavigationService.Navigate("Login");
-                if (navResult.IsAvailable)
-                {
-                    scenePath = navResult.ScenePath;
-                }
+                BeginLoginPreload();
             }
 
-            AsyncOperation op = null;
-            if (!string.IsNullOrEmpty(scenePath))
+            if (_loginLoadOp != null)
             {
-                Debug.Log($"[SplashController] Pre-loading Login scene asynchronously in background: {scenePath}");
-                op = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(scenePath);
-                if (op != null)
-                {
-                    op.allowSceneActivation = false;
-                }
-            }
-
-            // 2. Keep the Splash screen fully visible while the Login scene is loading in the background
-            if (op != null)
-            {
-                while (op.progress < 0.9f)
+                while (_loginLoadOp.progress < 0.9f)
                 {
                     yield return null;
                 }
                 Debug.Log("[SplashController] Login scene is fully loaded and ready. Starting fade out.");
             }
 
-            // 3. Smooth Fade Out (0.5s)
             if (_canvasGroup != null)
             {
                 float elapsed = 0f;
@@ -364,33 +350,32 @@ namespace NutriMind.Runtime.App
                 _canvasGroup.alpha = 0f;
             }
 
-            // 4. Pre-warm TMPro font loading to avoid frame drops on rendering the input text inside Login scene
+            WarmupTmpFont();
+
+            if (_loginLoadOp != null)
+            {
+                _loginLoadOp.allowSceneActivation = true;
+            }
+            else
+            {
+                AppNavigation.LoadScene("Login");
+            }
+        }
+
+        private static void WarmupTmpFont()
+        {
             try
             {
                 var settings = TMP_Settings.defaultFontAsset;
                 if (settings != null)
                 {
+                    settings.HasCharacter('A');
                     Debug.Log("[SplashController] Pre-warmed default TMP Font Asset: " + settings.name);
                 }
             }
             catch (Exception ex)
             {
                 Debug.LogWarning("[SplashController] Pre-warming TMP Font Asset failed: " + ex.Message);
-            }
-
-            // 5. Defer major GC call to the exact transition frame
-            System.GC.Collect();
-            Debug.Log("[SplashController] Triggered garbage collection transition sweep.");
-
-            // 6. Activate the pre-loaded Login scene instantly!
-            if (op != null)
-            {
-                op.allowSceneActivation = true;
-            }
-            else
-            {
-                // Fallback standard load if scene preloading wasn't started
-                AppNavigation.LoadScene("Login");
             }
         }
     }

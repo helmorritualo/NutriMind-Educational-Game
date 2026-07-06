@@ -212,8 +212,16 @@ namespace NutriMind.Runtime.App
                 root.Session.SubjectTermStore.CurrentTerm = termNumber.ToString();
             }
 
-            // Execute fader transition
-            NavigateToScene("MainMenu", AppState.LoadingWorld); // Transition to LoadingWorld
+            SubjectType? subject = root.Session?.SelectedSubject
+                ?? root.Session?.SubjectTermStore?.SelectedSubject;
+
+            if (subject == SubjectType.LiteraQuest && termNumber == 1)
+            {
+                NavigateToScene("LiteraQuestTerm1Missions", AppState.SelectingTerm);
+                return;
+            }
+
+            NavigateToScene("Loading", AppState.LoadingWorld);
         }
 
         private void OnBackClicked()

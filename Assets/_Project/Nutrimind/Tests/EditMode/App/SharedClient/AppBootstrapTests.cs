@@ -30,9 +30,9 @@ namespace NutriMind.Tests.EditMode.App
         {
             _bootstrap.RegisterScenes(_testRegistry);
 
-            Assert.That(_testRegistry.Count, Is.EqualTo(11), "Expected exactly 11 registered scene keys.");
+            Assert.That(_testRegistry.Count, Is.EqualTo(13), "Expected exactly 13 registered scene keys.");
 
-            string[] expectedKeys = { "Bootstrap", "SplashScreen", "Login", "MainMenu", "Profile", "Settings", "Worldhub", "LiteraQuestTerms", "HealthQuestTerms", "Loading", "QuizPortal" };
+            string[] expectedKeys = { "Bootstrap", "SplashScreen", "Login", "MainMenu", "Profile", "Settings", "Worldhub", "LiteraQuestTerms", "LiteraQuestTerm1Missions", "LiteraQuestTerm1Mission1", "HealthQuestTerms", "Loading", "QuizPortal" };
             foreach (string key in expectedKeys)
             {
                 Assert.That(_testRegistry.GetScene(key), Is.Not.Null, $"Expected key '{key}' to be registered.");

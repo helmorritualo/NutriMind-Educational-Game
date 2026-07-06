@@ -30,13 +30,16 @@ namespace NutriMind.Tests.EditMode.App
 
             store.SelectedSubject = SubjectType.LiteraQuest;
             store.CurrentTerm = "1";
+            store.PendingSceneKey = "LiteraQuestTerm1Mission1";
 
             Assert.That(store.SelectedSubject, Is.EqualTo(SubjectType.LiteraQuest));
             Assert.That(store.CurrentTerm, Is.EqualTo("1"));
+            Assert.That(store.PendingSceneKey, Is.EqualTo("LiteraQuestTerm1Mission1"));
 
             store.Reset();
             Assert.That(store.SelectedSubject, Is.Null);
             Assert.That(store.CurrentTerm, Is.Null);
+            Assert.That(store.PendingSceneKey, Is.Null);
         }
 
         [Test]

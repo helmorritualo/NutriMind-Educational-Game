@@ -29,16 +29,22 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Project/Nutrimind/Scenes/Worlds/LiteraQuest/test/lets go.unity
     guid: e247853401c78e649ad5213014c7fce1
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Project/Nutrimind/Scenes/Worlds/LiteraQuest/test/Nature Demo Scene
       Refreshed.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuestTerms.unity
     guid: efb854d789e72ce45a7e0897212e6ad2
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/Term_1_SelectMissions.unity
+    guid: d7b353421d29fcb4e84706f9a5c46a2b
+  - enabled: 1
+    path: Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuest_Term1_Mission1.unity
+    guid: 3cdf426ce24962347acd12f6216929fd
   - enabled: 1
     path: Assets/_Project/Nutrimind/Scenes/App/Health Quest_Term/HealthQuestTerms.unity
     guid: f554dab3c8ddf574f8d293d0477ee96a

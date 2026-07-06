@@ -141,9 +141,31 @@ namespace NutriMind.Runtime.App
             float startTime = Time.time;
 
             var root = CompositionRoot.Instance;
-            if (root == null || root.DataProvider == null)
+            if (root == null)
             {
-                Debug.LogWarning("[LoadingTransitionController] CompositionRoot or DataProvider is null. Simulating transition.");
+                Debug.LogWarning("[LoadingTransitionController] CompositionRoot is null. Simulating transition.");
+                yield return new WaitForSeconds(_minimumDisplayTime);
+                NavigateDestination();
+                yield break;
+            }
+
+            if (TryGetPendingGameplaySceneKey(root, out _))
+            {
+                UpdateStatus("Loading mission world...");
+                float missionElapsed = Time.time - startTime;
+                float missionRemaining = _minimumDisplayTime - missionElapsed;
+                if (missionRemaining > 0f)
+                {
+                    yield return new WaitForSeconds(missionRemaining);
+                }
+
+                NavigateDestination();
+                yield break;
+            }
+
+            if (root.DataProvider == null)
+            {
+                Debug.LogWarning("[LoadingTransitionController] DataProvider is null. Simulating transition.");
                 yield return new WaitForSeconds(_minimumDisplayTime);
                 NavigateDestination();
                 yield break;
@@ -232,17 +254,46 @@ namespace NutriMind.Runtime.App
 
             System.GC.Collect();
 
-            // Resolve target QuizPortal scene. Fallback to MainMenu if QuizPortal is unregistered.
             string targetKey = "QuizPortal";
+            if (TryConsumePendingSceneKey(root, out string pendingKey))
+            {
+                targetKey = pendingKey;
+            }
+
             if (root != null && root.SceneRegistry != null && root.SceneRegistry.GetScene(targetKey) != null)
             {
                 AppNavigation.LoadScene(targetKey);
             }
             else
             {
-                Debug.LogWarning("[LoadingTransitionController] QuizPortal scene is not registered yet. Transitioning back to MainMenu.");
+                Debug.LogWarning($"[LoadingTransitionController] Scene '{targetKey}' is not registered. Transitioning back to MainMenu.");
                 AppNavigation.LoadScene("MainMenu");
             }
+        }
+
+        private static bool TryGetPendingGameplaySceneKey(CompositionRoot root, out string sceneKey)
+        {
+            sceneKey = root?.Session?.SubjectTermStore?.PendingSceneKey ?? string.Empty;
+            if (string.IsNullOrEmpty(sceneKey) || sceneKey == "QuizPortal")
+            {
+                return false;
+            }
+
+            return root.SceneRegistry?.GetScene(sceneKey) != null;
+        }
+
+        private static bool TryConsumePendingSceneKey(CompositionRoot root, out string sceneKey)
+        {
+            sceneKey = string.Empty;
+            var store = root?.Session?.SubjectTermStore;
+            if (store == null || string.IsNullOrEmpty(store.PendingSceneKey))
+            {
+                return false;
+            }
+
+            sceneKey = store.PendingSceneKey;
+            store.PendingSceneKey = null;
+            return true;
         }
 
         private void OnRetryClicked()

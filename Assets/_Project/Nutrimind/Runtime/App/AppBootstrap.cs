@@ -24,6 +24,11 @@ namespace NutriMind.Runtime.App
 
         private void Awake()
         {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            Application.targetFrameRate = 60;
+            QualitySettings.vSyncCount = 0;
+#endif
+
             // Dynamically build a beautifully centered loading UI inside AppShell's screen-container
             if (_uiDocument != null && _uiDocument.rootVisualElement != null)
             {
@@ -83,8 +88,12 @@ namespace NutriMind.Runtime.App
             }
 
             // Ensure minimum show time so it looks smooth and professional
+            float minDisplayTime = _minimumDisplayTime;
+#if UNITY_ANDROID && !UNITY_EDITOR
+            minDisplayTime = Mathf.Min(_minimumDisplayTime, 0.4f);
+#endif
             float elapsed = Time.time - startTime;
-            float remaining = _minimumDisplayTime - elapsed;
+            float remaining = minDisplayTime - elapsed;
             if (remaining > 0)
             {
                 yield return new WaitForSeconds(remaining);
@@ -109,6 +118,8 @@ namespace NutriMind.Runtime.App
             registry.RegisterScene("Settings", "Assets/_Project/Nutrimind/Scenes/App/Settings.unity");
             registry.RegisterScene("Worldhub", "Assets/_Project/Nutrimind/Scenes/App/Worldhub.unity");
             registry.RegisterScene("LiteraQuestTerms", "Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuestTerms.unity");
+            registry.RegisterScene("LiteraQuestTerm1Missions", "Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/Term_1_SelectMissions.unity");
+            registry.RegisterScene("LiteraQuestTerm1Mission1", "Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuest_Term1_Mission1.unity");
             registry.RegisterScene("HealthQuestTerms", "Assets/_Project/Nutrimind/Scenes/App/Health Quest_Term/HealthQuestTerms.unity");
             registry.RegisterScene("Loading", "Assets/_Project/Nutrimind/Scenes/App/LoadingTransition.unity");
             registry.RegisterScene("QuizPortal", "Assets/_Project/Nutrimind/Scenes/App/QuizPortalScene.unity");

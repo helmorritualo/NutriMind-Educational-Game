@@ -13,11 +13,15 @@ namespace NutriMind.Runtime.App
         /// <summary>The currently selected term identifier, if any.</summary>
         public string? CurrentTerm { get; set; }
 
+        /// <summary>Scene registry key for LoadingTransition to load after preload (e.g. mission gameplay).</summary>
+        public string? PendingSceneKey { get; set; }
+
         /// <summary>Resets all state to defaults.</summary>
         public void Reset()
         {
             SelectedSubject = null;
             CurrentTerm = null;
+            PendingSceneKey = null;
         }
     }
 }

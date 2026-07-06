@@ -1,4 +1,5 @@
 using TMPro;
+using NutriMind.Runtime.App;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -14,6 +15,9 @@ namespace NutriMind.Editor
     {
         private const string ScenePath =
             "Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/LiteraQuest_Term1_Mission1.unity";
+
+        private const string Term1MissionSelectScenePath =
+            "Assets/_Project/Nutrimind/Scenes/App/Literaquest Term/Term_1_SelectMissions.unity";
 
         private const string QuizInstructionsSheet =
             "Assets/_Project/Nutrimind/Art/Sprite/QuizAssets/QuizInstructions.png";
@@ -73,6 +77,51 @@ namespace NutriMind.Editor
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log("[LiteraQuestMission1CanvasSetup] Mission Canvas UI created and scene saved.");
+        }
+
+        [MenuItem("NutriMind/LiteraQuest Mission 1/Wire Term1 Mission Select Controller")]
+        public static void WireTerm1MissionSelectController()
+        {
+            var scene = EditorSceneManager.OpenScene(Term1MissionSelectScenePath, OpenSceneMode.Single);
+
+            var missions = GameObject.Find("Missions");
+            if (missions == null)
+            {
+                Debug.LogError("[LiteraQuestMission1CanvasSetup] Missions root not found in Term_1_SelectMissions.");
+                return;
+            }
+
+            var controller = missions.GetComponent<MissionSelectionController>();
+            if (controller == null)
+            {
+                controller = missions.AddComponent<MissionSelectionController>();
+            }
+
+            var missionsRoot = missions.transform;
+            var back = FindDescendantTransform(missionsRoot, "back");
+            var m1Play = FindDescendantTransform(FindDescendantTransform(missionsRoot, "M1"), "PlayButton")
+                ?? FindDescendantTransform(FindDescendantTransform(missionsRoot, "M1"), "pls btn");
+
+            controller.SetBackButton(back != null ? EnsureUiButton(back.gameObject) : null);
+            controller.SetMission1PlayButton(m1Play != null ? EnsureUiButton(m1Play.gameObject) : null);
+            controller.SetGraphicRaycaster(missions.GetComponent<GraphicRaycaster>());
+
+            EditorUtility.SetDirty(controller);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log("[LiteraQuestMission1CanvasSetup] Term1 mission select controller wired and scene saved.");
+        }
+
+        private static Button EnsureUiButton(GameObject go)
+        {
+            var btn = go.GetComponent<Button>();
+            if (btn == null)
+            {
+                btn = go.AddComponent<Button>();
+                btn.transition = Selectable.Transition.None;
+            }
+
+            return btn;
         }
 
         [MenuItem("NutriMind/LiteraQuest Mission 1/Wire G5 Area01 Mission Controller")]
