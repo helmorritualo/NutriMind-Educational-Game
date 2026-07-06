@@ -1,4 +1,26 @@
-# NutriMind Unity Requirements — v8 Canvas Quiz-First Milestone
+# NutriMind Unity Requirements — v10 LiteraQuest Mission 1 Planning
+
+## Current temporary Unity goal
+
+Quiz Portal / Assessment Room implementation is temporarily on hold.
+
+The current planning focus is the first playable LiteraQuest Term 1 gameplay vertical slice:
+
+```text
+Grade 5 Mission 1: Festival Storybook Rescue
+Grade 6 Mission 1: Echoes of the Lantern Village
+```
+
+This is a Mission 1 plan only. Use shared mission logic with grade-specific content data. The project owner designs and places the scene environment, objects, and dynamic Canvas UI. The AI coding agent implements reusable logic, UI binding to owner-designed panels, interactions, Knowledge Locks, collectibles, gates, final restoration, and tests.
+
+Do not implement the full mission catalog, Mission 2+, Health/PE missions, Science missions, server mission tracking, rewards shop, spendable coins, EXP economy, economy inventory, pets, cosmetics, equipment, or full world restoration.
+
+## Preserved v8 quiz documentation
+
+The previous Canvas Quiz Portal requirements remain preserved below for later continuation, but they are not the active implementation task while the Mission 1 gameplay plan is active.
+
+---
+
 
 ## Current Unity goal
 

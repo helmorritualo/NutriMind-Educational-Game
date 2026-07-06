@@ -1,0 +1,68 @@
+---
+description: Current temporary gameplay plan for Grade 5 LiteraQuest Mission 1 Area 1 MVP
+alwaysApply: false
+---
+
+# Grade 5 Area 1 MVP Current Plan
+
+Quiz-system implementation is temporarily on hold.
+
+The only approved current gameplay implementation target is:
+
+```text
+Grade 5 LiteraQuest Term 1 Mission 1
+Festival Storybook Rescue
+Area 1 only: Parade Meadow
+```
+
+Do not implement the full Grade 5 mission yet. Do not implement Grade 6 yet. Do not implement Mission 2 or any future mission.
+
+The project owner designs and places the environment objects and dynamic Canvas UI. The AI agent implements only the game logic, data binding, and wiring.
+
+Use this loop only:
+
+```text
+Explore -> interact with Farmer Lira -> dialogue -> inspect Parade Clue Set / Knowledge Lock -> answer 3 questions -> wrong answer gives hint -> correct answers unlock Story Map Fragment -> pick up Story Map Fragment -> gate opens -> Area Complete panel
+```
+
+Required scene objects are described in:
+
+```text
+docs/unity/06B_LITERAQUEST_MISSION1_SCENE_OBJECT_AND_ASSET_CHECKLIST.md
+```
+
+Required implementation steps are described in:
+
+```text
+docs/unity/06C_LITERAQUEST_MISSION1_AI_AGENT_IMPLEMENTATION_PLAN.md
+```
+
+Canvas/uGUI is the expected mission UI approach for this MVP. Use owner-designed UI panels where available. Use TextMeshPro for dynamic dialogue, questions, answers, objectives, feedback, collectible counts, and area completion messages. Do not bake dynamic mission content into images.
+
+Use local ScriptableObject or JSON data first. Do not require Laravel/server mission APIs for this MVP.
+
+Do not implement:
+
+```text
+Grade 5 Area 2
+Grade 5 Area 3
+Grade 5 final storybook stage
+Grade 6 Mission 1
+Health/PE missions
+Science missions
+server mission tracking
+teacher-authored missions
+reward shop
+coins
+EXP
+economy inventory
+pets
+cosmetics
+equipment
+world restoration
+drag-and-drop minigames
+audio requirements
+VFX requirements
+```
+
+Audio and VFX can be added later. The current MVP must work without them.
