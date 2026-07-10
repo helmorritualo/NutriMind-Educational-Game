@@ -6,4 +6,5 @@
   <Project Path="NutriMind.Editor.csproj" />
   <Project Path="NutriMind.Tests.EditMode.UI.csproj" />
   <Project Path="NutriMind.Runtime.UI.csproj" />
+  <Project Path="MeshyAssembly.csproj" />
 </Solution>
